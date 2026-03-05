@@ -78,7 +78,7 @@ export default function LanguageSwitcher({ variant = 'sidebar' }: LanguageSwitch
                 className={clsx(
                   'w-full flex items-center gap-2 px-3 py-2 text-left text-sm font-interTight transition-colors',
                   locale === value
-                    ? 'bg-vanilla-secondary/20 text-vanilla-secondary'
+                    ? 'bg-vanilla-secondary/20 text-[var(--text-accent)]'
                     : 'text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
                 )}
               >

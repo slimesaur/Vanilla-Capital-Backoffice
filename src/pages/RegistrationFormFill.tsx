@@ -6,20 +6,18 @@ import { saveResponse } from '../data/registrationStore'
 import { REGISTRATION_FORM_PF } from '../data/registrationFormDefinitions'
 import type { RegistrationFormType } from '../types/registration'
 import { formatCpf, formatCep, formatPhone, formatDate, formatRg } from '../utils/masks'
+import RegistrationFormPJ from './RegistrationFormPJ'
 
-const FORM_DEFINITIONS: Record<string, typeof REGISTRATION_FORM_PF> = {
-  pf: REGISTRATION_FORM_PF,
-}
-
-const SECTIONS = [
-  { key: 'basic', labelKey: 'registration.sectionBasicInformation', fields: ['name', 'cpf', 'idDocument', 'birthDate', 'civilStatus'] },
-  { key: 'marital', labelKey: 'registration.sectionMaritalInformation', fields: ['propertyRegime', 'spouseName', 'spouseCpf', 'spouseId', 'spouseBirthDate'] },
+const SECTIONS_PF = [
+  { key: 'basic', labelKey: 'registration.sectionBasicInformation', fields: ['name', 'cpf', 'idDocument', 'issuingAuthority', 'birthDate', 'civilStatus'] },
+  { key: 'marital', labelKey: 'registration.sectionMaritalInformation', fields: ['propertyRegime', 'spouseName', 'spouseCpf', 'spouseId', 'spouseIssuingAuthority', 'spouseBirthDate'] },
   { key: 'contact', labelKey: 'registration.sectionContactInformation', fields: ['phone', 'email', 'postalCode', 'address', 'addressNumber', 'addressComplement', 'uf', 'city'] },
   { key: 'banking', labelKey: 'registration.sectionBankingInformation', fields: ['bankCode', 'accountType', 'agency', 'accountNumber'] },
+  { key: 'compliance', labelKey: 'registration.sectionComplianceInformation', fields: ['isPep'] },
 ] as const
 
-function getFormDefinition(formType: string) {
-  return FORM_DEFINITIONS[formType] ?? null
+function getFormDefinition(formType: string): typeof REGISTRATION_FORM_PF | null {
+  return formType === 'pf' ? REGISTRATION_FORM_PF : null
 }
 
 function applyMask(value: string, mask?: string): string {
@@ -65,15 +63,18 @@ export default function RegistrationFormFill() {
   const { formType } = useParams<{ formType: string }>()
   const { t } = useLanguage()
   const def = useMemo(() => getFormDefinition(formType ?? ''), [formType])
+  const isPj = formType === 'pj'
 
-  const [answers, setAnswers] = useState<Record<string, string | number>>({})
+  const [answers, setAnswers] = useState<Record<string, string | number | boolean>>({})
   const [cepLoading, setCepLoading] = useState(false)
 
   useEffect(() => {
     if (def) {
-      const init: Record<string, string | number> = {}
+      const init: Record<string, string | number | boolean> = {}
       def.fields.forEach((f) => {
-        init[f.key] = f.type === 'number' ? '' : ''
+        if (f.type === 'number') init[f.key] = ''
+        else if (f.type === 'checkbox') init[f.key] = false
+        else init[f.key] = ''
       })
       setAnswers(init)
     }
@@ -105,8 +106,8 @@ export default function RegistrationFormFill() {
     })
   }, [def, answers])
 
-  const handleChange = (key: string, value: string | number, mask?: string) => {
-    let val: string | number = value
+  const handleChange = (key: string, value: string | number | boolean, mask?: string) => {
+    let val: string | number | boolean = value
     if (typeof value === 'string' && mask) val = applyMask(value, mask)
     setAnswers((prev) => ({ ...prev, [key]: val }))
     setErrors((prev) => ({ ...prev, [key]: '' }))
@@ -115,7 +116,7 @@ export default function RegistrationFormFill() {
   const validate = (): boolean => {
     const e: Record<string, string> = {}
     visibleFields.forEach((f) => {
-      if (!f.required) return
+      if (!f.required || f.type === 'checkbox') return
       const v = answers[f.key]
       if (v === undefined || v === null || (typeof v === 'string' && !v.trim())) {
         e[f.key] = t('registration.fieldRequired')
@@ -142,10 +143,36 @@ export default function RegistrationFormFill() {
     setSubmitted(true)
   }
 
-  if (!formType || !def) {
+  if (!formType || (!def && !isPj)) {
     return (
       <div className="min-h-full flex items-center justify-center text-[var(--text-primary)] p-8">
         <p>{t('registration.invalidFormLink')}</p>
+      </div>
+    )
+  }
+
+  if (isPj) {
+    return (
+      <div className="py-12 px-4">
+        <div className="max-w-xl mx-auto">
+          {!submitted && (
+            <>
+              <h1 className="font-canela text-2xl text-[var(--text-primary)] mb-2">{t('registration.formTitleLegalEntity')}</h1>
+              <p className="font-interTight text-[var(--text-accent)] mb-8">{t('registration.formSubtitle')}</p>
+            </>
+          )}
+          {submitted ? (
+            <div className="min-h-full flex flex-col items-center justify-center p-8">
+              <div className="max-w-md text-center space-y-4">
+                <h1 className="font-canela text-2xl text-[var(--text-accent)]">{t('registration.thankYou')}</h1>
+                <p className="font-interTight text-[var(--text-primary)]">{t('registration.submittedSuccess')}</p>
+                <p className="font-interTight text-[var(--text-accent)] text-sm">{t('registration.checkEmailNextSteps')}</p>
+              </div>
+            </div>
+          ) : (
+            <RegistrationFormPJ onSubmitted={() => setSubmitted(true)} />
+          )}
+        </div>
       </div>
     )
   }
@@ -154,25 +181,28 @@ export default function RegistrationFormFill() {
     return (
       <div className="min-h-full flex flex-col items-center justify-center p-8">
         <div className="max-w-md text-center space-y-4">
-          <h1 className="font-canela text-2xl text-vanilla-secondary">{t('registration.thankYou')}</h1>
+          <h1 className="font-canela text-2xl text-[var(--text-accent)]">{t('registration.thankYou')}</h1>
           <p className="font-interTight text-[var(--text-primary)]">{t('registration.submittedSuccess')}</p>
-          <p className="font-interTight text-[var(--text-secondary)] text-sm">{t('registration.checkEmailNextSteps')}</p>
+          <p className="font-interTight text-[var(--text-accent)] text-sm">{t('registration.checkEmailNextSteps')}</p>
         </div>
       </div>
     )
   }
 
   const isMarried = answers.civilStatus === 'married'
+  const pfDef = def!
 
-  const renderField = (field: (typeof def.fields)[number]) => {
+  const renderField = (field: (typeof pfDef.fields)[number]) => {
     const visible = !field.conditional || answers[field.conditional.field] === field.conditional.value
     if (!visible) return null
 
     return (
       <div key={field.key}>
-        <label className="block font-interTight text-sm text-[var(--text-primary)] mb-1">
-          {t(field.labelKey)} {field.required && <span className="text-red-500">*</span>}
-        </label>
+        {field.type !== 'checkbox' && (
+          <label className="block font-interTight text-sm text-[var(--text-primary)] mb-1">
+            {t(field.labelKey)} {field.required && <span className="text-red-500">*</span>}
+          </label>
+        )}
         {field.key === 'bankCode' ? (
           <BankSelect
             value={String(answers[field.key] ?? '')}
@@ -180,6 +210,19 @@ export default function RegistrationFormFill() {
             placeholder={t('registration.bankSearchPlaceholder')}
             error={errors[field.key]}
           />
+        ) : field.type === 'checkbox' ? (
+          <div className="space-y-1">
+            <div className="font-interTight text-sm text-[var(--text-primary)]">{t(field.labelKey)}</div>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={Boolean(answers[field.key])}
+                onChange={(e) => handleChange(field.key, e.target.checked)}
+                className="rounded border-[var(--border-color)] text-[var(--text-accent)] focus:ring-vanilla-secondary"
+              />
+              <span className="font-interTight text-sm text-[var(--text-primary)]">{t('clients.yes')}</span>
+            </label>
+          </div>
         ) : field.type === 'select' ? (
           <select
             value={String(answers[field.key] ?? '')}
@@ -230,21 +273,39 @@ export default function RegistrationFormFill() {
   return (
     <div className="py-12 px-4">
       <div className="max-w-xl mx-auto">
-        <h1 className="font-canela text-2xl text-[var(--text-primary)] mb-2">{t('registration.formTitle')}</h1>
-        <p className="font-interTight text-[var(--text-secondary)] mb-8">{t('registration.formSubtitle')}</p>
+        <h1 className="font-canela text-2xl text-[var(--text-primary)] mb-2">{t('registration.formTitleIndividual')}</h1>
+        <p className="font-interTight text-[var(--text-accent)] mb-8">{t('registration.formSubtitle')}</p>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          {SECTIONS.map((section) => {
-            if (section.key === 'marital' && !isMarried) return null
-
+          {(formType === 'pf' ? SECTIONS_PF : []).map((section) => {
+            if (section.key === 'marital') {
+              return (
+                <div
+                  key={section.key}
+                  className={isMarried ? 'collapse-reveal expanded' : 'collapse-reveal'}
+                  aria-hidden={!isMarried}
+                >
+                  <div className="collapse-reveal-inner">
+                    <section className="p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
+                      <h2 className="font-canela text-lg text-[var(--text-accent)] mb-4">{t(section.labelKey)}</h2>
+                      <div className="space-y-4">
+                        {pfDef.fields
+                          .filter((f) => (section.fields as readonly string[]).includes(f.key))
+                          .map(renderField)}
+                      </div>
+                    </section>
+                  </div>
+                </div>
+              )
+            }
             return (
               <section
                 key={section.key}
                 className="p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50"
               >
-                <h2 className="font-canela text-lg text-vanilla-secondary mb-4">{t(section.labelKey)}</h2>
+                <h2 className="font-canela text-lg text-[var(--text-accent)] mb-4">{t(section.labelKey)}</h2>
                 <div className="space-y-4">
-                  {def.fields
+                  {pfDef.fields
                     .filter((f) => (section.fields as readonly string[]).includes(f.key))
                     .map(renderField)}
                 </div>

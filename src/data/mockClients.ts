@@ -3,6 +3,7 @@ import type { Client } from '../types/client'
 export const mockClients: Client[] = [
   {
     id: '1',
+    clientType: 'individual',
     name: 'João Silva',
     cpf: '123.456.789-00',
     idDocument: '12.345.678-9',
@@ -34,6 +35,7 @@ export const mockClients: Client[] = [
   },
   {
     id: '2',
+    clientType: 'individual',
     name: 'Ana Costa',
     cpf: '111.222.333-44',
     idDocument: '11.222.333-4',
@@ -57,7 +59,32 @@ export const mockClients: Client[] = [
     status: 'approved',
   },
   {
+    id: '4',
+    clientType: 'legal_entity',
+    legalName: 'EMPRESA EXEMPLO LTDA',
+    tradeName: 'Exemplo Corp',
+    cnpj: '12.345.678/0001-90',
+    phone: '(31) 3344-5566',
+    email: 'contato@exemplo.com.br',
+    postalCode: '30130-100',
+    address: 'Avenida Afonso Pena',
+    addressNumber: 1500,
+    addressComplement: 'Sala 1001',
+    uf: 'MG',
+    city: 'Belo Horizonte',
+    administrators: [
+      { name: 'Carlos Mendes', cpf: '555.666.777-88', isPep: false, isPrincipal: true },
+      { name: 'Ana Costa', cpf: '111.222.333-44', isPep: false, isPrincipal: false },
+    ],
+    beneficialOwners: [
+      { kind: 'individual', name: 'Carlos Mendes', cpf: '555.666.777-88', isPep: false, isPrincipal: true },
+      { kind: 'legal_entity', legalName: 'HOLDING XYZ SA', cnpj: '98.765.432/0001-10', isPrincipal: false },
+    ],
+    status: 'approved',
+  },
+  {
     id: '3',
+    clientType: 'individual',
     name: 'Carlos Mendes',
     cpf: '555.666.777-88',
     idDocument: '55.666.777-8',

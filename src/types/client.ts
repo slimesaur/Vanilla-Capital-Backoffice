@@ -3,6 +3,7 @@ export type SuitabilityProfile = 'conservative' | 'moderate' | 'aggressive'
 export type PropertyRegime = 'separate' | 'community' | 'partial_community' | 'participation_in_acquets'
 export type AccountType = 'checking' | 'saving'
 export type ClientOnboardingStatus = 'pending_suitability' | 'pending_contract' | 'approved'
+export type ClientType = 'individual' | 'legal_entity' | 'family_group'
 
 export interface MaritalInfo {
   propertyRegime: PropertyRegime
@@ -10,30 +11,51 @@ export interface MaritalInfo {
   spouseCpf: string
   spouseId: string
   spouseBirthDate: string
+  spouseIssuingAuthority?: string
 }
+
+export interface Administrator {
+  name: string
+  cpf: string
+  isPep: boolean
+  isPrincipal?: boolean
+}
+
+export type BeneficialOwnerPerson = { kind: 'individual'; name: string; cpf: string; isPep: boolean }
+export type BeneficialOwnerCompany = { kind: 'legal_entity'; legalName: string; cnpj: string }
+export type BeneficialOwner = (BeneficialOwnerPerson | BeneficialOwnerCompany) & { isPrincipal?: boolean }
 
 export interface Client {
   id: string
-  name: string
-  cpf: string
-  idDocument: string
-  birthDate: string
-  civilStatus: CivilStatus
+  clientType: ClientType
+  name?: string
+  cpf?: string
+  idDocument?: string
+  issuingAuthority?: string
+  birthDate?: string
+  civilStatus?: CivilStatus
   maritalInfo?: MaritalInfo
-  phone: string
-  phoneCountry: string
-  email: string
-  postalCode: string
-  address: string
-  addressNumber: number | ''
-  addressComplement: string
-  uf: string
-  city: string
-  bank: string
-  bankCode: string
-  accountType: AccountType
-  agency: string
-  accountNumber: string
+  spouseIssuingAuthority?: string
+  isPep?: boolean
+  legalName?: string
+  tradeName?: string
+  cnpj?: string
+  administrators?: Administrator[]
+  beneficialOwners?: BeneficialOwner[]
+  phone?: string
+  phoneCountry?: string
+  email?: string
+  postalCode?: string
+  address?: string
+  addressNumber?: number | ''
+  addressComplement?: string
+  uf?: string
+  city?: string
+  bank?: string
+  bankCode?: string
+  accountType?: AccountType
+  agency?: string
+  accountNumber?: string
   idDocumentFile?: string
   proofOfAddressFile?: string
   marriageCertificateFile?: string

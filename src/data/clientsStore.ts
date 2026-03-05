@@ -9,13 +9,19 @@ function ensureStatus(client: unknown): Client {
   return c
 }
 
+function ensureClientType(client: unknown): Client {
+  const c = client as Client
+  if (!c.clientType) return { ...c, clientType: 'individual' as const }
+  return c
+}
+
 function loadClients(): Client[] {
   try {
     const raw = localStorage.getItem(CLIENTS_KEY)
     if (raw) {
       const parsed = JSON.parse(raw)
       const list = Array.isArray(parsed) ? parsed : mockClients
-      return list.map((c: Record<string, unknown>) => ensureStatus(c))
+      return list.map((c: Record<string, unknown>) => ensureClientType(ensureStatus(c)))
     }
   } catch {
     // fallthrough
@@ -33,7 +39,12 @@ export function getClientById(id: string): Client | null {
 
 export function getClientsByCpf(cpf: string): Client[] {
   const digits = String(cpf).replace(/\D/g, '')
-  return loadClients().filter((c) => c.cpf.replace(/\D/g, '') === digits)
+  return loadClients().filter((c) => (c.cpf ?? '').replace(/\D/g, '') === digits)
+}
+
+export function getClientsByCnpj(cnpj: string): Client[] {
+  const digits = String(cnpj).replace(/\D/g, '')
+  return loadClients().filter((c) => (c.cnpj ?? '').replace(/\D/g, '') === digits)
 }
 
 export function saveClient(client: Client): void {
@@ -55,4 +66,9 @@ export function updateClient(id: string, updates: Partial<Client>): void {
 
 export function updateClientStatus(id: string, status: ClientOnboardingStatus): void {
   updateClient(id, { status })
+}
+
+export function deleteClient(id: string): void {
+  const list = loadClients().filter((c) => c.id !== id)
+  localStorage.setItem(CLIENTS_KEY, JSON.stringify(list))
 }

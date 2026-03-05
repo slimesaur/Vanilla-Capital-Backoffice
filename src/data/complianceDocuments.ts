@@ -21,7 +21,6 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     items: [
       { id: 'form-pf', translationKey: 'compliance.formPf', type: 'form' },
       { id: 'form-pj', translationKey: 'compliance.formPj', type: 'form' },
-      { id: 'form-family', translationKey: 'compliance.formFamily', type: 'form' },
     ],
   },
   {
@@ -56,10 +55,9 @@ export const COMPLIANCE_GROUPS = {
   ],
 }
 
-export const DOC_ID_TO_FORM_TYPE: Record<string, 'pf' | 'pj' | 'family'> = {
+export const DOC_ID_TO_FORM_TYPE: Record<string, 'pf' | 'pj'> = {
   'form-pf': 'pf',
   'form-pj': 'pj',
-  'form-family': 'family',
 }
 
 export function getDocById(id: string): { id: string; type: 'pdf' | 'suitability' | 'form' } | undefined {
