@@ -1,0 +1,67 @@
+import type { RegistrationFormDefinition } from '../types/registration'
+import { CIVIL_STATUS_OPTIONS, ACCOUNT_TYPE_OPTIONS, BRAZILIAN_STATES } from '../types/client'
+import { BRAZILIAN_BANKS } from './brazilianBanks'
+
+export const REGISTRATION_FORM_PF: RegistrationFormDefinition = {
+  formType: 'pf',
+  fields: [
+    { key: 'name', type: 'string', required: true, labelKey: 'clients.name' },
+    { key: 'cpf', type: 'string', mask: 'cpf', required: true, labelKey: 'clients.cpf' },
+    { key: 'idDocument', type: 'string', mask: 'rg', required: false, labelKey: 'clients.id' },
+    { key: 'birthDate', type: 'date', mask: 'date', required: true, labelKey: 'clients.birthDate' },
+    {
+      key: 'civilStatus',
+      type: 'select',
+      required: true,
+      options: CIVIL_STATUS_OPTIONS.map((o) => ({ value: o.value, labelKey: `clients.${o.value}` as string })),
+      labelKey: 'clients.civilStatus',
+    },
+    {
+      key: 'propertyRegime',
+      type: 'select',
+      required: false,
+      conditional: { field: 'civilStatus', value: 'married' },
+      options: [
+        { value: 'separate', labelKey: 'clients.separateProperty' },
+        { value: 'community', labelKey: 'clients.communityProperty' },
+        { value: 'partial_community', labelKey: 'clients.partialCommunityProperty' },
+        { value: 'participation_in_acquets', labelKey: 'clients.participationInAcquets' },
+      ],
+      labelKey: 'clients.propertyRegime',
+    },
+    { key: 'spouseName', type: 'string', required: false, conditional: { field: 'civilStatus', value: 'married' }, labelKey: 'clients.spouseName' },
+    { key: 'spouseCpf', type: 'string', mask: 'cpf', required: false, conditional: { field: 'civilStatus', value: 'married' }, labelKey: 'clients.spouseCpf' },
+    { key: 'spouseId', type: 'string', mask: 'rg', required: false, conditional: { field: 'civilStatus', value: 'married' }, labelKey: 'clients.spouseId' },
+    { key: 'spouseBirthDate', type: 'date', mask: 'date', required: false, conditional: { field: 'civilStatus', value: 'married' }, labelKey: 'clients.spouseBirthDate' },
+    { key: 'phone', type: 'string', mask: 'phone', required: true, labelKey: 'clients.phone' },
+    { key: 'email', type: 'string', required: true, labelKey: 'clients.email' },
+    { key: 'postalCode', type: 'string', mask: 'cep', required: true, labelKey: 'clients.postalCode' },
+    { key: 'address', type: 'string', required: true, labelKey: 'clients.address' },
+    { key: 'addressNumber', type: 'number', required: true, labelKey: 'clients.addressNumber' },
+    { key: 'addressComplement', type: 'string', required: false, labelKey: 'clients.addressComplement' },
+    {
+      key: 'uf',
+      type: 'select',
+      required: true,
+      options: BRAZILIAN_STATES.map((s) => ({ value: s, labelKey: s } as { value: string; labelKey: string })),
+      labelKey: 'clients.uf',
+    },
+    { key: 'city', type: 'string', required: true, labelKey: 'clients.city' },
+    {
+      key: 'bankCode',
+      type: 'select',
+      required: true,
+      labelKey: 'clients.bank',
+      options: BRAZILIAN_BANKS.map((b) => ({ value: b.code, label: `${b.code} - ${b.name}` })),
+    },
+    {
+      key: 'accountType',
+      type: 'select',
+      required: true,
+      options: ACCOUNT_TYPE_OPTIONS.map((o) => ({ value: o.value, labelKey: o.value === 'checking' ? 'clients.checkingAccount' : 'clients.savingAccount' })),
+      labelKey: 'clients.accountType',
+    },
+    { key: 'agency', type: 'string', required: true, labelKey: 'clients.agency' },
+    { key: 'accountNumber', type: 'string', required: true, labelKey: 'clients.accountNumber' },
+  ],
+}
