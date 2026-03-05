@@ -134,7 +134,7 @@ export default function BankSelect({ value, onChange, placeholder, error, disabl
           role="listbox"
         >
           {filteredBanks.length === 0 ? (
-            <li className="px-4 py-2 text-sm text-[var(--text-secondary)]">No banks found</li>
+            <li className="px-4 py-2 text-sm text-[var(--text-accent)]">No banks found</li>
           ) : (
             filteredBanks.map((bank, i) => (
               <li
@@ -142,7 +142,7 @@ export default function BankSelect({ value, onChange, placeholder, error, disabl
                 role="option"
                 aria-selected={i === highlightedIndex}
                 className={`cursor-pointer px-4 py-2 text-sm font-interTight ${
-                  i === highlightedIndex ? 'bg-vanilla-secondary/20 text-vanilla-secondary' : 'text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
+                  i === highlightedIndex ? 'bg-vanilla-secondary/20 text-[var(--text-accent)]' : 'text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
                 }`}
                 onMouseEnter={() => setHighlightedIndex(i)}
                 onMouseDown={(e) => {

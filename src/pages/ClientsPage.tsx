@@ -7,13 +7,19 @@ import type { Locale } from '../i18n/translations'
 import clsx from 'clsx'
 import StatusCircle from '../components/clients/StatusCircle'
 
+type ListColumnKey = keyof Client | 'status' | 'principalAdministrator' | 'isPep'
+type ColumnDef = { key: ListColumnKey; labelKey: string; isPdf?: boolean; isStatus?: boolean }
 type ViewMode = 'list' | 'profile'
-type SortKey = keyof Client | ''
+type SortKey = ListColumnKey | ''
 type SortDir = 'asc' | 'desc'
 
-const COLUMN_DEFAULT_WIDTHS_EN: Record<string, number> = {
+const COLUMN_DEFAULT_WIDTHS: Record<string, number> = {
   status: 70,
   name: 160,
+  legalName: 180,
+  tradeName: 160,
+  cnpj: 150,
+  principalAdministrator: 180,
   cpf: 130,
   idDocument: 120,
   birthDate: 130,
@@ -24,32 +30,16 @@ const COLUMN_DEFAULT_WIDTHS_EN: Record<string, number> = {
   uf: 60,
   bank: 160,
   suitabilityProfile: 170,
+  isPep: 80,
   idDocumentFile: 140,
   proofOfAddressFile: 150,
 }
 
-const COLUMN_DEFAULT_WIDTHS_PT: Record<string, number> = {
-  status: 70,
-  name: 100,
-  cpf: 130,
-  idDocument: 60,
-  birthDate: 180,
-  civilStatus: 140,
-  email: 180,
-  phone: 120,
-  city: 100,
-  uf: 60,
-  bank: 100,
-  suitabilityProfile: 210,
-  idDocumentFile: 220,
-  proofOfAddressFile: 220,
+function getColumnDefaultsForLocale(_locale: Locale): Record<string, number> {
+  return { ...COLUMN_DEFAULT_WIDTHS }
 }
 
-function getColumnDefaultsForLocale(locale: Locale): Record<string, number> {
-  return locale === 'pt' ? COLUMN_DEFAULT_WIDTHS_PT : COLUMN_DEFAULT_WIDTHS_EN
-}
-
-const LIST_COLUMN_KEYS: { key: keyof Client | 'status'; labelKey: string; isPdf?: boolean; isStatus?: boolean }[] = [
+const LIST_COLUMNS_INDIVIDUAL: ColumnDef[] = [
   { key: 'status', labelKey: 'clients.status', isStatus: true },
   { key: 'name', labelKey: 'clients.name' },
   { key: 'cpf', labelKey: 'clients.cpf' },
@@ -62,12 +52,31 @@ const LIST_COLUMN_KEYS: { key: keyof Client | 'status'; labelKey: string; isPdf?
   { key: 'uf', labelKey: 'clients.uf' },
   { key: 'bank', labelKey: 'clients.bank' },
   { key: 'suitabilityProfile', labelKey: 'clients.suitabilityProfile' },
+  { key: 'isPep', labelKey: 'clients.isPep' },
   { key: 'idDocumentFile', labelKey: 'clients.idDocument', isPdf: true },
   { key: 'proofOfAddressFile', labelKey: 'clients.proofOfAddress', isPdf: true },
 ]
 
-function getDisplayValue(client: Client, key: keyof Client | 'status', t: (k: string) => string): string {
+const LIST_COLUMNS_LEGAL_ENTITY: ColumnDef[] = [
+  { key: 'status', labelKey: 'clients.status', isStatus: true },
+  { key: 'legalName', labelKey: 'clients.legalName' },
+  { key: 'tradeName', labelKey: 'clients.tradeName' },
+  { key: 'cnpj', labelKey: 'CNPJ' },
+  { key: 'principalAdministrator', labelKey: 'clients.principalAdministrator' },
+  { key: 'email', labelKey: 'clients.email' },
+  { key: 'phone', labelKey: 'clients.phone' },
+  { key: 'city', labelKey: 'clients.city' },
+  { key: 'uf', labelKey: 'clients.uf' },
+]
+
+function getDisplayValue(client: Client, key: ListColumnKey, t: (k: string) => string): string {
   if (key === 'status') return ''
+  if (key === 'principalAdministrator') {
+    const admins = client.administrators ?? []
+    const principal = admins.find((a) => a.isPrincipal) ?? admins[0]
+    return principal?.name ?? '-'
+  }
+  if (key === 'isPep') return client.isPep ? t('clients.yes') : t('clients.no')
   if (key === 'suitabilityProfile') {
     const profile = client.suitabilityProfile ?? (() => {
       const w = client.totalSuitabilityWeight ?? client.suitabilityScore
@@ -133,11 +142,16 @@ export default function ClientsPage() {
     resizeStartWidth.current = getColumnWidth(key)
   }, [getColumnWidth])
 
+  const allClients = useMemo(() => getClients(), [refreshKey])
   const filteredClients = useMemo(() => {
-    let list = getClients()
+    let list = allClients
     if (search.trim()) {
       const q = search.toLowerCase()
-      list = list.filter((c) => c.name.toLowerCase().includes(q))
+      list = list.filter((c) => {
+        const name = c.name ?? c.legalName ?? ''
+        const principalAdmin = c.administrators?.[0]?.name ?? ''
+        return name.toLowerCase().includes(q) || principalAdmin.toLowerCase().includes(q)
+      })
     }
     if (sortKey) {
       list = [...list].sort((a, b) => {
@@ -148,9 +162,15 @@ export default function ClientsPage() {
       })
     }
     return list
-  }, [search, sortKey, sortDir, t, refreshKey])
+  }, [allClients, search, sortKey, sortDir, t])
 
-  const handleAutoFitColumn = useCallback((key: string, col: (typeof LIST_COLUMN_KEYS)[number]) => {
+  const clientsByType = useMemo(() => {
+    const individual = filteredClients.filter((c) => (c.clientType ?? 'individual') === 'individual')
+    const legalEntity = filteredClients.filter((c) => c.clientType === 'legal_entity')
+    return { individual, legalEntity }
+  }, [filteredClients])
+
+  const handleAutoFitColumn = useCallback((key: string, col: ColumnDef, clients: Client[]) => {
     if (!measureRef.current) return
     const el = measureRef.current
     el.style.fontSize = '0.875rem'
@@ -165,7 +185,7 @@ export default function ClientsPage() {
     if (col.isStatus) {
       maxW = Math.max(maxW, 50)
     } else {
-      for (const client of filteredClients) {
+      for (const client of clients) {
         const val = getDisplayValue(client, col.key, t)
         const cellText = col.isPdf ? (val === '-' ? val : t('clients.viewDownload')) : val
         el.textContent = cellText
@@ -177,7 +197,7 @@ export default function ClientsPage() {
     const buffer = Math.max(24, maxW * 0.12)
     const newWidth = Math.max(getMinColumnWidth(key), Math.min(MAX_COL_WIDTH, maxW + padding + buffer))
     setColumnWidths((prev) => ({ ...prev, [key]: newWidth }))
-  }, [filteredClients, t, getMinColumnWidth])
+  }, [t, getMinColumnWidth])
 
   useEffect(() => {
     if (!resizingKey) return
@@ -200,17 +220,18 @@ export default function ClientsPage() {
     }
   }, [resizingKey, getMinColumnWidth])
 
+  const allFilteredFlat = [...clientsByType.individual, ...clientsByType.legalEntity]
   const selectedClient = selectedClientId
-    ? filteredClients.find((c) => c.id === selectedClientId) ?? filteredClients[0]
-    : filteredClients[0]
+    ? allFilteredFlat.find((c) => c.id === selectedClientId) ?? allFilteredFlat[0]
+    : allFilteredFlat[0]
 
   useEffect(() => {
-    if (viewMode === 'profile' && filteredClients.length > 0 && !selectedClientId) {
-      setSelectedClientId(filteredClients[0].id)
+    if (viewMode === 'profile' && allFilteredFlat.length > 0 && !selectedClientId) {
+      setSelectedClientId(allFilteredFlat[0].id)
     }
-  }, [viewMode, filteredClients, selectedClientId])
+  }, [viewMode, allFilteredFlat.length, selectedClientId])
 
-  const handleSort = (key: keyof Client) => {
+  const handleSort = (key: ListColumnKey) => {
     if (sortKey === key) {
       if (sortDir === 'asc') {
         setSortDir('desc')
@@ -252,7 +273,7 @@ export default function ClientsPage() {
             placeholder={t('clients.searchPlaceholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="px-4 py-2 rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/60 w-64 font-interTight"
+            className="px-4 py-2 rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] placeholder:text-[var(--text-primary)]/60 w-64 font-interTight"
           />
           <div className="flex rounded-lg border border-[var(--border-color)] overflow-hidden">
             <button
@@ -260,7 +281,7 @@ export default function ClientsPage() {
               className={clsx(
                 'px-4 py-2 text-sm font-interTight',
                 viewMode === 'list'
-                  ? 'bg-vanilla-secondary/30 text-vanilla-secondary'
+                  ? 'bg-vanilla-secondary/30 text-[var(--text-accent)]'
                   : 'bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
               )}
             >
@@ -271,7 +292,7 @@ export default function ClientsPage() {
               className={clsx(
                 'px-4 py-2 text-sm font-interTight',
                 viewMode === 'profile'
-                  ? 'bg-vanilla-secondary/30 text-vanilla-secondary'
+                  ? 'bg-vanilla-secondary/30 text-[var(--text-accent)]'
                   : 'bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
               )}
             >
@@ -282,113 +303,133 @@ export default function ClientsPage() {
       </div>
 
       {viewMode === 'list' ? (
-        <div className="overflow-x-auto rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)] scrollbar-vanilla">
-          <table className="w-full text-sm table-fixed" style={{ minWidth: Object.values(columnWidths).reduce((a, b) => a + b, 0) }}>
-            <thead>
-              <tr className="border-b border-[var(--border-color)]">
-                {LIST_COLUMN_KEYS.map((col) => (
-                  <th
-                    key={String(col.key)}
-                    style={{ width: getColumnWidth(String(col.key)), minWidth: getColumnWidth(String(col.key)), maxWidth: getColumnWidth(String(col.key)) }}
-                    onClick={() => !col.isPdf && !col.isStatus && handleSort(col.key as keyof Client)}
-                    className={clsx(
-                      'px-4 py-3 text-left font-arpona uppercase tracking-wider text-[var(--text-secondary)] relative overflow-hidden',
-                      !col.isPdf && !col.isStatus && 'cursor-pointer hover:bg-black/5 dark:hover:bg-white/5'
-                    )}
-                  >
-                    <span className="inline-flex items-center gap-1 truncate pr-2 min-w-0">
-                      {t(col.labelKey)}
-                      {sortKey === col.key && (
-                        <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span>
-                      )}
-                    </span>
-                    <div
-                      className="absolute right-0 top-0 bottom-0 w-1.5 cursor-col-resize hover:bg-vanilla-secondary/50 transition-colors flex-shrink-0"
-                      onMouseDown={(e) => handleResizeStart(String(col.key), e)}
-                      onDoubleClick={(e) => {
-                        e.preventDefault()
-                        e.stopPropagation()
-                        handleAutoFitColumn(String(col.key), col)
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                      role="separator"
-                      aria-orientation="vertical"
-                    />
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredClients.map((client) => (
-                <tr key={client.id} className="border-b border-[var(--border-color)] hover:bg-black/5 dark:hover:bg-white/5">
-                  {LIST_COLUMN_KEYS.map((col) => {
-                    if (col.isStatus) {
-                      return (
-                        <td key={String(col.key)} className="px-4 py-3 overflow-hidden" style={{ width: getColumnWidth(String(col.key)), minWidth: getColumnWidth(String(col.key)), maxWidth: getColumnWidth(String(col.key)) }}>
-                          <div className="flex items-center gap-2">
-                            <StatusCircle
-                              status={client.status}
-                              clientId={client.id}
-                              onStatusChange={() => setRefreshKey((k) => k + 1)}
-                            />
-                          </div>
-                        </td>
-                      )
-                    }
-                    const val = getDisplayValue(client, col.key, t)
-                    const hasPdf = col.isPdf ? (client[col.key as keyof Client] as string | undefined) : undefined
-                    return (
-                      <td key={String(col.key)} className="px-4 py-3 font-interTight overflow-hidden" style={{ width: getColumnWidth(String(col.key)), minWidth: getColumnWidth(String(col.key)), maxWidth: getColumnWidth(String(col.key)) }}>
-                        {col.isPdf ? (
-                          <button
-                            onClick={() => handlePdfClick(hasPdf ?? undefined)}
-                            disabled={!hasPdf}
-                            className={clsx(
-                              'text-vanilla-secondary hover:underline truncate block w-full text-left',
-                              !hasPdf && 'opacity-50 cursor-not-allowed'
+        <div className="space-y-8">
+          {([
+            { key: 'individual' as const, titleKey: 'clients.clientTypeIndividual', clients: clientsByType.individual, columns: LIST_COLUMNS_INDIVIDUAL },
+            { key: 'legal_entity' as const, titleKey: 'clients.clientTypeLegalEntity', clients: clientsByType.legalEntity, columns: LIST_COLUMNS_LEGAL_ENTITY },
+          ] as const).map(({ key, titleKey, clients, columns }) => (
+            <div key={key}>
+              <h2 className="font-canela text-lg text-[var(--text-accent)] mb-3">{t(titleKey)}</h2>
+              <div className="overflow-x-auto rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)] scrollbar-vanilla">
+                <table className="w-full text-sm table-fixed" style={{ minWidth: columns.reduce((a, col) => a + (columnWidths[String(col.key)] ?? 120), 0) }}>
+                  <thead>
+                    <tr className="border-b border-[var(--border-color)]">
+                      {columns.map((col) => (
+                        <th
+                          key={String(col.key)}
+                          style={{ width: getColumnWidth(String(col.key)), minWidth: getColumnWidth(String(col.key)), maxWidth: getColumnWidth(String(col.key)) }}
+                          onClick={() => !col.isPdf && !col.isStatus && handleSort(col.key)}
+                          className={clsx(
+                            'px-4 py-3 text-left font-arpona uppercase tracking-wider text-[var(--text-accent)] relative overflow-hidden',
+                            !col.isPdf && !col.isStatus && 'cursor-pointer hover:bg-black/5 dark:hover:bg-white/5'
+                          )}
+                        >
+                          <span className="inline-flex items-center gap-1 truncate pr-2 min-w-0">
+                            {t(col.labelKey)}
+                            {sortKey === col.key && (
+                              <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span>
                             )}
-                          >
-                            {hasPdf ? t('clients.viewDownload') : '-'}
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => handleCopy(val, col.isPdf)}
-                            className="w-full text-left hover:bg-vanilla-secondary/10 rounded px-1 -mx-1 py-0.5 transition-colors truncate block min-w-0"
-                          >
-                            {val}
-                          </button>
-                        )}
-                      </td>
-                    )
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                          </span>
+                          <div
+                            className="absolute right-0 top-0 bottom-0 w-1.5 cursor-col-resize hover:bg-vanilla-secondary/50 transition-colors flex-shrink-0"
+                            onMouseDown={(e) => handleResizeStart(String(col.key), e)}
+                            onDoubleClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              handleAutoFitColumn(String(col.key), col, clients)
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                            role="separator"
+                            aria-orientation="vertical"
+                          />
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {clients.length === 0 ? (
+                      <tr>
+                        <td colSpan={columns.length} className="px-4 py-6 text-center text-[var(--text-accent)] font-interTight">
+                          {t('clients.noClientsInCategory')}
+                        </td>
+                      </tr>
+                    ) : (
+                      clients.map((client) => (
+                        <tr key={client.id} className="border-b border-[var(--border-color)] hover:bg-black/5 dark:hover:bg-white/5">
+                          {columns.map((col) => {
+                            if (col.isStatus) {
+                              return (
+                                <td key={String(col.key)} className="px-4 py-3 overflow-hidden" style={{ width: getColumnWidth(String(col.key)), minWidth: getColumnWidth(String(col.key)), maxWidth: getColumnWidth(String(col.key)) }}>
+                                  <div className="flex items-center gap-2">
+                                    <StatusCircle
+                                      status={client.status}
+                                      clientId={client.id}
+                                      onStatusChange={() => setRefreshKey((k) => k + 1)}
+                                      onDelete={() => setRefreshKey((k) => k + 1)}
+                                    />
+                                  </div>
+                                </td>
+                              )
+                            }
+                            const val = getDisplayValue(client, col.key, t)
+                            const hasPdf = col.isPdf ? (client[col.key as keyof Client] as string | undefined) : undefined
+                            return (
+                              <td key={String(col.key)} className="px-4 py-3 font-interTight overflow-hidden" style={{ width: getColumnWidth(String(col.key)), minWidth: getColumnWidth(String(col.key)), maxWidth: getColumnWidth(String(col.key)) }}>
+                                {col.isPdf ? (
+                                  <button
+                                    onClick={() => handlePdfClick(hasPdf ?? undefined)}
+                                    disabled={!hasPdf}
+                                    className={clsx(
+                                      'text-[var(--text-accent)] hover:underline truncate block w-full text-left',
+                                      !hasPdf && 'opacity-50 cursor-not-allowed'
+                                    )}
+                                  >
+                                    {hasPdf ? t('clients.viewDownload') : '-'}
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => handleCopy(val, col.isPdf)}
+                                    className="w-full text-left hover:bg-vanilla-secondary/10 rounded px-1 -mx-1 py-0.5 transition-colors truncate block min-w-0"
+                                  >
+                                    {val}
+                                  </button>
+                                )}
+                              </td>
+                            )
+                          })}
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
         </div>
       ) : (
         <div className="flex gap-6 min-h-[600px]">
           {/* Left: client list */}
           <div className="w-56 shrink-0 flex flex-col gap-4">
-            <div className="font-arpona uppercase text-sm text-[var(--text-secondary)]">{t('clients.title')}</div>
+            <div className="font-arpona uppercase text-sm text-[var(--text-accent)]">{t('clients.title')}</div>
             <ul className="space-y-1 overflow-y-auto max-h-[500px]">
-              {filteredClients.map((c) => (
+              {allFilteredFlat.map((c) => (
                 <li key={c.id}>
                   <button
                     onClick={() => setSelectedClientId(c.id)}
                     className={clsx(
                       'w-full text-left px-3 py-2 rounded-lg text-sm font-interTight truncate flex items-center gap-2',
                       selectedClientId === c.id
-                        ? 'bg-vanilla-secondary/20 text-vanilla-secondary'
+                        ? 'bg-vanilla-secondary/20 text-[var(--text-accent)]'
                         : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-primary)]'
                     )}
                   >
-                    <StatusCircle
-                      status={c.status}
-                      clientId={c.id}
-                      onStatusChange={() => setRefreshKey((k) => k + 1)}
-                    />
-                    <span className="truncate">{c.name}</span>
+<StatusCircle
+                        status={c.status}
+                        clientId={c.id}
+                        onStatusChange={() => setRefreshKey((k) => k + 1)}
+                        onDelete={() => setRefreshKey((k) => k + 1)}
+                      />
+                    <span className="truncate">{c.name ?? c.legalName ?? '-'}</span>
                   </button>
                 </li>
               ))}
@@ -397,8 +438,8 @@ export default function ClientsPage() {
 
           {/* Right: filter bar placeholder - per BRD "filter bar on the right" */}
           <div className="w-40 shrink-0">
-            <div className="font-arpona uppercase text-sm text-[var(--text-secondary)] mb-2">{t('clients.filter')}</div>
-            <div className="text-sm text-[var(--text-secondary)]/70 font-interTight">{t('clients.filtersComingSoon')}</div>
+            <div className="font-arpona uppercase text-sm text-[var(--text-accent)] mb-2">{t('clients.filter')}</div>
+            <div className="text-sm text-[var(--text-accent)]/70 font-interTight">{t('clients.filtersComingSoon')}</div>
           </div>
 
           {/* Center: one-pager profile */}
@@ -438,7 +479,7 @@ export default function ClientsPage() {
                 </button>
               </div>
             </div>
-            <div className="bg-gray-200 dark:bg-gray-700 rounded p-8 text-center text-[var(--text-secondary)]">
+            <div className="bg-gray-200 dark:bg-gray-700 rounded p-8 text-center text-[var(--text-accent)]">
               {t('clients.pdfViewerPlaceholder')} {pdfPreview}
             </div>
           </div>
@@ -467,14 +508,100 @@ function getAccountTypeLabel(value: string, t: (k: string) => string): string {
 }
 
 function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k: string) => string; onRefresh: () => void }) {
+  if (client.clientType === 'legal_entity') {
+    return (
+      <div className="space-y-6 font-interTight text-sm">
+        <section>
+          <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('registration.sectionBasicInformation')}</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <AttrRow label={t('clients.legalName')} value={client.legalName} />
+            <AttrRow label={t('clients.tradeName')} value={client.tradeName} />
+            <AttrRow label="CNPJ" value={client.cnpj} />
+            <AttrRow label={t('clients.phone')} value={client.phone} />
+            <AttrRow label={t('clients.email')} value={client.email} />
+          </div>
+        </section>
+        <section>
+          <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('registration.sectionAddressInformation')}</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <AttrRow label={t('clients.postalCode')} value={client.postalCode} />
+            <AttrRow label={t('clients.address')} value={client.address} />
+            <AttrRow label={t('clients.addressNumber')} value={String(client.addressNumber)} />
+            <AttrRow label={t('clients.addressComplement')} value={client.addressComplement} />
+            <AttrRow label={t('clients.uf')} value={client.uf} />
+            <AttrRow label={t('clients.city')} value={client.city} />
+          </div>
+        </section>
+        {(client.administrators?.length ?? 0) > 0 && (
+          <section>
+            <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('registration.sectionAdministratorInformation')}</h2>
+            <div className="space-y-3">
+              {client.administrators!.map((adm, i) => (
+                <div key={i} className="p-3 border border-[var(--border-color)] rounded-lg">
+                  <AttrRow label={t('clients.administratorName')} value={adm.name} />
+                  <AttrRow label="CPF" value={adm.cpf} />
+                  <AttrRow label={t('clients.isPep')} value={adm.isPep ? t('clients.yes') : t('clients.no')} />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+        {(client.beneficialOwners?.length ?? 0) > 0 && (
+          <section>
+            <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('registration.sectionBeneficialOwnerInformation')}</h2>
+            <div className="space-y-3">
+              {client.beneficialOwners!.map((bo, i) => (
+                <div key={i} className="p-3 border border-[var(--border-color)] rounded-lg">
+                  {bo.kind === 'individual' ? (
+                    <>
+                      <AttrRow label={t('clients.beneficialOwnerName')} value={bo.name} />
+                      <AttrRow label="CPF" value={bo.cpf} />
+                      <AttrRow label={t('clients.isPep')} value={bo.isPep ? t('clients.yes') : t('clients.no')} />
+                    </>
+                  ) : (
+                    <>
+                      <AttrRow label={t('clients.legalName')} value={bo.legalName} />
+                      <AttrRow label="CNPJ" value={bo.cnpj} />
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+        <section>
+          <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.compliance')}</h2>
+          <div className="flex items-center gap-2">
+            <StatusCircle status={client.status} clientId={client.id} onStatusChange={onRefresh} onDelete={onRefresh} />
+            <span className="text-sm text-[var(--text-accent)]">
+              {t(client.status === 'pending_suitability' ? 'clients.statusPendingSuitability' : client.status === 'pending_contract' ? 'clients.statusPendingContract' : 'clients.statusApproved')}
+            </span>
+          </div>
+        </section>
+      </div>
+    )
+  }
+
+  if (client.clientType === 'family_group') {
+    return (
+      <div className="space-y-6 font-interTight text-sm">
+        <section>
+          <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.clientTypeFamilyGroup')}</h2>
+          <p className="text-[var(--text-accent)]">{t('clients.familyGroupPlaceholder')}</p>
+        </section>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6 font-interTight text-sm">
       <section>
-        <h2 className="font-arpona uppercase text-vanilla-secondary mb-3">{t('clients.personalInformation')}</h2>
+        <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.personalInformation')}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <AttrRow label={t('clients.name')} value={client.name} />
           <AttrRow label={t('clients.cpf')} value={client.cpf} />
           <AttrRow label={t('clients.id')} value={client.idDocument} />
+          <AttrRow label={t('clients.issuingAuthority')} value={client.issuingAuthority} />
           <AttrRow label={t('clients.birthDate')} value={client.birthDate} />
           <AttrRow
             label={t('clients.civilStatus')}
@@ -489,7 +616,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
 
       {client.civilStatus === 'married' && client.maritalInfo && (
         <section>
-          <h2 className="font-arpona uppercase text-vanilla-secondary mb-3">{t('clients.maritalInformation')}</h2>
+          <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.maritalInformation')}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <AttrRow
               label={t('clients.propertyRegime')}
@@ -498,13 +625,14 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
             <AttrRow label={t('clients.spouseName')} value={client.maritalInfo.spouseName} />
             <AttrRow label={t('clients.spouseCpf')} value={client.maritalInfo.spouseCpf} />
             <AttrRow label={t('clients.spouseId')} value={client.maritalInfo.spouseId} />
+            <AttrRow label={t('clients.spouseIssuingAuthority')} value={client.maritalInfo.spouseIssuingAuthority} />
             <AttrRow label={t('clients.spouseBirthDate')} value={client.maritalInfo.spouseBirthDate} />
           </div>
         </section>
       )}
 
       <section>
-        <h2 className="font-arpona uppercase text-vanilla-secondary mb-3">{t('clients.contactInformation')}</h2>
+        <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.contactInformation')}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <AttrRow label={t('clients.phone')} value={client.phone} />
           <AttrRow label={t('clients.email')} value={client.email} />
@@ -518,17 +646,26 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
       </section>
 
       <section>
-        <h2 className="font-arpona uppercase text-vanilla-secondary mb-3">{t('clients.bankingInformation')}</h2>
+        <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.bankingInformation')}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <AttrRow label={t('clients.bank')} value={client.bank} />
-          <AttrRow label={t('clients.accountType')} value={getAccountTypeLabel(client.accountType, t)} />
+          <AttrRow label={t('clients.accountType')} value={getAccountTypeLabel(client.accountType ?? '', t)} />
           <AttrRow label={t('clients.agency')} value={client.agency} />
           <AttrRow label={t('clients.accountNumber')} value={client.accountNumber} />
         </div>
       </section>
 
+      {client.clientType === 'individual' && (
+        <section>
+          <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('registration.sectionComplianceInformation')}</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <AttrRow label={t('clients.isPep')} value={client.isPep ? t('clients.yes') : t('clients.no')} />
+          </div>
+        </section>
+      )}
+
       <section>
-        <h2 className="font-arpona uppercase text-vanilla-secondary mb-3">{t('clients.documents')}</h2>
+        <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.documents')}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <AttrRow label={t('clients.idDocument')} value={client.idDocumentFile ? t('clients.uploaded') : '-'} />
           <AttrRow label={t('clients.proofOfAddress')} value={client.proofOfAddressFile ? t('clients.uploaded') : '-'} />
@@ -542,14 +679,15 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
       </section>
 
       <section>
-        <h2 className="font-arpona uppercase text-vanilla-secondary mb-3">{t('clients.compliance')}</h2>
+        <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.compliance')}</h2>
         <div className="flex items-center gap-2 mb-4">
           <StatusCircle
             status={client.status}
             clientId={client.id}
             onStatusChange={onRefresh}
+            onDelete={onRefresh}
           />
-          <span className="text-sm text-[var(--text-secondary)]">
+          <span className="text-sm text-[var(--text-accent)]">
             {t(
               client.status === 'pending_suitability'
                 ? 'clients.statusPendingSuitability'
@@ -567,7 +705,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
 
       {(client.suitabilityAnswers || client.totalSuitabilityWeight != null) && (
         <section>
-          <h2 className="font-arpona uppercase text-vanilla-secondary mb-3">{t('clients.suitabilityAnswers')}</h2>
+          <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.suitabilityAnswers')}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {client.suitabilityAnswers &&
               Object.entries(client.suitabilityAnswers).map(([qId, weight], idx) => (
@@ -584,11 +722,11 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
   )
 }
 
-function AttrRow({ label, value }: { label: string; value: string }) {
+function AttrRow({ label, value }: { label: string; value?: string }) {
   return (
     <div>
-      <div className="text-[var(--text-secondary)]/70 text-xs font-arpona uppercase mb-0.5">{label}</div>
-      <div className="text-[var(--text-primary)] font-interTight">{value || '-'}</div>
+      <div className="text-[var(--text-accent)]/70 text-xs font-arpona uppercase mb-0.5">{label}</div>
+      <div className="text-[var(--text-primary)] font-interTight">{value ?? '-'}</div>
     </div>
   )
 }

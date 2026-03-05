@@ -7,6 +7,8 @@ export interface SuitabilityQuestion {
   id: string
   title: string
   answers: SuitabilityAnswerOption[]
+  /** When true, client can select multiple options; weights are summed. Default false (single selection). */
+  multipleSelection?: boolean
 }
 
 export interface SuitabilityFormData {

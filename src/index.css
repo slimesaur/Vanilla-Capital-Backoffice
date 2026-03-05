@@ -1,3 +1,4 @@
+@import '@fontsource/inter-tight/300.css';
 @import '@fontsource/inter-tight/400.css';
 @import '@fontsource/inter-tight/500.css';
 @import '@fontsource/inter-tight/600.css';
@@ -66,21 +67,23 @@
   --vanilla-white: #F8F6F0;
 }
 
-/* Light mode */
+/* Light mode - accent text uses primary for better contrast on light bg */
 :root, .light {
   --bg-primary: #F8F6F0;
   --bg-secondary: #fff;
   --text-primary: #1A1A1A;
   --text-secondary: #1A2433;
+  --text-accent: #1A1A1A;
   --border-color: #e5e5e5;
 }
 
-/* Dark mode */
+/* Dark mode - accent text uses vanilla/gold for hierarchy */
 .dark {
   --bg-primary: #1A2433;
   --bg-secondary: #253244;
   --text-primary: #F8F6F0;
   --text-secondary: #C8B991;
+  --text-accent: #C8B991;
   --border-color: #3d4d63;
 }
 
@@ -115,6 +118,24 @@ body {
   background-size: 100% 100%;
   background-position: right center;
   background-repeat: no-repeat;
+}
+
+/* Conditional form section reveal - smooth descending animation (0.35s ease-out per UX benchmarks) */
+.collapse-reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  pointer-events: none;
+  transition: grid-template-rows 0.35s ease-out, opacity 0.35s ease-out;
+}
+.collapse-reveal.expanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  pointer-events: auto;
+}
+.collapse-reveal > .collapse-reveal-inner {
+  overflow: hidden;
+  min-height: 0;
 }
 
 /* Toast container */

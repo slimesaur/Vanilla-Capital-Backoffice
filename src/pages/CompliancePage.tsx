@@ -12,7 +12,6 @@ const DOC_ID_TO_TRANSLATION_KEY: Record<string, string> = {
   'suitability-policies': 'compliance.suitabilityPolicies',
   'form-pf': 'compliance.formPf',
   'form-pj': 'compliance.formPj',
-  'form-family': 'compliance.formFamily',
   'contract-family': 'compliance.contractFamily',
   'contract-pf': 'compliance.contractPf',
   'contract-pj': 'compliance.contractPj',
@@ -72,7 +71,7 @@ export default function CompliancePage() {
         </div>
         <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-6 scrollbar-vanilla">
           <section>
-            <h3 className="font-canela text-base text-vanilla-secondary mb-3">{t('compliance.onboarding').toUpperCase()}</h3>
+            <h3 className="font-canela text-base text-[var(--text-accent)] mb-3">{t('compliance.onboarding').toUpperCase()}</h3>
             <div className="relative pl-6 space-y-0 border-l-2 border-[var(--border-color)] ml-[7px]">
               {ONBOARDING_STEPS.map((step) => (
                 <div key={step.stepNumber} className="relative flex items-start">
@@ -90,7 +89,7 @@ export default function CompliancePage() {
                       className={clsx(
                         'w-full text-left px-3 py-2 rounded-lg text-base font-arpona capitalize transition-colors flex items-center justify-between gap-2',
                         !step.expandable && step.items[0] && selectedDocId === step.items[0].id
-                          ? 'bg-vanilla-secondary/20 text-vanilla-secondary'
+                          ? 'bg-vanilla-secondary/20 text-[var(--text-accent)]'
                           : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-primary)]'
                       )}
                     >
@@ -98,7 +97,7 @@ export default function CompliancePage() {
                         {t(step.labelKey)}
                       </span>
                       {step.expandable && (
-                        <span className="text-[var(--text-secondary)]">
+                        <span className="text-[var(--text-accent)]">
                           {expandedSteps.has(step.stepNumber) ? '▼' : '▶'}
                         </span>
                       )}
@@ -112,7 +111,7 @@ export default function CompliancePage() {
                               className={clsx(
                                 'w-full text-left px-3 py-2 rounded-lg text-xs font-arpona capitalize transition-colors',
                                 selectedDocId === item.id
-                                  ? 'bg-vanilla-secondary/20 text-vanilla-secondary'
+                                  ? 'bg-vanilla-secondary/20 text-[var(--text-accent)]'
                                   : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-primary)]'
                               )}
                             >
@@ -128,7 +127,7 @@ export default function CompliancePage() {
             </div>
           </section>
           <section>
-            <h3 className="font-canela text-base text-vanilla-secondary mb-3">{t('compliance.corporate').toUpperCase()}</h3>
+            <h3 className="font-canela text-base text-[var(--text-accent)] mb-3">{t('compliance.corporate').toUpperCase()}</h3>
             <ul className="space-y-1">
               {allCorporateItems.map((doc) => (
                 <li key={doc.id}>
@@ -137,7 +136,7 @@ export default function CompliancePage() {
                     className={clsx(
                       'w-full text-left px-3 py-2 rounded-lg text-sm font-interTight transition-colors',
                       selectedDocId === doc.id
-                        ? 'bg-vanilla-secondary/20 text-vanilla-secondary'
+                        ? 'bg-vanilla-secondary/20 text-[var(--text-accent)]'
                         : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-primary)]'
                     )}
                   >
@@ -152,7 +151,7 @@ export default function CompliancePage() {
 
       <div className="flex-1 overflow-auto p-6 border-l border-[var(--border-color)] scrollbar-vanilla">
         {!selectedDoc ? (
-          <div className="flex items-center justify-center h-full text-[var(--text-secondary)]/70 font-interTight">
+          <div className="flex items-center justify-center h-full text-[var(--text-accent)]/70 font-interTight">
             {t('compliance.selectDocument')}
           </div>
         ) : selectedDoc.type === 'suitability' ? (
@@ -174,7 +173,7 @@ export default function CompliancePage() {
               </label>
             </div>
             {docPdfs[selectedDoc.id] ? (
-              <div className="bg-gray-200 dark:bg-gray-700 rounded-lg p-8 text-center text-[var(--text-secondary)] min-h-[400px]">
+              <div className="bg-gray-200 dark:bg-gray-700 rounded-lg p-8 text-center text-[var(--text-accent)] min-h-[400px]">
                 <p className="font-interTight">{t('compliance.pdfLoadedPlaceholder')}</p>
                 <a
                   href={docPdfs[selectedDoc.id]}
@@ -185,9 +184,9 @@ export default function CompliancePage() {
                 </a>
               </div>
             ) : (
-              <div className="border-2 border-dashed border-[var(--border-color)] rounded-lg p-12 text-center text-[var(--text-secondary)]/70 font-interTight">
+              <div className="border-2 border-dashed border-[var(--border-color)] rounded-lg p-12 text-center text-[var(--text-accent)]/70 font-interTight">
                 <p className="mb-4">{t('compliance.noDocumentLoaded')}</p>
-                <label className="px-4 py-2 bg-vanilla-secondary/30 text-vanilla-secondary rounded-lg cursor-pointer hover:bg-vanilla-secondary/40 inline-block">
+                <label className="px-4 py-2 bg-vanilla-secondary/30 text-[var(--text-accent)] rounded-lg cursor-pointer hover:bg-vanilla-secondary/40 inline-block">
                   {t('compliance.uploadPdf')}
                   <input
                     type="file"

@@ -8,6 +8,7 @@ export const REGISTRATION_FORM_PF: RegistrationFormDefinition = {
     { key: 'name', type: 'string', required: true, labelKey: 'clients.name' },
     { key: 'cpf', type: 'string', mask: 'cpf', required: true, labelKey: 'clients.cpf' },
     { key: 'idDocument', type: 'string', mask: 'rg', required: false, labelKey: 'clients.id' },
+    { key: 'issuingAuthority', type: 'string', required: false, labelKey: 'clients.issuingAuthority' },
     { key: 'birthDate', type: 'date', mask: 'date', required: true, labelKey: 'clients.birthDate' },
     {
       key: 'civilStatus',
@@ -32,6 +33,7 @@ export const REGISTRATION_FORM_PF: RegistrationFormDefinition = {
     { key: 'spouseName', type: 'string', required: false, conditional: { field: 'civilStatus', value: 'married' }, labelKey: 'clients.spouseName' },
     { key: 'spouseCpf', type: 'string', mask: 'cpf', required: false, conditional: { field: 'civilStatus', value: 'married' }, labelKey: 'clients.spouseCpf' },
     { key: 'spouseId', type: 'string', mask: 'rg', required: false, conditional: { field: 'civilStatus', value: 'married' }, labelKey: 'clients.spouseId' },
+    { key: 'spouseIssuingAuthority', type: 'string', required: false, conditional: { field: 'civilStatus', value: 'married' }, labelKey: 'clients.spouseIssuingAuthority' },
     { key: 'spouseBirthDate', type: 'date', mask: 'date', required: false, conditional: { field: 'civilStatus', value: 'married' }, labelKey: 'clients.spouseBirthDate' },
     { key: 'phone', type: 'string', mask: 'phone', required: true, labelKey: 'clients.phone' },
     { key: 'email', type: 'string', required: true, labelKey: 'clients.email' },
@@ -63,5 +65,6 @@ export const REGISTRATION_FORM_PF: RegistrationFormDefinition = {
     },
     { key: 'agency', type: 'string', required: true, labelKey: 'clients.agency' },
     { key: 'accountNumber', type: 'string', required: true, labelKey: 'clients.accountNumber' },
+    { key: 'isPep', type: 'checkbox', required: false, labelKey: 'clients.isPepQuestion' },
   ],
 }

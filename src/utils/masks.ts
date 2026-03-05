@@ -31,3 +31,22 @@ export function formatRg(value: string): string {
   if (digits.length <= 5) return `${digits.slice(0, 2)}.${digits.slice(2)}`
   return `${digits.slice(0, 2)}.${digits.slice(2, 5)}.${digits.slice(5, 8)}${digits.length > 8 ? '-' + digits.slice(8) : ''}`
 }
+
+export function formatCnpj(value: string): string {
+  const digits = value.replace(/\D/g, '').slice(0, 14)
+  return digits
+    .replace(/(\d{2})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1/$2')
+    .replace(/(\d{4})(\d{1,2})$/, '$1-$2')
+}
+
+/** Razão Social: uppercase, no accents, no punctuation */
+export function normalizeLegalName(value: string): string {
+  return value
+    .trim()
+    .toUpperCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s]/g, '')
+}

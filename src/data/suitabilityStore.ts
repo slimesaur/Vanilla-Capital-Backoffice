@@ -20,6 +20,7 @@ function migrateForm(form: SuitabilityFormData): SuitabilityFormData {
     questions: form.questions.map((q) => ({
       ...q,
       answers: migrateAnswers(q.answers),
+      multipleSelection: q.multipleSelection ?? false,
     })),
   }
 }
