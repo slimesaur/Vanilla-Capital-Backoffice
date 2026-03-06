@@ -1,12 +1,16 @@
-import { NavLink, Outlet } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useTheme } from '../contexts/ThemeContext'
 import { useLanguage } from '../contexts/LanguageContext'
 import LanguageSwitcher from './LanguageSwitcher'
 import clsx from 'clsx'
 
-export default function Layout() {
+export default function Layout({ children }: { children: React.ReactNode }) {
   const { theme, toggleTheme } = useTheme()
   const { t } = useLanguage()
+  const pathname = usePathname()
 
   const navItems = [
     { path: '/', label: t('nav.mainPage') },
@@ -16,7 +20,6 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex bg-[var(--bg-primary)]">
-      {/* Left sidebar */}
       <aside className="w-56 shrink-0 border-r border-[var(--border-color)] bg-[var(--bg-secondary)] flex flex-col">
         <div className="p-6 border-b border-[var(--border-color)]">
           <img
@@ -27,24 +30,24 @@ export default function Layout() {
         </div>
         <nav className="flex-1 p-4 overflow-y-auto">
           <ul className="space-y-1">
-            {navItems.map((item) => (
-              <li key={item.path}>
-                <NavLink
-                  to={item.path}
-                  end={item.path === '/'}
-                  className={({ isActive }) =>
-                    clsx(
+            {navItems.map((item) => {
+              const isActive = item.path === '/' ? pathname === '/' : pathname?.startsWith(item.path)
+              return (
+                <li key={item.path}>
+                  <Link
+                    href={item.path}
+                    className={clsx(
                       'block px-4 py-3 rounded-lg text-sm font-interTight transition-colors',
                       isActive
                         ? 'bg-vanilla-secondary/20 text-[var(--text-accent)]'
                         : 'text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
-                    )
-                  }
-                >
-                  {item.label}
-                </NavLink>
-              </li>
-            ))}
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
         </nav>
         <div className="p-6 border-t border-[var(--border-color)] flex items-center gap-2">
@@ -67,9 +70,8 @@ export default function Layout() {
         </div>
       </aside>
 
-      {/* Main content - right */}
       <main className="flex-1 overflow-auto">
-        <Outlet />
+        {children}
       </main>
     </div>
   )

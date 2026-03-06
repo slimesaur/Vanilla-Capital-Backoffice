@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useLayoutEffect } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { updateClientStatus, deleteClient } from '../../data/clientsStore'
@@ -45,15 +47,15 @@ export default function StatusSelector({
     }
   }, [anchorEl])
 
-  const handleSelect = (status: ClientOnboardingStatus) => {
-    updateClientStatus(clientId, status)
+  const handleSelect = async (status: ClientOnboardingStatus) => {
+    await updateClientStatus(clientId, status)
     onSelect(status)
   }
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!onDelete) return
     if (window.confirm(t('clients.deleteClientConfirm'))) {
-      deleteClient(clientId)
+      await deleteClient(clientId)
       onDelete()
     }
   }

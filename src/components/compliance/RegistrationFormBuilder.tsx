@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+'use client'
+
+import { useState, useEffect, useCallback } from 'react'
 import { useToast } from '../../contexts/ToastContext'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { getResponses, approveResponse } from '../../data/registrationStore'
@@ -118,9 +120,14 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
   const { showToast } = useToast()
   const { t } = useLanguage()
 
-  useEffect(() => {
-    setResponses(getResponses(formType))
+  const refreshResponses = useCallback(async () => {
+    const r = await getResponses(formType)
+    setResponses(r)
   }, [formType])
+
+  useEffect(() => {
+    refreshResponses()
+  }, [refreshResponses])
 
   const shareLink = `${window.location.origin}/registration/fill/${formType}`
   const copyLink = () => {
@@ -128,8 +135,8 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
     showToast(t('suitabilityBuilder.linkCopied'))
   }
 
-  const handleApprove = (r: RegistrationResponse) => {
-    const existing = getClients()
+  const handleApprove = async (r: RegistrationResponse) => {
+    const existing = await getClients()
     if (formType === 'pf') {
       const cpfDigits = String(r.answers.cpf ?? '').replace(/\D/g, '')
       const duplicate = existing.find((c) => (c.cpf ?? '').replace(/\D/g, '') === cpfDigits)
@@ -138,8 +145,8 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
         return
       }
       const client = responseToClient(r)
-      saveClient(client)
-      approveResponse(r.id, client.id)
+      await saveClient(client)
+      await approveResponse(r.id, client.id)
       showToast(t('registration.approvedAndClientCreated'))
     } else if (formType === 'pj') {
       const cnpjDigits = String(r.answers.cnpj ?? '').replace(/\D/g, '')
@@ -149,11 +156,11 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
         return
       }
       const client = responseToClientPj(r)
-      saveClient(client)
-      approveResponse(r.id, client.id)
+      await saveClient(client)
+      await approveResponse(r.id, client.id)
       showToast(t('registration.approvedAndClientCreated'))
     }
-    setResponses(getResponses(formType))
+    await refreshResponses()
   }
 
   return (
@@ -214,7 +221,7 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
                         <span className="font-semibold text-[var(--text-primary)] block mb-1">{t('registration.sectionAdministratorInformation')}</span>
                         {(r.answers.administrators as Administrator[]).map((adm, i) => (
                           <div key={i} className="font-light text-[var(--text-primary)] text-sm">
-                            {adm.name} • {adm.cpf} {adm.isPep && '(PEP)'}
+                            {adm.name} - {adm.cpf} {adm.isPep && '(PEP)'}
                           </div>
                         ))}
                       </div>
@@ -225,8 +232,8 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
                         {(r.answers.beneficialOwners as BeneficialOwner[]).map((bo, i) => (
                           <div key={i} className="font-light text-[var(--text-primary)] text-sm">
                             {bo.kind === 'individual'
-                              ? `${bo.name} • ${bo.cpf} ${bo.isPep ? '(PEP)' : ''}`
-                              : `${bo.legalName} • ${bo.cnpj}`}
+                              ? `${bo.name} - ${bo.cpf} ${bo.isPep ? '(PEP)' : ''}`
+                              : `${bo.legalName} - ${bo.cnpj}`}
                           </div>
                         ))}
                       </div>

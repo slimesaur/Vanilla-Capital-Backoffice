@@ -1,5 +1,6 @@
+'use client'
+
 import { useState, useMemo, useEffect, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import BankSelect from '../components/BankSelect'
 import { saveResponse } from '../data/registrationStore'
@@ -59,8 +60,7 @@ async function fetchAddressByCep(cep: string): Promise<ViaCepResponse | null> {
   }
 }
 
-export default function RegistrationFormFill() {
-  const { formType } = useParams<{ formType: string }>()
+export default function RegistrationFormFill({ formType }: { formType?: string }) {
   const { t } = useLanguage()
   const def = useMemo(() => getFormDefinition(formType ?? ''), [formType])
   const isPj = formType === 'pj'
@@ -130,11 +130,11 @@ export default function RegistrationFormFill() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!def || !validate()) return
 
-    saveResponse({
+    await saveResponse({
       id: crypto.randomUUID(),
       formType: def.formType as RegistrationFormType,
       answers: { ...answers },

@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { ONBOARDING_STEPS, COMPLIANCE_GROUPS } from '../data/complianceDocuments'

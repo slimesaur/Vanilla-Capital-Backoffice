@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+'use client'
+
+import { useState, useEffect, useCallback } from 'react'
 import clsx from 'clsx'
 import { useToast } from '../contexts/ToastContext'
 import { useLanguage } from '../contexts/LanguageContext'
@@ -66,37 +68,39 @@ function createQuestion(): SuitabilityQuestion {
 
 export default function SuitabilityFormBuilder() {
   const [form, setForm] = useState<SuitabilityFormData | null>(null)
-  const [responses, setResponses] = useState<ReturnType<typeof getResponses>>([])
-  const [, setRefreshKey] = useState(0)
+  const [responses, setResponses] = useState<SuitabilityResponse[]>([])
   const { showToast } = useToast()
   const { t } = useLanguage()
 
-  const refreshResponses = () => {
-    setResponses(getResponses(DEFAULT_FORM_ID))
-    setRefreshKey((k) => k + 1)
-  }
-
-  useEffect(() => {
-    let f = getForm(DEFAULT_FORM_ID)
-    if (!f) {
-      f = {
-        id: DEFAULT_FORM_ID,
-        questions: [],
-        createdAt: new Date().toISOString(),
-      }
-      saveForm(f)
-    }
-    setForm(f)
-    setResponses(getResponses(DEFAULT_FORM_ID))
+  const refreshResponses = useCallback(async () => {
+    const r = await getResponses(DEFAULT_FORM_ID)
+    setResponses(r)
   }, [])
 
-  const handleApprove = (r: SuitabilityResponse) => {
+  useEffect(() => {
+    async function init() {
+      let f = await getForm(DEFAULT_FORM_ID)
+      if (!f) {
+        f = {
+          id: DEFAULT_FORM_ID,
+          questions: [],
+          createdAt: new Date().toISOString(),
+        }
+        await saveForm(f)
+      }
+      setForm(f)
+      await refreshResponses()
+    }
+    init()
+  }, [refreshResponses])
+
+  const handleApprove = async (r: SuitabilityResponse) => {
     if (!form) return
     const entityType = r.answers.entityType as string | undefined
     let matches: { id: string }[]
     if (entityType === 'legal_entity') {
       const cnpj = String(r.answers.cnpj ?? '').replace(/\D/g, '')
-      matches = getClientsByCnpj(cnpj)
+      matches = await getClientsByCnpj(cnpj)
       if (matches.length === 0) {
         showToast(t('suitabilityBuilder.noClientMatchCnpj'))
         return
@@ -107,7 +111,7 @@ export default function SuitabilityFormBuilder() {
       }
     } else {
       const cpf = String(r.answers.cpf ?? '').replace(/\D/g, '')
-      matches = getClientsByCpf(cpf)
+      matches = await getClientsByCpf(cpf)
       if (matches.length === 0) {
         showToast(t('suitabilityBuilder.noClientMatch'))
         return
@@ -119,26 +123,26 @@ export default function SuitabilityFormBuilder() {
     }
     const client = matches[0]
     const { suitabilityAnswers, totalSuitabilityWeight } = calculateSuitabilityWeights(r, form)
-    updateClient(client.id, {
+    await updateClient(client.id, {
       suitabilityAnswers,
       totalSuitabilityWeight,
       suitabilityProfile: getSuitabilityProfile(totalSuitabilityWeight),
       status: 'pending_contract',
       suitabilityScore: totalSuitabilityWeight,
     })
-    removeResponse(r.id)
+    await removeResponse(r.id)
     showToast(t('suitabilityBuilder.approvedAndLinked'))
-    refreshResponses()
+    await refreshResponses()
   }
 
-  const addQuestion = () => {
+  const addQuestion = async () => {
     if (!form) return
     const next = { ...form, questions: [...form.questions, createQuestion()] }
     setForm(next)
-    saveForm(next)
+    await saveForm(next)
   }
 
-  const updateQuestion = (qId: string, updates: Partial<SuitabilityQuestion>) => {
+  const updateQuestion = async (qId: string, updates: Partial<SuitabilityQuestion>) => {
     if (!form) return
     const next = {
       ...form,
@@ -147,14 +151,14 @@ export default function SuitabilityFormBuilder() {
       ),
     }
     setForm(next)
-    saveForm(next)
+    await saveForm(next)
   }
 
-  const removeQuestion = (qId: string) => {
+  const removeQuestion = async (qId: string) => {
     if (!form) return
     const next = { ...form, questions: form.questions.filter((q) => q.id !== qId) }
     setForm(next)
-    saveForm(next)
+    await saveForm(next)
   }
 
   const copyLink = () => {
@@ -163,11 +167,11 @@ export default function SuitabilityFormBuilder() {
     showToast(t('suitabilityBuilder.linkCopied'))
   }
 
-  const handleDeleteResponse = (r: SuitabilityResponse) => {
+  const handleDeleteResponse = async (r: SuitabilityResponse) => {
     if (!window.confirm(t('suitabilityBuilder.deleteResponseConfirm'))) return
-    removeResponse(r.id)
+    await removeResponse(r.id)
     showToast(t('suitabilityBuilder.responseDeleted'))
-    refreshResponses()
+    await refreshResponses()
   }
 
   const handleDownloadPdf = (r: SuitabilityResponse) => {

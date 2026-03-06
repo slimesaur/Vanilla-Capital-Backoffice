@@ -1,5 +1,6 @@
+'use client'
+
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 import clsx from 'clsx'
 import { useLanguage } from '../contexts/LanguageContext'
 import { getForm, saveResponse } from '../data/suitabilityStore'
@@ -40,8 +41,7 @@ function getSuitabilityProfile(totalWeight: number): SuitabilityProfile {
   return 'aggressive'
 }
 
-export default function SuitabilityFormFill() {
-  const { formId } = useParams<{ formId: string }>()
+export default function SuitabilityFormFill({ formId }: { formId?: string }) {
   const { t } = useLanguage()
   const [form, setForm] = useState<SuitabilityFormData | null>(null)
   const [entityType, setEntityType] = useState<EntityType>('individual')
@@ -56,13 +56,14 @@ export default function SuitabilityFormFill() {
 
   useEffect(() => {
     if (formId) {
-      const f = getForm(formId)
-      setForm(f ?? null)
-      if (f) {
-        const initial: Record<string, string | string[]> = { name: '', cpf: '', legalName: '', cnpj: '' }
-        f.questions.forEach((q) => { initial[q.id] = q.multipleSelection ? [] : '' })
-        setAnswers(initial)
-      }
+      getForm(formId).then((f) => {
+        setForm(f ?? null)
+        if (f) {
+          const initial: Record<string, string | string[]> = { name: '', cpf: '', legalName: '', cnpj: '' }
+          f.questions.forEach((q) => { initial[q.id] = q.multipleSelection ? [] : '' })
+          setAnswers(initial)
+        }
+      })
     }
   }, [formId])
 
@@ -105,7 +106,7 @@ export default function SuitabilityFormFill() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!form || !validate()) return
 
@@ -129,7 +130,7 @@ export default function SuitabilityFormFill() {
         answersToSave[key] = val ?? ''
       }
     }
-    saveResponse({
+    await saveResponse({
       id: crypto.randomUUID(),
       formId: form.id,
       answers: answersToSave,

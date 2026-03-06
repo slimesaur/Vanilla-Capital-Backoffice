@@ -1,7 +1,6 @@
 import type { SuitabilityFormData, SuitabilityResponse, SuitabilityAnswerOption } from '../types/suitability'
 
-const FORMS_KEY = 'vanilla-suitability-forms'
-const RESPONSES_KEY = 'vanilla-suitability-responses'
+const FORMS_API = '/api/suitability/forms'
 const DEFAULT_FORM_ID = 'default-suitability-form'
 
 function migrateAnswers(answers: unknown): SuitabilityAnswerOption[] {
@@ -25,57 +24,79 @@ function migrateForm(form: SuitabilityFormData): SuitabilityFormData {
   }
 }
 
-export function getForms(): SuitabilityFormData[] {
+export async function getForms(): Promise<SuitabilityFormData[]> {
   try {
-    const raw = localStorage.getItem(FORMS_KEY)
-    const forms = raw ? JSON.parse(raw) : []
+    const res = await fetch(FORMS_API)
+    if (!res.ok) return []
+    const forms = await res.json()
     return Array.isArray(forms) ? forms.map(migrateForm) : []
   } catch {
     return []
   }
 }
 
-export function saveForm(form: SuitabilityFormData): void {
-  const forms = getForms()
-  const idx = forms.findIndex((f) => f.id === form.id)
-  if (idx >= 0) forms[idx] = form
-  else forms.push(form)
-  localStorage.setItem(FORMS_KEY, JSON.stringify(forms))
-}
-
-export function getForm(id: string): SuitabilityFormData | null {
-  let form = getForms().find((f) => f.id === id) ?? null
-  if (!form && id === DEFAULT_FORM_ID) {
-    form = {
-      id: DEFAULT_FORM_ID,
-      questions: [],
-      createdAt: new Date().toISOString(),
-    }
-    saveForm(form)
-  }
-  return form ? migrateForm(form) : null
-}
-
-export function getResponses(formId: string): SuitabilityResponse[] {
+export async function saveForm(form: SuitabilityFormData): Promise<void> {
   try {
-    const raw = localStorage.getItem(RESPONSES_KEY)
-    const all: SuitabilityResponse[] = raw ? JSON.parse(raw) : []
-    return all.filter((r) => r.formId === formId)
+    await fetch(`${FORMS_API}/${form.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ questions: form.questions }),
+    })
+  } catch {
+    // silent fail
+  }
+}
+
+export async function getForm(id: string): Promise<SuitabilityFormData | null> {
+  try {
+    const res = await fetch(`${FORMS_API}/${id}`)
+    if (res.ok) {
+      const form = await res.json()
+      return migrateForm(form)
+    }
+
+    if (id === DEFAULT_FORM_ID) {
+      const form: SuitabilityFormData = {
+        id: DEFAULT_FORM_ID,
+        questions: [],
+        createdAt: new Date().toISOString(),
+      }
+      await saveForm(form)
+      return form
+    }
+
+    return null
+  } catch {
+    return null
+  }
+}
+
+export async function getResponses(formId: string): Promise<SuitabilityResponse[]> {
+  try {
+    const res = await fetch(`${FORMS_API}/${formId}/responses`)
+    if (!res.ok) return []
+    return await res.json()
   } catch {
     return []
   }
 }
 
-export function saveResponse(response: SuitabilityResponse): void {
-  const raw = localStorage.getItem(RESPONSES_KEY)
-  const all: SuitabilityResponse[] = raw ? JSON.parse(raw) : []
-  all.push(response)
-  localStorage.setItem(RESPONSES_KEY, JSON.stringify(all))
+export async function saveResponse(response: SuitabilityResponse): Promise<void> {
+  try {
+    await fetch(`${FORMS_API}/${response.formId}/responses`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(response),
+    })
+  } catch {
+    // silent fail
+  }
 }
 
-export function removeResponse(responseId: string): void {
-  const raw = localStorage.getItem(RESPONSES_KEY)
-  const all: SuitabilityResponse[] = raw ? JSON.parse(raw) : []
-  const filtered = all.filter((r) => r.id !== responseId)
-  localStorage.setItem(RESPONSES_KEY, JSON.stringify(filtered))
+export async function removeResponse(responseId: string): Promise<void> {
+  try {
+    await fetch(`/api/suitability/responses/${responseId}`, { method: 'DELETE' })
+  } catch {
+    // silent fail
+  }
 }

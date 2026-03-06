@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import { useToast } from '../contexts/ToastContext'
 import { useLanguage } from '../contexts/LanguageContext'
@@ -142,7 +144,11 @@ export default function ClientsPage() {
     resizeStartWidth.current = getColumnWidth(key)
   }, [getColumnWidth])
 
-  const allClients = useMemo(() => getClients(), [refreshKey])
+  const [allClients, setAllClients] = useState<Client[]>([])
+
+  useEffect(() => {
+    getClients().then(setAllClients)
+  }, [refreshKey])
   const filteredClients = useMemo(() => {
     let list = allClients
     if (search.trim()) {

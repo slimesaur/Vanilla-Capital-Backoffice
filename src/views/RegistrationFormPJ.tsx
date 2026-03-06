@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useCallback, useEffect } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { saveResponse } from '../data/registrationStore'
@@ -171,7 +173,7 @@ export default function RegistrationFormPJ({ onSubmitted }: { onSubmitted: () =>
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!validate()) return
     const adminsWithPrincipal = administrators.map((a, i) => ({ ...a, isPrincipal: i === 0 }))
@@ -180,7 +182,7 @@ export default function RegistrationFormPJ({ onSubmitted }: { onSubmitted: () =>
       isPrincipal: i === 0,
       ...(b.kind === 'legal_entity' && b.legalName ? { legalName: normalizeLegalName(b.legalName) } : {}),
     }))
-    saveResponse({
+    await saveResponse({
       id: crypto.randomUUID(),
       formType: 'pj' as RegistrationFormType,
       answers: {
