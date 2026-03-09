@@ -182,7 +182,7 @@ export default function SuitabilityFormFill({ formId }: { formId?: string }) {
   }
 
   return (
-    <div className="min-h-full py-12 px-4">
+    <div className="min-h-full py-8 sm:py-12 px-4">
       <div className="max-w-xl mx-auto">
         <h1 className="font-canela text-2xl text-[var(--text-primary)] mb-2">{t('suitabilityFill.formTitle')}</h1>
         <p className="font-interTight text-[var(--text-accent)] mb-8">{t('suitabilityFill.formSubtitle')}</p>

@@ -179,7 +179,7 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
         </button>
       </div>
       <p className="text-sm text-[var(--text-accent)]">
-        <code className="bg-black/5 dark:bg-white/5 px-2 py-1 rounded">{shareLink}</code>
+        <code className="bg-black/5 dark:bg-white/5 px-2 py-1 rounded break-all">{shareLink}</code>
       </p>
 
       <section className="mt-6 pt-6 border-t border-[var(--border-color)]">
@@ -192,7 +192,7 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
               .filter((r) => !r.approvedClientId)
               .map((r) => (
                 <div key={r.id} className="p-4 rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)]">
-                  <div className="flex justify-between items-start gap-4 mb-2">
+                  <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-2">
                     <div className="text-xs text-[var(--text-accent)]">{new Date(r.submittedAt).toLocaleString()}</div>
                     <button
                       onClick={() => handleApprove(r)}
@@ -201,7 +201,7 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
                       {t('suitabilityBuilder.approve')}
                     </button>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm font-interTight">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-sm font-interTight">
                     {Object.entries(r.answers)
                       .filter(([key]) => key !== 'administrators' && key !== 'beneficialOwners')
                       .map(([key, val]) => {
@@ -218,7 +218,7 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
                         )
                       })}
                     {Array.isArray(r.answers.administrators) && (r.answers.administrators as Administrator[]).length > 0 && (
-                      <div className="col-span-2 md:col-span-3">
+                      <div className="col-span-1 sm:col-span-2 md:col-span-3">
                         <span className="font-semibold text-[var(--text-primary)] block mb-1">{t('registration.sectionAdministratorInformation')}</span>
                         {(r.answers.administrators as Administrator[]).map((adm, i) => (
                           <div key={i} className="font-light text-[var(--text-primary)] text-sm">
@@ -228,7 +228,7 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
                       </div>
                     )}
                     {Array.isArray(r.answers.beneficialOwners) && (r.answers.beneficialOwners as BeneficialOwner[]).length > 0 && (
-                      <div className="col-span-2 md:col-span-3">
+                      <div className="col-span-1 sm:col-span-2 md:col-span-3">
                         <span className="font-semibold text-[var(--text-primary)] block mb-1">{t('registration.sectionBeneficialOwnerInformation')}</span>
                         {(r.answers.beneficialOwners as BeneficialOwner[]).map((bo, i) => (
                           <div key={i} className="font-light text-[var(--text-primary)] text-sm">

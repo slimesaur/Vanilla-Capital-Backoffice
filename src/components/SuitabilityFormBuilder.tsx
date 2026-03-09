@@ -215,7 +215,7 @@ export default function SuitabilityFormBuilder() {
       </div>
 
       <div className="text-sm text-[var(--text-accent)]">
-        <p>{t('suitabilityBuilder.shareLink')} <code className="bg-black/5 dark:bg-white/5 px-2 py-1 rounded">{shareLink}</code></p>
+        <p>{t('suitabilityBuilder.shareLink')} <code className="bg-black/5 dark:bg-white/5 px-2 py-1 rounded break-all">{shareLink}</code></p>
         <p className="mt-1">{t('suitabilityBuilder.mandatoryFieldsNote')}</p>
       </div>
 
@@ -228,41 +228,43 @@ export default function SuitabilityFormBuilder() {
             <div className="text-xs font-arpona uppercase tracking-wider text-vanilla-secondary mb-2">
               Question {String(idx + 1).padStart(2, '0')}
             </div>
-            <div className="flex justify-between items-start gap-4 mb-3">
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-3 mb-3">
               <input
                 type="text"
                 placeholder={t('suitabilityBuilder.questionTitlePlaceholder')}
                 value={q.title}
                 onChange={(e) => updateQuestion(q.id, { title: e.target.value })}
-                className="flex-1 px-3 py-2 rounded border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-primary)] font-interTight"
+                className="w-full sm:flex-1 px-3 py-2 rounded border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-primary)] font-interTight"
               />
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="text-xs font-interTight text-[var(--text-accent)]">{t('suitabilityBuilder.singleSelection')}</span>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={q.multipleSelection ?? false}
-                  onClick={() => updateQuestion(q.id, { multipleSelection: !(q.multipleSelection ?? false) })}
-                  className={clsx(
-                    'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-vanilla-secondary/50',
-                    (q.multipleSelection ?? false) ? 'bg-vanilla-secondary' : 'bg-[var(--border-color)]'
-                  )}
-                >
-                  <span
+              <div className="flex items-center gap-3 shrink-0 flex-wrap">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-interTight text-[var(--text-accent)]">{t('suitabilityBuilder.singleSelection')}</span>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={q.multipleSelection ?? false}
+                    onClick={() => updateQuestion(q.id, { multipleSelection: !(q.multipleSelection ?? false) })}
                     className={clsx(
-                      'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition',
-                      (q.multipleSelection ?? false) ? 'translate-x-5' : 'translate-x-1'
+                      'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-vanilla-secondary/50',
+                      (q.multipleSelection ?? false) ? 'bg-vanilla-secondary' : 'bg-[var(--border-color)]'
                     )}
-                  />
+                  >
+                    <span
+                      className={clsx(
+                        'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition',
+                        (q.multipleSelection ?? false) ? 'translate-x-5' : 'translate-x-1'
+                      )}
+                    />
+                  </button>
+                  <span className="text-xs font-interTight text-[var(--text-accent)]">{t('suitabilityBuilder.multipleSelection')}</span>
+                </div>
+                <button
+                  onClick={() => removeQuestion(q.id)}
+                  className="text-red-500 hover:text-red-600 px-2 py-1 text-sm"
+                >
+                  {t('suitabilityBuilder.remove')}
                 </button>
-                <span className="text-xs font-interTight text-[var(--text-accent)]">{t('suitabilityBuilder.multipleSelection')}</span>
               </div>
-              <button
-                onClick={() => removeQuestion(q.id)}
-                className="text-red-500 hover:text-red-600 px-2 py-1 text-sm"
-              >
-                {t('suitabilityBuilder.remove')}
-              </button>
             </div>
             <div className="space-y-2">
               {q.answers.map((opt, i) => (
@@ -340,11 +342,11 @@ export default function SuitabilityFormBuilder() {
                   key={r.id}
                   className="p-4 rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)]"
                 >
-                  <div className="flex justify-between items-start gap-4 mb-2">
+                  <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-2">
                     <div className="text-xs text-[var(--text-accent)]">
                       {new Date(r.submittedAt).toLocaleString()}
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       <button
                         onClick={() => handleDownloadPdf(r)}
                         className="px-3 py-1.5 border border-vanilla-secondary text-[var(--text-accent)] rounded-lg font-interTight text-sm hover:bg-vanilla-secondary/10"
@@ -365,7 +367,7 @@ export default function SuitabilityFormBuilder() {
                       </button>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm font-interTight">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-sm font-interTight">
                     {Object.entries(r.answers).map(([key, val]) => {
                       let displayed = parseSelectedOptions(val ?? '').join(', ') || '-'
                       if (key === 'entityType' && displayed !== '-') {

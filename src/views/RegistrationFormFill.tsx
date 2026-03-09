@@ -153,7 +153,7 @@ export default function RegistrationFormFill({ formType }: { formType?: string }
 
   if (isPj) {
     return (
-      <div className="py-12 px-4">
+      <div className="py-8 sm:py-12 px-4">
         <div className="max-w-xl mx-auto">
           {!submitted && (
             <>
@@ -271,7 +271,7 @@ export default function RegistrationFormFill({ formType }: { formType?: string }
   }
 
   return (
-    <div className="py-12 px-4">
+    <div className="py-8 sm:py-12 px-4">
       <div className="max-w-xl mx-auto">
         <h1 className="font-canela text-2xl text-[var(--text-primary)] mb-2">{t('registration.formTitleIndividual')}</h1>
         <p className="font-interTight text-[var(--text-accent)] mb-8">{t('registration.formSubtitle')}</p>
@@ -286,7 +286,7 @@ export default function RegistrationFormFill({ formType }: { formType?: string }
                   aria-hidden={!isMarried}
                 >
                   <div className="collapse-reveal-inner">
-                    <section className="p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
+                    <section className="p-4 sm:p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
                       <h2 className="font-canela text-lg text-[var(--text-accent)] mb-4">{t(section.labelKey)}</h2>
                       <div className="space-y-4">
                         {pfDef.fields
@@ -301,7 +301,7 @@ export default function RegistrationFormFill({ formType }: { formType?: string }
             return (
               <section
                 key={section.key}
-                className="p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50"
+                className="p-4 sm:p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50"
               >
                 <h2 className="font-canela text-lg text-[var(--text-accent)] mb-4">{t(section.labelKey)}</h2>
                 <div className="space-y-4">

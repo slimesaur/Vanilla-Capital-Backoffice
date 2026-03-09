@@ -209,7 +209,7 @@ export default function RegistrationFormPJ({ onSubmitted }: { onSubmitted: () =>
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
-      <section className="p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
+      <section className="p-4 sm:p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
         <h2 className="font-canela text-lg text-[var(--text-accent)] mb-4">{t('registration.sectionBasicInformation')}</h2>
         <div className="space-y-4">
           <div>
@@ -278,7 +278,7 @@ export default function RegistrationFormPJ({ onSubmitted }: { onSubmitted: () =>
         </div>
       </section>
 
-      <section className="p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
+      <section className="p-4 sm:p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
         <h2 className="font-canela text-lg text-[var(--text-accent)] mb-4">{t('registration.sectionAddressInformation')}</h2>
         <div className="space-y-4">
           <div>
@@ -358,7 +358,7 @@ export default function RegistrationFormPJ({ onSubmitted }: { onSubmitted: () =>
         </div>
       </section>
 
-      <section className="p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
+      <section className="p-4 sm:p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
         <h2 className="font-canela text-lg text-[var(--text-accent)] mb-4">{t('registration.sectionAdministratorInformation')}</h2>
         <p className="text-sm text-[var(--text-accent)] mb-4">{t('registration.administratorHint')}</p>
         <div className="space-y-4">
@@ -419,7 +419,7 @@ export default function RegistrationFormPJ({ onSubmitted }: { onSubmitted: () =>
         </div>
       </section>
 
-      <section className="p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
+      <section className="p-4 sm:p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/50">
         <h2 className="font-canela text-lg text-[var(--text-accent)] mb-4">{t('registration.sectionBeneficialOwnerInformation')}</h2>
         <p className="text-sm text-[var(--text-accent)] mb-4">{t('registration.beneficialOwnerHint')}</p>
         <div className="space-y-4">

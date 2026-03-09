@@ -265,24 +265,24 @@ export default function ClientsPage() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6">
       <div
         ref={measureRef}
         aria-hidden="true"
         className="pointer-events-none fixed left-[-9999px] top-0 text-sm font-interTight"
         style={{ visibility: 'hidden' as const }}
       />
-      <div className="flex items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6">
         <h1 className="text-2xl font-canela text-[var(--text-primary)]">{t('clients.title')}</h1>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
           <input
             type="text"
             placeholder={t('clients.searchPlaceholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="px-4 py-2 rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] placeholder:text-[var(--text-primary)]/60 w-64 font-interTight"
+            className="px-4 py-2 rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] placeholder:text-[var(--text-primary)]/60 w-full sm:w-64 font-interTight"
           />
-          <div className="flex rounded-lg border border-[var(--border-color)] overflow-hidden">
+          <div className="flex rounded-lg border border-[var(--border-color)] overflow-hidden self-start">
             <button
               onClick={() => setViewMode('list')}
               className={clsx(
@@ -414,28 +414,28 @@ export default function ClientsPage() {
           ))}
         </div>
       ) : (
-        <div className="flex gap-6 min-h-[600px]">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6 min-h-0 md:min-h-[600px]">
           {/* Left: client list */}
-          <div className="w-56 shrink-0 flex flex-col gap-4">
+          <div className="w-full md:w-56 shrink-0 flex flex-col gap-4">
             <div className="font-arpona uppercase text-sm text-[var(--text-accent)]">{t('clients.title')}</div>
-            <ul className="space-y-1 overflow-y-auto max-h-[500px]">
+            <ul className="flex md:block gap-2 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto md:max-h-[500px] pb-2 md:pb-0 space-y-0 md:space-y-1">
               {allFilteredFlat.map((c) => (
-                <li key={c.id}>
+                <li key={c.id} className="shrink-0 md:shrink">
                   <button
                     onClick={() => setSelectedClientId(c.id)}
                     className={clsx(
-                      'w-full text-left px-3 py-2 rounded-lg text-sm font-interTight truncate flex items-center gap-2',
+                      'w-full text-left px-3 py-2 rounded-lg text-sm font-interTight truncate flex items-center gap-2 whitespace-nowrap md:whitespace-normal',
                       selectedClientId === c.id
                         ? 'bg-vanilla-secondary/20 text-[var(--text-accent)]'
                         : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-primary)]'
                     )}
                   >
-<StatusCircle
-                        status={c.status}
-                        clientId={c.id}
-                        onStatusChange={() => setRefreshKey((k) => k + 1)}
-                        onDelete={() => setRefreshKey((k) => k + 1)}
-                      />
+                    <StatusCircle
+                      status={c.status}
+                      clientId={c.id}
+                      onStatusChange={() => setRefreshKey((k) => k + 1)}
+                      onDelete={() => setRefreshKey((k) => k + 1)}
+                    />
                     <span className="truncate">{c.name ?? c.legalName ?? '-'}</span>
                   </button>
                 </li>
@@ -443,14 +443,14 @@ export default function ClientsPage() {
             </ul>
           </div>
 
-          {/* Right: filter bar placeholder - per BRD "filter bar on the right" */}
-          <div className="w-40 shrink-0">
+          {/* Right: filter bar placeholder */}
+          <div className="hidden md:block w-40 shrink-0">
             <div className="font-arpona uppercase text-sm text-[var(--text-accent)] mb-2">{t('clients.filter')}</div>
             <div className="text-sm text-[var(--text-accent)]/70 font-interTight">{t('clients.filtersComingSoon')}</div>
           </div>
 
           {/* Center: one-pager profile */}
-          <div className="flex-1 overflow-auto rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)] p-6 scrollbar-vanilla">
+          <div className="flex-1 overflow-auto rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)] p-4 sm:p-6 scrollbar-vanilla">
             {selectedClient && (
               <ClientProfileOnePager client={selectedClient} t={t} onRefresh={() => setRefreshKey((k) => k + 1)} />
             )}
@@ -465,10 +465,10 @@ export default function ClientsPage() {
           onClick={() => setPdfPreview(null)}
         >
           <div
-            className="bg-[var(--bg-secondary)] rounded-lg max-w-4xl max-h-[90vh] overflow-auto p-4"
+            className="bg-[var(--bg-secondary)] rounded-lg w-full max-w-4xl max-h-[90vh] overflow-auto p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
               <h3 className="font-canela">{t('clients.documentPreview')}</h3>
               <div className="flex gap-2">
                 <a
@@ -486,7 +486,7 @@ export default function ClientsPage() {
                 </button>
               </div>
             </div>
-            <div className="bg-gray-200 dark:bg-gray-700 rounded p-8 text-center text-[var(--text-accent)]">
+            <div className="bg-gray-200 dark:bg-gray-700 rounded p-4 sm:p-8 text-center text-[var(--text-accent)]">
               {t('clients.pdfViewerPlaceholder')} {pdfPreview}
             </div>
           </div>
@@ -520,7 +520,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
       <div className="space-y-6 font-interTight text-sm">
         <section>
           <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('registration.sectionBasicInformation')}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <AttrRow label={t('clients.legalName')} value={client.legalName} />
             <AttrRow label={t('clients.tradeName')} value={client.tradeName} />
             <AttrRow label="CNPJ" value={client.cnpj} />
@@ -530,7 +530,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
         </section>
         <section>
           <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('registration.sectionAddressInformation')}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <AttrRow label={t('clients.postalCode')} value={client.postalCode} />
             <AttrRow label={t('clients.address')} value={client.address} />
             <AttrRow label={t('clients.addressNumber')} value={String(client.addressNumber)} />
@@ -604,7 +604,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
     <div className="space-y-6 font-interTight text-sm">
       <section>
         <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.personalInformation')}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <AttrRow label={t('clients.name')} value={client.name} />
           <AttrRow label={t('clients.cpf')} value={client.cpf} />
           <AttrRow label={t('clients.id')} value={client.idDocument} />
@@ -624,7 +624,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
       {client.civilStatus === 'married' && client.maritalInfo && (
         <section>
           <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.maritalInformation')}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <AttrRow
               label={t('clients.propertyRegime')}
               value={getPropertyRegimeLabel(client.maritalInfo.propertyRegime, t)}
@@ -640,7 +640,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
 
       <section>
         <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.contactInformation')}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <AttrRow label={t('clients.phone')} value={client.phone} />
           <AttrRow label={t('clients.email')} value={client.email} />
           <AttrRow label={t('clients.postalCode')} value={client.postalCode} />
@@ -654,7 +654,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
 
       <section>
         <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.bankingInformation')}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <AttrRow label={t('clients.bank')} value={client.bank} />
           <AttrRow label={t('clients.accountType')} value={getAccountTypeLabel(client.accountType ?? '', t)} />
           <AttrRow label={t('clients.agency')} value={client.agency} />
@@ -665,7 +665,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
       {client.clientType === 'individual' && (
         <section>
           <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('registration.sectionComplianceInformation')}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <AttrRow label={t('clients.isPep')} value={client.isPep ? t('clients.yes') : t('clients.no')} />
           </div>
         </section>
@@ -673,7 +673,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
 
       <section>
         <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.documents')}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <AttrRow label={t('clients.idDocument')} value={client.idDocumentFile ? t('clients.uploaded') : '-'} />
           <AttrRow label={t('clients.proofOfAddress')} value={client.proofOfAddressFile ? t('clients.uploaded') : '-'} />
           {client.civilStatus === 'married' && (
@@ -713,7 +713,7 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
       {(client.suitabilityAnswers || client.totalSuitabilityWeight != null) && (
         <section>
           <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.suitabilityAnswers')}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {client.suitabilityAnswers &&
               Object.entries(client.suitabilityAnswers).map(([qId, weight], idx) => (
                 <AttrRow key={qId} label={`${t('clients.questionWeight')} ${idx + 1}`} value={String(weight)} />

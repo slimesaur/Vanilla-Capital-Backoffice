@@ -1,8 +1,10 @@
 'use client'
 
+import { useState, useEffect, useCallback } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import { useLanguage } from '../contexts/LanguageContext'
 import LanguageSwitcher from './LanguageSwitcher'
+import clsx from 'clsx'
 
 const ICON_CLASS = 'w-4 h-4 shrink-0 text-[var(--text-accent)]'
 
@@ -67,55 +69,122 @@ interface FormLayoutProps {
 export default function FormLayout({ children }: FormLayoutProps) {
   const { theme, mounted, toggleTheme } = useTheme()
   const { t } = useLanguage()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const closeSidebar = useCallback(() => setSidebarOpen(false), [])
+
+  useEffect(() => {
+    if (!sidebarOpen) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeSidebar() }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [sidebarOpen, closeSidebar])
+
+  const sidebarContent = (
+    <>
+      <div className="p-6 border-b border-[var(--border-color)]">
+        {mounted ? (
+          <img
+            src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
+            alt="Vanilla Capital"
+            className="h-20 w-auto object-contain"
+          />
+        ) : (
+          <div className="h-20" />
+        )}
+      </div>
+      <div className="p-4 border-b border-[var(--border-color)] space-y-1">
+        <ContactRow type="phone" href="tel:+554130529500">+55 (41) 3052-9500</ContactRow>
+        <ContactRow type="whatsapp" href="https://wa.me/5541988195090">+55 (41) 98819-5090</ContactRow>
+        <ContactRow type="email" href="mailto:atendimento@vanillacapital.com.br">atendimento@vanillacapital.com.br</ContactRow>
+        <ContactRow type="link" href="https://vanillacapital.com.br">vanillacapital.com.br</ContactRow>
+      </div>
+      <div className="flex-1" />
+      <div className="p-4 border-t border-[var(--border-color)]">
+        <ContactRow type="location" wrap>Av. Iguaçu, 2820 - Batel, Curitiba - PR, 80240-030</ContactRow>
+      </div>
+      <div className="p-6 border-t border-[var(--border-color)] flex items-center gap-2">
+        {mounted && (
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            aria-label={theme === 'dark' ? t('theme.switchToLight') : t('theme.switchToDark')}
+          >
+            {theme === 'dark' ? (
+              <svg className="w-5 h-5 text-[var(--text-accent)]" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5 text-vanilla-main" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            )}
+          </button>
+        )}
+        <LanguageSwitcher variant="sidebar" />
+      </div>
+    </>
+  )
 
   return (
-    <div className="min-h-screen flex bg-[var(--bg-primary)]">
-      {/* Left sidebar - logo, contact info, theme, language (no nav links for client-facing forms) */}
-      <aside className="w-56 shrink-0 border-r border-[var(--border-color)] bg-[var(--bg-secondary)] flex flex-col">
-        <div className="p-6 border-b border-[var(--border-color)]">
-          {mounted ? (
-            <img
-              src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
-              alt="Vanilla Capital"
-              className="h-20 w-auto object-contain"
-            />
-          ) : (
-            <div className="h-20" />
-          )}
+    <div className="min-h-screen flex flex-col md:flex-row bg-[var(--bg-primary)]">
+      {/* Mobile top bar */}
+      <header className="md:hidden flex items-center justify-between px-4 py-3 border-b border-[var(--border-color)] bg-[var(--bg-secondary)]">
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+          aria-label="Open menu"
+        >
+          <svg className="w-6 h-6 text-[var(--text-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        {mounted ? (
+          <img
+            src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
+            alt="Vanilla Capital"
+            className="h-8 w-auto object-contain"
+          />
+        ) : (
+          <div className="h-8" />
+        )}
+        <div className="w-10" />
+      </header>
+
+      {/* Mobile drawer backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          onClick={closeSidebar}
+        />
+      )}
+
+      {/* Mobile drawer */}
+      <aside
+        className={clsx(
+          'fixed inset-y-0 left-0 z-50 w-64 bg-[var(--bg-secondary)] border-r border-[var(--border-color)] flex flex-col transform transition-transform duration-200 ease-in-out md:hidden',
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        <div className="flex items-center justify-end p-2">
+          <button
+            onClick={closeSidebar}
+            className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            aria-label="Close menu"
+          >
+            <svg className="w-5 h-5 text-[var(--text-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
-        <div className="p-4 border-b border-[var(--border-color)] space-y-1">
-          <ContactRow type="phone" href="tel:+554130529500">+55 (41) 3052-9500</ContactRow>
-          <ContactRow type="whatsapp" href="https://wa.me/5541988195090">+55 (41) 98819-5090</ContactRow>
-          <ContactRow type="email" href="mailto:atendimento@vanillacapital.com.br">atendimento@vanillacapital.com.br</ContactRow>
-          <ContactRow type="link" href="https://vanillacapital.com.br">vanillacapital.com.br</ContactRow>
-        </div>
-        <div className="flex-1" />
-        <div className="p-4 border-t border-[var(--border-color)]">
-          <ContactRow type="location" wrap>Av. Iguaçu, 2820 - Batel, Curitiba - PR, 80240-030</ContactRow>
-        </div>
-        <div className="p-6 border-t border-[var(--border-color)] flex items-center gap-2">
-          {mounted && (
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
-              aria-label={theme === 'dark' ? t('theme.switchToLight') : t('theme.switchToDark')}
-            >
-              {theme === 'dark' ? (
-                <svg className="w-5 h-5 text-[var(--text-accent)]" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5 text-vanilla-main" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                </svg>
-              )}
-            </button>
-          )}
-          <LanguageSwitcher variant="sidebar" />
-        </div>
+        {sidebarContent}
       </aside>
 
-      {/* Main content - diagonal lines background (min-h ensures identical display on both forms) */}
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex w-56 shrink-0 border-r border-[var(--border-color)] bg-[var(--bg-secondary)] flex-col">
+        {sidebarContent}
+      </aside>
+
       <main className="flex-1 min-h-screen overflow-auto form-page-bg-pattern">
         {children}
       </main>
