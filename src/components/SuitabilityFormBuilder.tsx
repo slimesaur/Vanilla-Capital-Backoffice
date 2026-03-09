@@ -7,6 +7,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { getForm, saveForm, getResponses, removeResponse } from '../data/suitabilityStore'
 import { getClientsByCpf, getClientsByCnpj, updateClient } from '../data/clientsStore'
 import { generateSuitabilityResponsePdf } from '../utils/suitabilityPdf'
+import { copyToClipboard, getOrigin } from '../utils/clipboard'
 import type { SuitabilityFormData, SuitabilityQuestion } from '../types/suitability'
 import type { SuitabilityResponse } from '../types/suitability'
 import type { SuitabilityProfile } from '../types/client'
@@ -161,10 +162,10 @@ export default function SuitabilityFormBuilder() {
     await saveForm(next)
   }
 
-  const copyLink = () => {
-    const url = `${window.location.origin}/suitability/fill/${DEFAULT_FORM_ID}`
-    navigator.clipboard.writeText(url)
-    showToast(t('suitabilityBuilder.linkCopied'))
+  const copyLink = async () => {
+    const url = `${getOrigin()}/suitability/fill/${DEFAULT_FORM_ID}`
+    const ok = await copyToClipboard(url)
+    showToast(ok ? t('suitabilityBuilder.linkCopied') : t('suitabilityBuilder.linkCopyFailed'))
   }
 
   const handleDeleteResponse = async (r: SuitabilityResponse) => {
@@ -198,7 +199,7 @@ export default function SuitabilityFormBuilder() {
 
   if (!form) return null
 
-  const shareLink = `${window.location.origin}/suitability/fill/${DEFAULT_FORM_ID}`
+  const shareLink = `${getOrigin()}/suitability/fill/${DEFAULT_FORM_ID}`
 
   return (
     <div className="space-y-6">

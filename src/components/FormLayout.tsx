@@ -65,7 +65,7 @@ interface FormLayoutProps {
 }
 
 export default function FormLayout({ children }: FormLayoutProps) {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, mounted, toggleTheme } = useTheme()
   const { t } = useLanguage()
 
   return (
@@ -73,11 +73,15 @@ export default function FormLayout({ children }: FormLayoutProps) {
       {/* Left sidebar - logo, contact info, theme, language (no nav links for client-facing forms) */}
       <aside className="w-56 shrink-0 border-r border-[var(--border-color)] bg-[var(--bg-secondary)] flex flex-col">
         <div className="p-6 border-b border-[var(--border-color)]">
-          <img
-            src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
-            alt="Vanilla Capital"
-            className="h-20 w-auto object-contain"
-          />
+          {mounted ? (
+            <img
+              src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
+              alt="Vanilla Capital"
+              className="h-20 w-auto object-contain"
+            />
+          ) : (
+            <div className="h-20" />
+          )}
         </div>
         <div className="p-4 border-b border-[var(--border-color)] space-y-1">
           <ContactRow type="phone" href="tel:+554130529500">+55 (41) 3052-9500</ContactRow>
@@ -90,21 +94,23 @@ export default function FormLayout({ children }: FormLayoutProps) {
           <ContactRow type="location" wrap>Av. Iguaçu, 2820 - Batel, Curitiba - PR, 80240-030</ContactRow>
         </div>
         <div className="p-6 border-t border-[var(--border-color)] flex items-center gap-2">
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
-            aria-label={theme === 'dark' ? t('theme.switchToLight') : t('theme.switchToDark')}
-          >
-            {theme === 'dark' ? (
-              <svg className="w-5 h-5 text-[var(--text-accent)]" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5 text-vanilla-main" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-              </svg>
-            )}
-          </button>
+          {mounted && (
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+              aria-label={theme === 'dark' ? t('theme.switchToLight') : t('theme.switchToDark')}
+            >
+              {theme === 'dark' ? (
+                <svg className="w-5 h-5 text-[var(--text-accent)]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5 text-vanilla-main" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              )}
+            </button>
+          )}
           <LanguageSwitcher variant="sidebar" />
         </div>
       </aside>

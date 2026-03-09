@@ -2,16 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { requireAuth } from '@/lib/auth'
 
+// GET is public: the client-facing suitability fill page fetches the form
+// definition without auth to render the questionnaire.
 export async function GET(
   _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  try {
-    await requireAuth()
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   const form = await prisma.suitabilityForm.findUnique({ where: { id: params.id } })
   if (!form) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })

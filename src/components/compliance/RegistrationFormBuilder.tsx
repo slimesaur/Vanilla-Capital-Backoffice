@@ -5,6 +5,7 @@ import { useToast } from '../../contexts/ToastContext'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { getResponses, approveResponse } from '../../data/registrationStore'
 import { getClients, saveClient } from '../../data/clientsStore'
+import { copyToClipboard, getOrigin } from '../../utils/clipboard'
 import type { RegistrationResponse } from '../../types/registration'
 import type { Client, Administrator, BeneficialOwner } from '../../types/client'
 import { DOC_ID_TO_FORM_TYPE } from '../../data/complianceDocuments'
@@ -129,10 +130,10 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
     refreshResponses()
   }, [refreshResponses])
 
-  const shareLink = `${window.location.origin}/registration/fill/${formType}`
-  const copyLink = () => {
-    navigator.clipboard.writeText(shareLink)
-    showToast(t('suitabilityBuilder.linkCopied'))
+  const shareLink = `${getOrigin()}/registration/fill/${formType}`
+  const copyLink = async () => {
+    const ok = await copyToClipboard(shareLink)
+    showToast(ok ? t('suitabilityBuilder.linkCopied') : t('suitabilityBuilder.linkCopyFailed'))
   }
 
   const handleApprove = async (r: RegistrationResponse) => {

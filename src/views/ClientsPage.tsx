@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import { useToast } from '../contexts/ToastContext'
 import { useLanguage } from '../contexts/LanguageContext'
 import { getClients } from '../data/clientsStore'
+import { copyToClipboard } from '../utils/clipboard'
 import type { Client } from '../types/client'
 import type { Locale } from '../i18n/translations'
 import clsx from 'clsx'
@@ -251,11 +252,11 @@ export default function ClientsPage() {
     }
   }
 
-  const handleCopy = (value: string, isPdf?: boolean) => {
+  const handleCopy = async (value: string, isPdf?: boolean) => {
     if (isPdf) return
     if (!value || value === '-') return
-    navigator.clipboard.writeText(value)
-    showToast(t('clients.copiedToClipboard'))
+    const ok = await copyToClipboard(value)
+    showToast(ok ? t('clients.copiedToClipboard') : t('clients.copyFailed'))
   }
 
   const handlePdfClick = (url: string | undefined) => {
