@@ -29,3 +29,6 @@ prisma/*.db
 *.njsproj
 *.sln
 *.sw?
+
+# Test artifacts
+test-results/
