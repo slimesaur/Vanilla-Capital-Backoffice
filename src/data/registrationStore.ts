@@ -1,35 +1,47 @@
 import type { RegistrationResponse, RegistrationFormType } from '../types/registration'
 
-const RESPONSES_KEY = 'vanilla-registration-responses'
+const API_BASE = '/api/registration/responses'
 
-function loadAllResponses(): RegistrationResponse[] {
+export async function getResponses(formType: RegistrationFormType): Promise<RegistrationResponse[]> {
   try {
-    const raw = localStorage.getItem(RESPONSES_KEY)
-    return raw ? JSON.parse(raw) : []
+    const res = await fetch(`${API_BASE}?formType=${formType}`)
+    if (!res.ok) return []
+    return await res.json()
   } catch {
     return []
   }
 }
 
-export function getResponses(formType: RegistrationFormType): RegistrationResponse[] {
-  return loadAllResponses().filter((r) => r.formType === formType)
+export async function getResponseById(id: string): Promise<RegistrationResponse | null> {
+  try {
+    const res = await fetch(`${API_BASE}/${id}`)
+    if (!res.ok) return null
+    return await res.json()
+  } catch {
+    return null
+  }
 }
 
-export function getResponseById(id: string): RegistrationResponse | null {
-  return loadAllResponses().find((r) => r.id === id) ?? null
+export async function saveResponse(response: RegistrationResponse): Promise<void> {
+  try {
+    await fetch(API_BASE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(response),
+    })
+  } catch {
+    // silent fail
+  }
 }
 
-export function saveResponse(response: RegistrationResponse): void {
-  const all = loadAllResponses()
-  all.push(response)
-  localStorage.setItem(RESPONSES_KEY, JSON.stringify(all))
-}
-
-export function approveResponse(responseId: string, clientId: string): void {
-  const all = loadAllResponses()
-  const idx = all.findIndex((r) => r.id === responseId)
-  if (idx >= 0) {
-    all[idx] = { ...all[idx], approvedClientId: clientId }
-    localStorage.setItem(RESPONSES_KEY, JSON.stringify(all))
+export async function approveResponse(responseId: string, clientId: string): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/${responseId}/approve`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientId }),
+    })
+  } catch {
+    // silent fail
   }
 }

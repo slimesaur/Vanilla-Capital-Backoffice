@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  sessions     Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+model Client {
+  id         String   @id @default(uuid())
+  clientType String   @map("client_type")
+  status     String   @default("pending_suitability")
+  data       Json     @default("{}")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  registrationResponses RegistrationResponse[]
+
+  @@index([status])
+  @@map("clients")
+}
+
+model SuitabilityForm {
+  id        String               @id @default(uuid())
+  questions Json                 @default("[]")
+  createdAt DateTime             @default(now()) @map("created_at")
+  responses SuitabilityResponse[]
+
+  @@map("suitability_forms")
+}
+
+model SuitabilityResponse {
+  id          String          @id @default(uuid())
+  formId      String          @map("form_id")
+  answers     Json            @default("{}")
+  submittedAt DateTime        @default(now()) @map("submitted_at")
+  form        SuitabilityForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  @@index([formId])
+  @@map("suitability_responses")
+}
+
+model RegistrationResponse {
+  id               String   @id @default(uuid())
+  formType         String   @map("form_type")
+  answers          Json     @default("{}")
+  submittedAt      DateTime @default(now()) @map("submitted_at")
+  approvedClientId String?  @map("approved_client_id")
+  approvedClient   Client?  @relation(fields: [approvedClientId], references: [id], onDelete: SetNull)
+
+  @@index([formType])
+  @@index([approvedClientId])
+  @@map("registration_responses")
+}

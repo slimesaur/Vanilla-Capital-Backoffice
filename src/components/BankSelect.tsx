@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useRef, useEffect } from 'react'
 import { BRAZILIAN_BANKS } from '../data/brazilianBanks'
 import type { BrazilianBank } from '../data/brazilianBanks'

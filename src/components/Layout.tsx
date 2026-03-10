@@ -1,12 +1,31 @@
-import { NavLink, Outlet } from 'react-router-dom'
+'use client'
+
+import { useState, useEffect, useCallback } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useTheme } from '../contexts/ThemeContext'
 import { useLanguage } from '../contexts/LanguageContext'
 import LanguageSwitcher from './LanguageSwitcher'
 import clsx from 'clsx'
 
-export default function Layout() {
-  const { theme, toggleTheme } = useTheme()
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const { theme, mounted, toggleTheme } = useTheme()
   const { t } = useLanguage()
+  const pathname = usePathname()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const closeSidebar = useCallback(() => setSidebarOpen(false), [])
+
+  useEffect(() => {
+    closeSidebar()
+  }, [pathname, closeSidebar])
+
+  useEffect(() => {
+    if (!sidebarOpen) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeSidebar() }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [sidebarOpen, closeSidebar])
 
   const navItems = [
     { path: '/', label: t('nav.mainPage') },
@@ -14,40 +33,43 @@ export default function Layout() {
     { path: '/compliance', label: t('nav.compliance') },
   ]
 
-  return (
-    <div className="min-h-screen flex bg-[var(--bg-primary)]">
-      {/* Left sidebar */}
-      <aside className="w-56 shrink-0 border-r border-[var(--border-color)] bg-[var(--bg-secondary)] flex flex-col">
-        <div className="p-6 border-b border-[var(--border-color)]">
+  const sidebarContent = (
+    <>
+      <div className="p-6 border-b border-[var(--border-color)]">
+        {mounted ? (
           <img
             src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
             alt="Vanilla Capital"
             className="h-20 w-auto object-contain"
           />
-        </div>
-        <nav className="flex-1 p-4 overflow-y-auto">
-          <ul className="space-y-1">
-            {navItems.map((item) => (
+        ) : (
+          <div className="h-20" />
+        )}
+      </div>
+      <nav className="flex-1 p-4 overflow-y-auto">
+        <ul className="space-y-1">
+          {navItems.map((item) => {
+            const isActive = item.path === '/' ? pathname === '/' : pathname?.startsWith(item.path)
+            return (
               <li key={item.path}>
-                <NavLink
-                  to={item.path}
-                  end={item.path === '/'}
-                  className={({ isActive }) =>
-                    clsx(
-                      'block px-4 py-3 rounded-lg text-sm font-interTight transition-colors',
-                      isActive
-                        ? 'bg-vanilla-secondary/20 text-[var(--text-accent)]'
-                        : 'text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
-                    )
-                  }
+                <Link
+                  href={item.path}
+                  className={clsx(
+                    'block px-4 py-3 rounded-lg text-sm font-interTight transition-colors',
+                    isActive
+                      ? 'bg-vanilla-secondary/20 text-[var(--text-accent)]'
+                      : 'text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
+                  )}
                 >
                   {item.label}
-                </NavLink>
+                </Link>
               </li>
-            ))}
-          </ul>
-        </nav>
-        <div className="p-6 border-t border-[var(--border-color)] flex items-center gap-2">
+            )
+          })}
+        </ul>
+      </nav>
+      <div className="p-6 border-t border-[var(--border-color)] flex items-center gap-2">
+        {mounted && (
           <button
             onClick={toggleTheme}
             className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
@@ -63,13 +85,73 @@ export default function Layout() {
               </svg>
             )}
           </button>
-          <LanguageSwitcher variant="sidebar" />
+        )}
+        <LanguageSwitcher variant="sidebar" />
+      </div>
+    </>
+  )
+
+  return (
+    <div className="min-h-screen flex flex-col md:flex-row bg-[var(--bg-primary)]">
+      {/* Mobile top bar */}
+      <header className="md:hidden flex items-center justify-between px-4 py-3 border-b border-[var(--border-color)] bg-[var(--bg-secondary)]">
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+          aria-label="Open menu"
+        >
+          <svg className="w-6 h-6 text-[var(--text-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        {mounted ? (
+          <img
+            src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
+            alt="Vanilla Capital"
+            className="h-8 w-auto object-contain"
+          />
+        ) : (
+          <div className="h-8" />
+        )}
+        <div className="w-10" />
+      </header>
+
+      {/* Mobile drawer backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          onClick={closeSidebar}
+        />
+      )}
+
+      {/* Mobile drawer */}
+      <aside
+        className={clsx(
+          'fixed inset-y-0 left-0 z-50 w-64 bg-[var(--bg-secondary)] border-r border-[var(--border-color)] flex flex-col transform transition-transform duration-200 ease-in-out md:hidden',
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        <div className="flex items-center justify-end p-2">
+          <button
+            onClick={closeSidebar}
+            className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            aria-label="Close menu"
+          >
+            <svg className="w-5 h-5 text-[var(--text-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
+        {sidebarContent}
       </aside>
 
-      {/* Main content - right */}
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex w-56 shrink-0 border-r border-[var(--border-color)] bg-[var(--bg-secondary)] flex-col">
+        {sidebarContent}
+      </aside>
+
       <main className="flex-1 overflow-auto">
-        <Outlet />
+        {children}
       </main>
     </div>
   )

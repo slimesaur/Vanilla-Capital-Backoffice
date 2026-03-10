@@ -1,8 +1,11 @@
-import { useState, useEffect } from 'react'
+'use client'
+
+import { useState, useEffect, useCallback } from 'react'
 import { useToast } from '../../contexts/ToastContext'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { getResponses, approveResponse } from '../../data/registrationStore'
 import { getClients, saveClient } from '../../data/clientsStore'
+import { copyToClipboard, getOrigin } from '../../utils/clipboard'
 import type { RegistrationResponse } from '../../types/registration'
 import type { Client, Administrator, BeneficialOwner } from '../../types/client'
 import { DOC_ID_TO_FORM_TYPE } from '../../data/complianceDocuments'
@@ -118,18 +121,23 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
   const { showToast } = useToast()
   const { t } = useLanguage()
 
-  useEffect(() => {
-    setResponses(getResponses(formType))
+  const refreshResponses = useCallback(async () => {
+    const r = await getResponses(formType)
+    setResponses(r)
   }, [formType])
 
-  const shareLink = `${window.location.origin}/registration/fill/${formType}`
-  const copyLink = () => {
-    navigator.clipboard.writeText(shareLink)
-    showToast(t('suitabilityBuilder.linkCopied'))
+  useEffect(() => {
+    refreshResponses()
+  }, [refreshResponses])
+
+  const shareLink = `${getOrigin()}/registration/fill/${formType}`
+  const copyLink = async () => {
+    const ok = await copyToClipboard(shareLink)
+    showToast(ok ? t('suitabilityBuilder.linkCopied') : t('suitabilityBuilder.linkCopyFailed'))
   }
 
-  const handleApprove = (r: RegistrationResponse) => {
-    const existing = getClients()
+  const handleApprove = async (r: RegistrationResponse) => {
+    const existing = await getClients()
     if (formType === 'pf') {
       const cpfDigits = String(r.answers.cpf ?? '').replace(/\D/g, '')
       const duplicate = existing.find((c) => (c.cpf ?? '').replace(/\D/g, '') === cpfDigits)
@@ -138,8 +146,8 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
         return
       }
       const client = responseToClient(r)
-      saveClient(client)
-      approveResponse(r.id, client.id)
+      await saveClient(client)
+      await approveResponse(r.id, client.id)
       showToast(t('registration.approvedAndClientCreated'))
     } else if (formType === 'pj') {
       const cnpjDigits = String(r.answers.cnpj ?? '').replace(/\D/g, '')
@@ -149,11 +157,11 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
         return
       }
       const client = responseToClientPj(r)
-      saveClient(client)
-      approveResponse(r.id, client.id)
+      await saveClient(client)
+      await approveResponse(r.id, client.id)
       showToast(t('registration.approvedAndClientCreated'))
     }
-    setResponses(getResponses(formType))
+    await refreshResponses()
   }
 
   return (
@@ -171,7 +179,7 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
         </button>
       </div>
       <p className="text-sm text-[var(--text-accent)]">
-        <code className="bg-black/5 dark:bg-white/5 px-2 py-1 rounded">{shareLink}</code>
+        <code className="bg-black/5 dark:bg-white/5 px-2 py-1 rounded break-all">{shareLink}</code>
       </p>
 
       <section className="mt-6 pt-6 border-t border-[var(--border-color)]">
@@ -184,7 +192,7 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
               .filter((r) => !r.approvedClientId)
               .map((r) => (
                 <div key={r.id} className="p-4 rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)]">
-                  <div className="flex justify-between items-start gap-4 mb-2">
+                  <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-2">
                     <div className="text-xs text-[var(--text-accent)]">{new Date(r.submittedAt).toLocaleString()}</div>
                     <button
                       onClick={() => handleApprove(r)}
@@ -193,7 +201,7 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
                       {t('suitabilityBuilder.approve')}
                     </button>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm font-interTight">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-sm font-interTight">
                     {Object.entries(r.answers)
                       .filter(([key]) => key !== 'administrators' && key !== 'beneficialOwners')
                       .map(([key, val]) => {
@@ -210,23 +218,23 @@ export default function RegistrationFormBuilder({ docId }: { docId: string }) {
                         )
                       })}
                     {Array.isArray(r.answers.administrators) && (r.answers.administrators as Administrator[]).length > 0 && (
-                      <div className="col-span-2 md:col-span-3">
+                      <div className="col-span-1 sm:col-span-2 md:col-span-3">
                         <span className="font-semibold text-[var(--text-primary)] block mb-1">{t('registration.sectionAdministratorInformation')}</span>
                         {(r.answers.administrators as Administrator[]).map((adm, i) => (
                           <div key={i} className="font-light text-[var(--text-primary)] text-sm">
-                            {adm.name} • {adm.cpf} {adm.isPep && '(PEP)'}
+                            {adm.name} - {adm.cpf} {adm.isPep && '(PEP)'}
                           </div>
                         ))}
                       </div>
                     )}
                     {Array.isArray(r.answers.beneficialOwners) && (r.answers.beneficialOwners as BeneficialOwner[]).length > 0 && (
-                      <div className="col-span-2 md:col-span-3">
+                      <div className="col-span-1 sm:col-span-2 md:col-span-3">
                         <span className="font-semibold text-[var(--text-primary)] block mb-1">{t('registration.sectionBeneficialOwnerInformation')}</span>
                         {(r.answers.beneficialOwners as BeneficialOwner[]).map((bo, i) => (
                           <div key={i} className="font-light text-[var(--text-primary)] text-sm">
                             {bo.kind === 'individual'
-                              ? `${bo.name} • ${bo.cpf} ${bo.isPep ? '(PEP)' : ''}`
-                              : `${bo.legalName} • ${bo.cnpj}`}
+                              ? `${bo.name} - ${bo.cpf} ${bo.isPep ? '(PEP)' : ''}`
+                              : `${bo.legalName} - ${bo.cnpj}`}
                           </div>
                         ))}
                       </div>
