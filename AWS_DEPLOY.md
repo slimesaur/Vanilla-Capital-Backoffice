@@ -274,7 +274,7 @@ pm2 restart vanilla-backoffice
 
 ## Updating Your App Later
 
-Whenever you push new code to GitHub:
+### Option A: Manual (SSH)
 
 ```bash
 cd /home/ubuntu/vanilla-backoffice
@@ -285,6 +285,24 @@ npx prisma db push
 npm run build
 pm2 restart vanilla-backoffice
 ```
+
+### Option B: Deploy script (from your Mac)
+
+```bash
+# One-time: make sure you can SSH (copy your Lightsail key or use the one from AWS console)
+./scripts/deploy-aws.sh YOUR_STATIC_IP
+
+# Or with a custom key path:
+AWS_DEPLOY_HOST=3.123.45.67 AWS_DEPLOY_KEY=~/path/to/key.pem ./scripts/deploy-aws.sh
+```
+
+### Option C: GitHub Actions (auto-deploy on push to main)
+
+1. In your repo: **Settings → Secrets and variables → Actions**
+2. Add secrets:
+   - `DEPLOY_HOST`: your Lightsail static IP (e.g. `3.123.45.67`)
+   - `SSH_PRIVATE_KEY`: contents of your SSH private key (the `.pem` file from Lightsail)
+3. Push to `main` — the workflow will deploy automatically.
 
 ---
 
