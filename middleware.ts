@@ -71,7 +71,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Public page routes (login, registration, suitability) - no locale, pass through
+  // Redirect already-authenticated users away from login
+  if (pathname === '/login') {
+    const session = request.cookies.get('vanilla-session')
+    if (session?.value) {
+      return NextResponse.redirect(new URL('/backoffice', request.url))
+    }
+    return NextResponse.next()
+  }
+
+  // Public page routes (registration, suitability) - no locale, pass through
   if (isPublicPage(pathname)) {
     return NextResponse.next()
   }
@@ -82,5 +91,5 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   // Match all pathnames except api, _next, _vercel, and static files
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
+  matcher: ['/', '/((?!api|_next|_vercel|.*\\..*).*)'],
 }
