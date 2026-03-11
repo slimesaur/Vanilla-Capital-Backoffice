@@ -28,10 +28,6 @@ const STATIC_EXTENSIONS = [
 const LOCALE_PATTERN = /^\/(pt|en)(\/|$)/
 const INVALID_LOCALE_PATTERN = /^\/[a-z]{2}(\/|$)/
 
-function isLocalePath(pathname: string): boolean {
-  return pathname === '/' || LOCALE_PATTERN.test(pathname)
-}
-
 function isInvalidLocalePath(pathname: string): boolean {
   return INVALID_LOCALE_PATTERN.test(pathname) && !LOCALE_PATTERN.test(pathname)
 }
@@ -58,8 +54,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Locale routes (landing pages): use next-intl middleware
-  if (isLocalePath(pathname)) {
+  // Locale routes (landing pages): always delegate to next-intl first
+  // Use explicit checks - pathname could differ in Edge runtime
+  if (
+    pathname === '/' ||
+    pathname === '/pt' ||
+    pathname === '/en' ||
+    pathname.startsWith('/pt/') ||
+    pathname.startsWith('/en/')
+  ) {
     return intlMiddleware(request)
   }
 
@@ -96,9 +99,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/',
-    '/(pt|en)/:path*',
-    '/((?!_next|_vercel|.*\\..*).*)',
-  ],
+  // Match all pathnames except api, _next, _vercel, and static files
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 }
