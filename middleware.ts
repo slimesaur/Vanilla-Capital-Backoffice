@@ -11,6 +11,9 @@ const PUBLIC_PAGE_PATHS = [
   '/suitability/fill',
 ]
 
+/** Page routes that REQUIRE auth (redirect to login if no session) */
+const PROTECTED_PAGE_PATHS = ['/backoffice']
+
 /** API routes that do not require auth */
 const PUBLIC_API_PATHS = [
   '/api/auth/login',
@@ -24,13 +27,6 @@ const STATIC_EXTENSIONS = [
   '.svg', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.css', '.js',
   '.woff', '.woff2', '.otf', '.ttf', '.eot',
 ]
-
-const LOCALE_PATTERN = /^\/(pt|en)(\/|$)/
-const INVALID_LOCALE_PATTERN = /^\/[a-z]{2}(\/|$)/
-
-function isInvalidLocalePath(pathname: string): boolean {
-  return INVALID_LOCALE_PATTERN.test(pathname) && !LOCALE_PATTERN.test(pathname)
-}
 
 function isPublicPage(pathname: string): boolean {
   return PUBLIC_PAGE_PATHS.some((p) => pathname.startsWith(p))
@@ -54,28 +50,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Locale routes (landing pages): always delegate to next-intl first
-  // Use explicit checks - pathname could differ in Edge runtime
-  if (
-    pathname === '/' ||
-    pathname === '/pt' ||
-    pathname === '/en' ||
-    pathname.startsWith('/pt/') ||
-    pathname.startsWith('/en/')
-  ) {
-    return intlMiddleware(request)
-  }
-
-  // Invalid locale (e.g. /es, /de) - let through so [locale] layout can notFound()
-  if (isInvalidLocalePath(pathname)) {
-    return NextResponse.next()
-  }
-
-  // Public page routes (login, registration forms, suitability forms)
-  if (isPublicPage(pathname)) {
-    return NextResponse.next()
-  }
-
   // API routes: protect all except public
   if (pathname.startsWith('/api/')) {
     if (isPublicApi(pathname)) {
@@ -88,14 +62,22 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // All other page routes: require session, redirect to login
-  const session = request.cookies.get('vanilla-session')
-  if (!session?.value) {
-    const loginUrl = new URL('/login', request.url)
-    return NextResponse.redirect(loginUrl)
+  // Protected page routes (backoffice): require session, redirect to login
+  if (PROTECTED_PAGE_PATHS.some((p) => pathname === p || pathname.startsWith(p + '/'))) {
+    const session = request.cookies.get('vanilla-session')
+    if (!session?.value) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+    return NextResponse.next()
   }
 
-  return NextResponse.next()
+  // Public page routes (login, registration, suitability) - no locale, pass through
+  if (isPublicPage(pathname)) {
+    return NextResponse.next()
+  }
+
+  // Locale routes (/, /pt, /en, /pt/*, /en/*) and invalid locale - use next-intl
+  return intlMiddleware(request)
 }
 
 export const config = {
