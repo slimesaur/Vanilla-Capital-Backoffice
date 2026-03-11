@@ -1,5 +1,5 @@
 import MainPage from '@/views/MainPage'
 
-export default function Home() {
+export default function BackofficeMain() {
   return <MainPage />
 }

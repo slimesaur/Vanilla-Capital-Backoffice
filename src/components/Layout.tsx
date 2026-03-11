@@ -28,9 +28,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, [sidebarOpen, closeSidebar])
 
   const navItems = [
-    { path: '/', label: t('nav.mainPage') },
-    { path: '/clients', label: t('nav.clients') },
-    { path: '/compliance', label: t('nav.compliance') },
+    { path: '/backoffice', label: t('nav.mainPage') },
+    { path: '/backoffice/clients', label: t('nav.clients') },
+    { path: '/backoffice/compliance', label: t('nav.compliance') },
   ]
 
   const sidebarContent = (
@@ -49,7 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <nav className="flex-1 p-4 overflow-y-auto">
         <ul className="space-y-1">
           {navItems.map((item) => {
-            const isActive = item.path === '/' ? pathname === '/' : pathname?.startsWith(item.path)
+            const isActive = item.path === '/backoffice' ? (pathname === '/backoffice' || pathname?.startsWith('/backoffice/main')) : pathname?.startsWith(item.path)
             return (
               <li key={item.path}>
                 <Link

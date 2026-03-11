@@ -30,7 +30,7 @@ export default function LoginPage() {
         return
       }
 
-      router.push('/')
+      router.push('/backoffice')
       router.refresh()
     } catch {
       setError('Network error')

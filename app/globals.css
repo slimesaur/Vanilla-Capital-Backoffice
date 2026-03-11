@@ -3,6 +3,9 @@
 @import '@fontsource/inter-tight/500.css';
 @import '@fontsource/inter-tight/600.css';
 
+/* Cormorant Garamond for landing page subtitles */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -65,6 +68,9 @@
   --vanilla-secondary: #C8B991;
   --vanilla-black: #1A1A1A;
   --vanilla-white: #F8F6F0;
+  --font-canela-regular: 'Canela', Georgia, serif;
+  --font-canela-thin: 'Canela', Georgia, serif;
+  --font-arpona: 'Cormorant Garamond', Georgia, serif;
 }
 
 /* Light mode */
