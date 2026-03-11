@@ -16,16 +16,17 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigation = [
-    { name: t('home'), href: `/${locale}` },
+    { name: t('home'), href: `/${locale}`, exact: true },
     { name: t('portfolio'), href: `/${locale}/portfolio` },
     { name: t('about'), href: `/${locale}/about` },
     { name: t('contact'), href: `/${locale}/contact` },
     { name: t('compliance'), href: `/${locale}/compliance` },
   ];
 
-  const isActive = (href: string) => {
-    return pathname === href || pathname.startsWith(href + '/');
-  };
+  const isActive = (item: { href: string; exact?: boolean }) => {
+    if (item.exact) return pathname === item.href
+    return pathname === item.href || pathname.startsWith(item.href + '/')
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A2433] backdrop-blur-sm shadow-sm font-subtitle-alt">
@@ -53,7 +54,7 @@ export default function Header() {
                 href={item.href}
                 className={cn(
                   'text-sm font-medium transition-colors hover:text-accent-300',
-                  isActive(item.href)
+                  isActive(item)
                     ? 'text-secondary-100'
                     : 'text-secondary-200'
                 )}
@@ -103,7 +104,7 @@ export default function Header() {
                   onClick={() => setIsMenuOpen(false)}
                   className={cn(
                     'block rounded-md px-3 py-2 text-base font-medium',
-                    isActive(item.href)
+                    isActive(item)
                       ? 'bg-primary-400/20 text-secondary-100'
                       : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
                   )}

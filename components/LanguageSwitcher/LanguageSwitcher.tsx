@@ -10,9 +10,6 @@ import { cn } from '@/landing/lib/utils';
 const languageNames: Record<Locale, string> = {
   pt: 'PT',
   en: 'EN',
-  es: 'ES',
-  de: 'DE',
-  zh: '中文',
 };
 
 export default function LanguageSwitcher() {
@@ -37,10 +34,12 @@ export default function LanguageSwitcher() {
   }, []);
 
   const switchLocale = (newLocale: Locale) => {
-    const newPath = pathname.replace(`/${locale}`, `/${newLocale}`);
-    router.push(newPath);
-    setIsOpen(false);
-  };
+    // Robust: strip locale prefix, prepend new locale (handles /pt, /pt/portfolio, edge cases)
+    const pathWithoutLocale = pathname.replace(new RegExp(`^/${locale}(/|$)`), '$1') || ''
+    const newPath = `/${newLocale}${pathWithoutLocale}`
+    router.push(newPath)
+    setIsOpen(false)
+  }
 
   return (
     <div className="relative" ref={dropdownRef}>
