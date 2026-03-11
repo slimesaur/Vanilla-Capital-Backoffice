@@ -24,5 +24,7 @@ jobs:
             npx prisma generate
             npx prisma db push
             npm run build
-            pm2 restart vanilla-backoffice
+            pm2 delete vanilla-backoffice 2>/dev/null || true
+            pm2 start npm --name "vanilla-backoffice" -- start
+            pm2 save
             pm2 status vanilla-backoffice
