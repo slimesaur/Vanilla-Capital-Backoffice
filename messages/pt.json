@@ -1,0 +1,172 @@
+{
+  "Navigation": {
+    "home": "Início",
+    "portfolio": "Portfólio",
+    "about": "Quem Somos",
+    "contact": "Contato",
+    "compliance": "Compliance",
+    "login": "Entrar",
+    "backoffice": "Backoffice"
+  },
+  "Footer": {
+    "description": "Consultoria de investimentos especializada em proteção patrimonial, investimentos em ativos mobiliários, leilão de imóveis e consultoria empresarial.",
+    "quickLinks": "Links Rápidos",
+    "home": "Início",
+    "portfolio": "Portfólio",
+    "about": "Quem Somos",
+    "contact": "Contato",
+    "compliance": "Compliance",
+    "copyright": "Copyright",
+    "rightsReserved": "Todos os direitos reservados.",
+    "whatsappMessage": "Olá, gostaria de saber mais sobre os serviços da Vanilla Capital."
+  },
+  "Home": {
+    "metadata": {
+      "title": "Vanilla Capital - Investimos no seu futuro",
+      "description": "Consultoria de investimentos e serviços financeiros. Proteção patrimonial, investimentos em ativos mobiliários, leilão de imóveis e consultoria empresarial."
+    },
+    "hero": {
+      "title": "Investimos no seu futuro",
+      "subtitle": "Consultoria especializada em investimentos e proteção patrimonial para construir o amanhã que você deseja.",
+      "cta": "Entre em contato",
+      "learnMore": "Conheça nossos serviços"
+    },
+    "services": {
+      "title": "Nossos Serviços",
+      "subtitle": "Soluções completas para suas necessidades de investimento e gestão patrimonial",
+      "learnMore": "Saiba mais",
+      "patrimonial": {
+        "title": "Proteção Patrimonial",
+        "description": "Estratégias personalizadas para proteger e preservar seu patrimônio ao longo do tempo."
+      },
+      "assets": {
+        "title": "Investimento em Ativos Mobiliários",
+        "description": "Gestão profissional de investimentos em ações, fundos e outros ativos do mercado financeiro."
+      },
+      "auction": {
+        "title": "Leilão de Imóveis",
+        "description": "Oportunidades exclusivas em leilões de imóveis com análise detalhada e suporte especializado."
+      },
+      "consulting": {
+        "title": "Consultoria Empresarial",
+        "description": "Assessoria estratégica para empresas em decisões financeiras e de investimento."
+      }
+    }
+  },
+  "Portfolio": {
+    "metadata": {
+      "title": "Portfólio de Serviços - Vanilla Capital",
+      "description": "Conheça nossos serviços de proteção patrimonial, investimentos, leilão de imóveis e consultoria empresarial."
+    },
+    "title": "Nosso Portfólio",
+    "subtitle": "Soluções completas e personalizadas para suas necessidades de investimento",
+    "patrimonial": {
+      "title": "Proteção Patrimonial",
+      "description": "Desenvolvemos estratégias personalizadas para proteger e preservar seu patrimônio, considerando seus objetivos de longo prazo e perfil de risco.",
+      "features": {
+        "1": "Planejamento sucessório e estruturas patrimoniais",
+        "2": "Análise de riscos e vulnerabilidades",
+        "3": "Estratégias de diversificação e proteção"
+      }
+    },
+    "assets": {
+      "title": "Investimento em Ativos Mobiliários",
+      "description": "Gestão profissional de investimentos em ações, fundos imobiliários, renda fixa e outros ativos do mercado financeiro, com acompanhamento constante.",
+      "features": {
+        "1": "Análise de mercado e oportunidades",
+        "2": "Gestão de carteiras personalizadas",
+        "3": "Acompanhamento e relatórios periódicos"
+      }
+    },
+    "auction": {
+      "title": "Leilão de Imóveis",
+      "description": "Oportunidades exclusivas em leilões de imóveis com análise detalhada, avaliação de riscos e suporte completo durante todo o processo.",
+      "features": {
+        "1": "Análise de imóveis em leilão",
+        "2": "Avaliação de oportunidades",
+        "3": "Suporte durante todo o processo"
+      }
+    },
+    "consulting": {
+      "title": "Consultoria Empresarial",
+      "description": "Assessoria estratégica para empresas em decisões financeiras, estruturação de investimentos e otimização de recursos.",
+      "features": {
+        "1": "Análise financeira e estratégica",
+        "2": "Estruturação de investimentos corporativos",
+        "3": "Otimização de recursos e fluxo de caixa"
+      }
+    }
+  },
+  "About": {
+    "metadata": {
+      "title": "Quem Somos - Vanilla Capital",
+      "description": "Conheça a equipe da Vanilla Capital, especialistas em consultoria de investimentos e gestão patrimonial."
+    },
+    "title": "Quem Somos",
+    "subtitle": "Uma equipe de especialistas dedicados a construir o futuro dos nossos clientes",
+    "mission": {
+      "title": "Nossa Missão",
+      "description": "A Vanilla Capital é uma consultoria de investimentos brasileira especializada em ajudar nossos clientes a entender como investir seu dinheiro para o futuro. Oferecemos serviços de proteção patrimonial, investimentos em ativos mobiliários, leilão de imóveis e consultoria empresarial, sempre com foco na excelência e na construção de relacionamentos duradouros."
+    },
+    "team": {
+      "title": "Nossa Equipe",
+      "subtitle": "Profissionais experientes comprometidos com o sucesso dos nossos clientes",
+      "placeholder": {
+        "name": "Adicione membro da equipe",
+        "role": "Cargo",
+        "bio": "Breve descrição profissional"
+      }
+    }
+  },
+  "Contact": {
+    "title": "Entre em Contato",
+    "subtitle": "Estamos prontos para ajudar você a alcançar seus objetivos financeiros",
+    "whatsappMessage": "Olá, gostaria de saber mais sobre os serviços da Vanilla Capital.",
+    "info": {
+      "title": "Informações de Contato",
+      "phone": "Telefone",
+      "email": "E-mail",
+      "address": "Endereço",
+      "whatsapp": "Fale conosco via WhatsApp"
+    },
+    "form": {
+      "title": "Envie sua Mensagem",
+      "name": "Nome completo",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "message": "Mensagem",
+      "submit": "Enviar Mensagem",
+      "submitting": "Enviando...",
+      "success": "Mensagem enviada com sucesso! Entraremos em contato em breve."
+    }
+  },
+  "Compliance": {
+    "metadata": {
+      "title": "Compliance e Documentos - Vanilla Capital",
+      "description": "Documentos de compliance, código de ética e conduta, política de negociações e formulário de referência conforme regulamentação CVM."
+    },
+    "title": "Compliance e Documentos",
+    "subtitle": "Documentos obrigatórios conforme regulamentação CVM disponíveis para download",
+    "download": "Baixar PDF",
+    "compliance": {
+      "title": "Política de Compliance",
+      "description": "Documento que estabelece as diretrizes e procedimentos de compliance da Vanilla Capital, garantindo conformidade com as normas regulatórias."
+    },
+    "ethics": {
+      "title": "Código de Ética e Conduta",
+      "description": "Código que define os princípios éticos e padrões de conduta esperados de todos os colaboradores e parceiros da empresa."
+    },
+    "trading": {
+      "title": "Política de Negociações e Investimentos Pessoais",
+      "description": "Política que estabelece as regras e procedimentos para negociações e investimentos pessoais dos colaboradores."
+    },
+    "reference": {
+      "title": "Formulário de Referência",
+      "description": "Formulário de referência com informações sobre a empresa, serviços oferecidos e dados de contato."
+    },
+    "info": {
+      "title": "Informações Importantes",
+      "description": "Todos os documentos estão em conformidade com a regulamentação CVM e são atualizados regularmente. Para mais informações, entre em contato conosco."
+    }
+  }
+}

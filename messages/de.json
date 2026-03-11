@@ -1,0 +1,172 @@
+{
+  "Navigation": {
+    "home": "Startseite",
+    "portfolio": "Portfolio",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "compliance": "Compliance",
+    "login": "Anmelden",
+    "backoffice": "Backoffice"
+  },
+  "Footer": {
+    "description": "Investmentberatung spezialisiert auf Vermögensschutz, Wertpapieranlagen, Immobilienauktionen und Unternehmensberatung.",
+    "quickLinks": "Schnelllinks",
+    "home": "Startseite",
+    "portfolio": "Portfolio",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "compliance": "Compliance",
+    "copyright": "Copyright",
+    "rightsReserved": "Alle Rechte vorbehalten.",
+    "whatsappMessage": "Hallo, ich möchte mehr über die Dienstleistungen von Vanilla Capital erfahren."
+  },
+  "Home": {
+    "metadata": {
+      "title": "Vanilla Capital - Wir investieren in Ihre Zukunft",
+      "description": "Investmentberatung und Finanzdienstleistungen. Vermögensschutz, Wertpapieranlagen, Immobilienauktionen und Unternehmensberatung."
+    },
+    "hero": {
+      "title": "Wir investieren in Ihre Zukunft",
+      "subtitle": "Spezialisierte Beratung für Investitionen und Vermögensschutz, um das Morgen zu gestalten, das Sie sich wünschen.",
+      "cta": "Kontakt aufnehmen",
+      "learnMore": "Erfahren Sie mehr über unsere Dienstleistungen"
+    },
+    "services": {
+      "title": "Unsere Dienstleistungen",
+      "subtitle": "Vollständige Lösungen für Ihre Anlage- und Vermögensverwaltungsbedürfnisse",
+      "learnMore": "Mehr erfahren",
+      "patrimonial": {
+        "title": "Vermögensschutz",
+        "description": "Personalisierte Strategien zum Schutz und zur Erhaltung Ihres Vermögens im Laufe der Zeit."
+      },
+      "assets": {
+        "title": "Wertpapieranlagen",
+        "description": "Professionelles Management von Investitionen in Aktien, Fonds und andere Finanzmarktaktiva."
+      },
+      "auction": {
+        "title": "Immobilienauktionen",
+        "description": "Exklusive Möglichkeiten bei Immobilienauktionen mit detaillierter Analyse und spezialisierter Unterstützung."
+      },
+      "consulting": {
+        "title": "Unternehmensberatung",
+        "description": "Strategische Beratung für Unternehmen bei finanziellen und Investitionsentscheidungen."
+      }
+    }
+  },
+  "Portfolio": {
+    "metadata": {
+      "title": "Dienstleistungsportfolio - Vanilla Capital",
+      "description": "Erfahren Sie mehr über unsere Dienstleistungen für Vermögensschutz, Investitionen, Immobilienauktionen und Unternehmensberatung."
+    },
+    "title": "Unser Portfolio",
+    "subtitle": "Vollständige und personalisierte Lösungen für Ihre Anlagebedürfnisse",
+    "patrimonial": {
+      "title": "Vermögensschutz",
+      "description": "Wir entwickeln personalisierte Strategien zum Schutz und zur Erhaltung Ihres Vermögens unter Berücksichtigung Ihrer langfristigen Ziele und Ihres Risikoprofils.",
+      "features": {
+        "1": "Nachfolgeplanung und Vermögensstrukturen",
+        "2": "Risiko- und Schwachstellenanalyse",
+        "3": "Diversifizierungs- und Schutzstrategien"
+      }
+    },
+    "assets": {
+      "title": "Wertpapieranlagen",
+      "description": "Professionelles Management von Investitionen in Aktien, Immobilienfonds, festverzinsliche Wertpapiere und andere Finanzmarktaktiva mit kontinuierlicher Überwachung.",
+      "features": {
+        "1": "Marktanalyse und Möglichkeiten",
+        "2": "Personalisierte Portfolioverwaltung",
+        "3": "Überwachung und periodische Berichte"
+      }
+    },
+    "auction": {
+      "title": "Immobilienauktionen",
+      "description": "Exklusive Möglichkeiten bei Immobilienauktionen mit detaillierter Analyse, Risikobewertung und vollständiger Unterstützung während des gesamten Prozesses.",
+      "features": {
+        "1": "Analyse von Immobilien in Auktionen",
+        "2": "Bewertung von Möglichkeiten",
+        "3": "Unterstützung während des gesamten Prozesses"
+      }
+    },
+    "consulting": {
+      "title": "Unternehmensberatung",
+      "description": "Strategische Beratung für Unternehmen bei finanziellen Entscheidungen, Investitionsstrukturierung und Ressourcenoptimierung.",
+      "features": {
+        "1": "Finanzielle und strategische Analyse",
+        "2": "Strukturierung von Unternehmensinvestitionen",
+        "3": "Ressourcen- und Cashflow-Optimierung"
+      }
+    }
+  },
+  "About": {
+    "metadata": {
+      "title": "Über uns - Vanilla Capital",
+      "description": "Lernen Sie das Team von Vanilla Capital kennen, Spezialisten für Investmentberatung und Vermögensverwaltung."
+    },
+    "title": "Über uns",
+    "subtitle": "Ein Team von Spezialisten, die sich dem Aufbau der Zukunft unserer Kunden widmen",
+    "mission": {
+      "title": "Unsere Mission",
+      "description": "Vanilla Capital ist eine brasilianische Investmentberatung, die sich darauf spezialisiert hat, unseren Kunden zu helfen zu verstehen, wie sie ihr Geld für die Zukunft investieren können. Wir bieten Dienstleistungen für Vermögensschutz, Wertpapieranlagen, Immobilienauktionen und Unternehmensberatung an und konzentrieren uns dabei immer auf Exzellenz und den Aufbau langfristiger Beziehungen."
+    },
+    "team": {
+      "title": "Unser Team",
+      "subtitle": "Erfahrene Fachkräfte, die sich dem Erfolg unserer Kunden verpflichtet fühlen",
+      "placeholder": {
+        "name": "Teammitglied hinzufügen",
+        "role": "Position",
+        "bio": "Kurze berufliche Beschreibung"
+      }
+    }
+  },
+  "Contact": {
+    "title": "Kontakt aufnehmen",
+    "subtitle": "Wir sind bereit, Ihnen zu helfen, Ihre finanziellen Ziele zu erreichen",
+    "whatsappMessage": "Hallo, ich möchte mehr über die Dienstleistungen von Vanilla Capital erfahren.",
+    "info": {
+      "title": "Kontaktinformationen",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "address": "Adresse",
+      "whatsapp": "Kontaktieren Sie uns über WhatsApp"
+    },
+    "form": {
+      "title": "Senden Sie Ihre Nachricht",
+      "name": "Vollständiger Name",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "message": "Nachricht",
+      "submit": "Nachricht senden",
+      "submitting": "Wird gesendet...",
+      "success": "Nachricht erfolgreich gesendet! Wir werden Sie bald kontaktieren."
+    }
+  },
+  "Compliance": {
+    "metadata": {
+      "title": "Compliance und Dokumente - Vanilla Capital",
+      "description": "Compliance-Dokumente, Ethik- und Verhaltenskodex, Handelsrichtlinie und Referenzformular gemäß CVM-Vorschriften."
+    },
+    "title": "Compliance und Dokumente",
+    "subtitle": "Pflichtdokumente gemäß CVM-Vorschriften zum Download verfügbar",
+    "download": "PDF herunterladen",
+    "compliance": {
+      "title": "Compliance-Richtlinie",
+      "description": "Dokument, das die Compliance-Richtlinien und -verfahren von Vanilla Capital festlegt und die Einhaltung der regulatorischen Standards gewährleistet."
+    },
+    "ethics": {
+      "title": "Ethik- und Verhaltenskodex",
+      "description": "Kodex, der die ethischen Grundsätze und Verhaltensstandards definiert, die von allen Mitarbeitern und Partnern des Unternehmens erwartet werden."
+    },
+    "trading": {
+      "title": "Richtlinie für persönliche Handelsgeschäfte und Investitionen",
+      "description": "Richtlinie, die die Regeln und Verfahren für persönliche Handelsgeschäfte und Investitionen der Mitarbeiter festlegt."
+    },
+    "reference": {
+      "title": "Referenzformular",
+      "description": "Referenzformular mit Informationen über das Unternehmen, angebotene Dienstleistungen und Kontaktdaten."
+    },
+    "info": {
+      "title": "Wichtige Informationen",
+      "description": "Alle Dokumente entsprechen den CVM-Vorschriften und werden regelmäßig aktualisiert. Für weitere Informationen kontaktieren Sie uns bitte."
+    }
+  }
+}

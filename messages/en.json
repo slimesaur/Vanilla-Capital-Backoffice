@@ -1,0 +1,172 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "about": "About Us",
+    "contact": "Contact",
+    "compliance": "Compliance",
+    "login": "Login",
+    "backoffice": "Backoffice"
+  },
+  "Footer": {
+    "description": "Investment consultancy specialized in wealth protection, securities investments, real estate auctions and business consulting.",
+    "quickLinks": "Quick Links",
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "about": "About Us",
+    "contact": "Contact",
+    "compliance": "Compliance",
+    "copyright": "Copyright",
+    "rightsReserved": "All rights reserved.",
+    "whatsappMessage": "Hello, I would like to know more about Vanilla Capital services."
+  },
+  "Home": {
+    "metadata": {
+      "title": "Vanilla Capital - We invest in your future",
+      "description": "Investment consultancy and financial services. Wealth protection, securities investments, real estate auctions and business consulting."
+    },
+    "hero": {
+      "title": "We invest in your future",
+      "subtitle": "Specialized consultancy in investments and wealth protection to build the tomorrow you desire.",
+      "cta": "Get in touch",
+      "learnMore": "Learn about our services"
+    },
+    "services": {
+      "title": "Our Services",
+      "subtitle": "Complete solutions for your investment and wealth management needs",
+      "learnMore": "Learn more",
+      "patrimonial": {
+        "title": "Wealth Protection",
+        "description": "Personalized strategies to protect and preserve your wealth over time."
+      },
+      "assets": {
+        "title": "Securities Investment",
+        "description": "Professional management of investments in stocks, funds and other financial market assets."
+      },
+      "auction": {
+        "title": "Real Estate Auctions",
+        "description": "Exclusive opportunities in real estate auctions with detailed analysis and specialized support."
+      },
+      "consulting": {
+        "title": "Business Consulting",
+        "description": "Strategic advisory for companies in financial and investment decisions."
+      }
+    }
+  },
+  "Portfolio": {
+    "metadata": {
+      "title": "Service Portfolio - Vanilla Capital",
+      "description": "Learn about our wealth protection, investment, real estate auction and business consulting services."
+    },
+    "title": "Our Portfolio",
+    "subtitle": "Complete and personalized solutions for your investment needs",
+    "patrimonial": {
+      "title": "Wealth Protection",
+      "description": "We develop personalized strategies to protect and preserve your wealth, considering your long-term goals and risk profile.",
+      "features": {
+        "1": "Succession planning and wealth structures",
+        "2": "Risk and vulnerability analysis",
+        "3": "Diversification and protection strategies"
+      }
+    },
+    "assets": {
+      "title": "Securities Investment",
+      "description": "Professional management of investments in stocks, real estate funds, fixed income and other financial market assets, with constant monitoring.",
+      "features": {
+        "1": "Market analysis and opportunities",
+        "2": "Personalized portfolio management",
+        "3": "Monitoring and periodic reports"
+      }
+    },
+    "auction": {
+      "title": "Real Estate Auctions",
+      "description": "Exclusive opportunities in real estate auctions with detailed analysis, risk assessment and complete support throughout the process.",
+      "features": {
+        "1": "Analysis of properties in auction",
+        "2": "Opportunity assessment",
+        "3": "Support throughout the process"
+      }
+    },
+    "consulting": {
+      "title": "Business Consulting",
+      "description": "Strategic advisory for companies in financial decisions, investment structuring and resource optimization.",
+      "features": {
+        "1": "Financial and strategic analysis",
+        "2": "Corporate investment structuring",
+        "3": "Resource and cash flow optimization"
+      }
+    }
+  },
+  "About": {
+    "metadata": {
+      "title": "About Us - Vanilla Capital",
+      "description": "Meet the Vanilla Capital team, specialists in investment consultancy and wealth management."
+    },
+    "title": "About Us",
+    "subtitle": "A team of specialists dedicated to building our clients' future",
+    "mission": {
+      "title": "Our Mission",
+      "description": "Vanilla Capital is a Brazilian investment consultancy specialized in helping our clients understand how to invest their money for the future. We offer wealth protection services, securities investments, real estate auctions and business consulting, always focusing on excellence and building lasting relationships."
+    },
+    "team": {
+      "title": "Our Team",
+      "subtitle": "Experienced professionals committed to our clients' success",
+      "placeholder": {
+        "name": "Add team member",
+        "role": "Position",
+        "bio": "Brief professional description"
+      }
+    }
+  },
+  "Contact": {
+    "title": "Get in Touch",
+    "subtitle": "We are ready to help you achieve your financial goals",
+    "whatsappMessage": "Hello, I would like to know more about Vanilla Capital services.",
+    "info": {
+      "title": "Contact Information",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "whatsapp": "Contact us via WhatsApp"
+    },
+    "form": {
+      "title": "Send your Message",
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "submit": "Send Message",
+      "submitting": "Sending...",
+      "success": "Message sent successfully! We will contact you soon."
+    }
+  },
+  "Compliance": {
+    "metadata": {
+      "title": "Compliance and Documents - Vanilla Capital",
+      "description": "Compliance documents, code of ethics and conduct, trading policy and reference form in accordance with CVM regulations."
+    },
+    "title": "Compliance and Documents",
+    "subtitle": "Mandatory documents according to CVM regulations available for download",
+    "download": "Download PDF",
+    "compliance": {
+      "title": "Compliance Policy",
+      "description": "Document that establishes the compliance guidelines and procedures of Vanilla Capital, ensuring compliance with regulatory standards."
+    },
+    "ethics": {
+      "title": "Code of Ethics and Conduct",
+      "description": "Code that defines the ethical principles and standards of conduct expected from all employees and partners of the company."
+    },
+    "trading": {
+      "title": "Personal Trading and Investment Policy",
+      "description": "Policy that establishes the rules and procedures for personal trading and investments of employees."
+    },
+    "reference": {
+      "title": "Reference Form",
+      "description": "Reference form with information about the company, services offered and contact details."
+    },
+    "info": {
+      "title": "Important Information",
+      "description": "All documents are in compliance with CVM regulations and are regularly updated. For more information, please contact us."
+    }
+  }
+}

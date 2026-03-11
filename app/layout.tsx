@@ -1,6 +1,12 @@
 import type { Metadata, Viewport } from 'next'
+import { Inter_Tight } from 'next/font/google'
 import Providers from './providers'
 import './globals.css'
+
+const interTight = Inter_Tight({
+  subsets: ['latin'],
+  variable: '--font-inter-tight',
+})
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -8,7 +14,8 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Vanilla Capital - Backoffice',
+  title: 'Vanilla Capital',
+  description: 'Consultoria de investimentos e serviços financeiros. Proteção patrimonial, investimentos em ativos mobiliários, leilão de imóveis e consultoria empresarial.',
   icons: {
     icon: '/logos/LOGO LIGHT VERSION.svg',
   },
@@ -31,13 +38,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning className={interTight.variable}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_BLOCKING_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body>
+      <body className="font-sans">
         <Providers>{children}</Providers>
       </body>
     </html>

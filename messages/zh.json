@@ -1,0 +1,172 @@
+{
+  "Navigation": {
+    "home": "首页",
+    "portfolio": "投资组合",
+    "about": "关于我们",
+    "contact": "联系方式",
+    "compliance": "合规",
+    "login": "登录",
+    "backoffice": "后台"
+  },
+  "Footer": {
+    "description": "专注于财富保护、证券投资、房地产拍卖和企业咨询的投资咨询公司。",
+    "quickLinks": "快速链接",
+    "home": "首页",
+    "portfolio": "投资组合",
+    "about": "关于我们",
+    "contact": "联系方式",
+    "compliance": "合规",
+    "copyright": "版权",
+    "rightsReserved": "保留所有权利。",
+    "whatsappMessage": "您好，我想了解更多关于Vanilla Capital的服务。"
+  },
+  "Home": {
+    "metadata": {
+      "title": "Vanilla Capital - 我们投资您的未来",
+      "description": "投资咨询和金融服务。财富保护、证券投资、房地产拍卖和企业咨询。"
+    },
+    "hero": {
+      "title": "我们投资您的未来",
+      "subtitle": "专业的投资和财富保护咨询，为您构建理想的明天。",
+      "cta": "联系我们",
+      "learnMore": "了解我们的服务"
+    },
+    "services": {
+      "title": "我们的服务",
+      "subtitle": "满足您投资和财富管理需求的完整解决方案",
+      "learnMore": "了解更多",
+      "patrimonial": {
+        "title": "财富保护",
+        "description": "个性化的策略，以长期保护和保存您的财富。"
+      },
+      "assets": {
+        "title": "证券投资",
+        "description": "专业管理股票、基金和其他金融市场资产的投资。"
+      },
+      "auction": {
+        "title": "房地产拍卖",
+        "description": "房地产拍卖的独家机会，提供详细分析和专业支持。"
+      },
+      "consulting": {
+        "title": "企业咨询",
+        "description": "为企业在财务和投资决策方面提供战略建议。"
+      }
+    }
+  },
+  "Portfolio": {
+    "metadata": {
+      "title": "服务组合 - Vanilla Capital",
+      "description": "了解我们的财富保护、投资、房地产拍卖和企业咨询服务。"
+    },
+    "title": "我们的投资组合",
+    "subtitle": "满足您投资需求的完整和个性化解决方案",
+    "patrimonial": {
+      "title": "财富保护",
+      "description": "我们制定个性化策略来保护和保存您的财富，考虑您的长期目标和风险状况。",
+      "features": {
+        "1": "继承规划和财富结构",
+        "2": "风险和脆弱性分析",
+        "3": "多元化和保护策略"
+      }
+    },
+    "assets": {
+      "title": "证券投资",
+      "description": "专业管理股票、房地产基金、固定收益和其他金融市场资产的投资，持续监控。",
+      "features": {
+        "1": "市场分析和机会",
+        "2": "个性化投资组合管理",
+        "3": "监控和定期报告"
+      }
+    },
+    "auction": {
+      "title": "房地产拍卖",
+      "description": "房地产拍卖的独家机会，提供详细分析、风险评估和整个过程的完整支持。",
+      "features": {
+        "1": "拍卖房产分析",
+        "2": "机会评估",
+        "3": "整个过程的支持"
+      }
+    },
+    "consulting": {
+      "title": "企业咨询",
+      "description": "为企业在财务决策、投资结构和资源优化方面提供战略建议。",
+      "features": {
+        "1": "财务和战略分析",
+        "2": "企业投资结构",
+        "3": "资源和现金流优化"
+      }
+    }
+  },
+  "About": {
+    "metadata": {
+      "title": "关于我们 - Vanilla Capital",
+      "description": "认识Vanilla Capital团队，投资咨询和财富管理专家。"
+    },
+    "title": "关于我们",
+    "subtitle": "致力于为客户构建未来的专家团队",
+    "mission": {
+      "title": "我们的使命",
+      "description": "Vanilla Capital是一家巴西投资咨询公司，专门帮助客户了解如何为未来投资资金。我们提供财富保护、证券投资、房地产拍卖和企业咨询服务，始终专注于卓越和建立持久的关系。"
+    },
+    "team": {
+      "title": "我们的团队",
+      "subtitle": "经验丰富的专业人士，致力于客户的成功",
+      "placeholder": {
+        "name": "添加团队成员",
+        "role": "职位",
+        "bio": "简短的专业描述"
+      }
+    }
+  },
+  "Contact": {
+    "title": "联系我们",
+    "subtitle": "我们随时准备帮助您实现财务目标",
+    "whatsappMessage": "您好，我想了解更多关于Vanilla Capital的服务。",
+    "info": {
+      "title": "联系信息",
+      "phone": "电话",
+      "email": "电子邮件",
+      "address": "地址",
+      "whatsapp": "通过WhatsApp联系我们"
+    },
+    "form": {
+      "title": "发送您的消息",
+      "name": "全名",
+      "email": "电子邮件",
+      "phone": "电话",
+      "message": "消息",
+      "submit": "发送消息",
+      "submitting": "发送中...",
+      "success": "消息发送成功！我们会尽快与您联系。"
+    }
+  },
+  "Compliance": {
+    "metadata": {
+      "title": "合规和文件 - Vanilla Capital",
+      "description": "合规文件、道德和行为准则、交易政策和参考表格，符合CVM规定。"
+    },
+    "title": "合规和文件",
+    "subtitle": "根据CVM规定的强制性文件可供下载",
+    "download": "下载PDF",
+    "compliance": {
+      "title": "合规政策",
+      "description": "建立Vanilla Capital合规指南和程序的文件，确保符合监管标准。"
+    },
+    "ethics": {
+      "title": "道德和行为准则",
+      "description": "定义公司所有员工和合作伙伴期望的道德原则和行为标准的准则。"
+    },
+    "trading": {
+      "title": "个人交易和投资政策",
+      "description": "建立员工个人交易和投资规则和程序的政策。"
+    },
+    "reference": {
+      "title": "参考表格",
+      "description": "包含公司信息、提供的服务和联系详情的参考表格。"
+    },
+    "info": {
+      "title": "重要信息",
+      "description": "所有文件均符合CVM规定并定期更新。如需更多信息，请联系我们。"
+    }
+  }
+}

@@ -21,7 +21,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@/lib/*": ["lib/*"]
+      "@/lib/*": ["lib/*"],
+      "@/landing/*": ["./*"],
+      "@/i18n": ["./i18n"],
+      "@/routing": ["./routing"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

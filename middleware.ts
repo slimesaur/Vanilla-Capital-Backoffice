@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
+import createIntlMiddleware from 'next-intl/middleware'
+import { routing } from './routing'
+
+const intlMiddleware = createIntlMiddleware(routing)
 
 const PUBLIC_PATHS = [
   '/login',
@@ -14,6 +18,19 @@ const STATIC_EXTENSIONS = [
   '.woff', '.woff2', '.otf', '.ttf', '.eot',
 ]
 
+const LOCALE_PATTERN = /^\/(pt|en|es|de|zh)(\/|$)/
+
+function isLocalePath(pathname: string): boolean {
+  return pathname === '/' || LOCALE_PATTERN.test(pathname)
+}
+
+function isProtectedApi(pathname: string): boolean {
+  return (
+    pathname.startsWith('/api/clients') ||
+    pathname.startsWith('/api/migrate')
+  )
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -22,17 +39,23 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/fonts') ||
     pathname.startsWith('/logos') ||
     pathname.startsWith('/benchmark') ||
+    pathname.startsWith('/images') ||
     STATIC_EXTENSIONS.some((ext) => pathname.endsWith(ext))
   ) {
     return NextResponse.next()
+  }
+
+  // Locale routes (landing pages): use next-intl middleware
+  if (isLocalePath(pathname)) {
+    return intlMiddleware(request)
   }
 
   if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
     return NextResponse.next()
   }
 
-  // For API routes other than public ones, check session cookie
-  if (pathname.startsWith('/api/')) {
+  // Protected API routes: require session
+  if (pathname.startsWith('/api/') && isProtectedApi(pathname)) {
     const session = request.cookies.get('vanilla-session')
     if (!session?.value) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -40,16 +63,23 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // For page routes, check session and redirect to login if missing
-  const session = request.cookies.get('vanilla-session')
-  if (!session?.value) {
-    const loginUrl = new URL('/login', request.url)
-    return NextResponse.redirect(loginUrl)
+  // Backoffice page routes: require session, redirect to login
+  if (pathname.startsWith('/backoffice')) {
+    const session = request.cookies.get('vanilla-session')
+    if (!session?.value) {
+      const loginUrl = new URL('/login', request.url)
+      return NextResponse.redirect(loginUrl)
+    }
+    return NextResponse.next()
   }
 
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/',
+    '/(pt|en|es|de|zh)/:path*',
+    '/((?!_next|_vercel|.*\\..*).*)',
+  ],
 }
