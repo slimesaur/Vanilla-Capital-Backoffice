@@ -101,3 +101,13 @@ model TeamMember {
   @@index([settingsId])
   @@map("team_members")
 }
+
+model ComplianceDocument {
+  id        String   @id @default(uuid())
+  docKey    String   @unique @map("doc_key")
+  filename  String
+  path      String
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("compliance_documents")
+}

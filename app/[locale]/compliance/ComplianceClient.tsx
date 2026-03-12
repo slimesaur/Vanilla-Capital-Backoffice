@@ -3,26 +3,30 @@
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { FileText, Download } from 'lucide-react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const documents = [
   {
     key: 'compliance',
+    backofficeKey: 'compliance-manual',
     titleKey: 'compliance.title',
     descriptionKey: 'compliance.description',
   },
   {
     key: 'ethics',
+    backofficeKey: 'ethics-code',
     titleKey: 'ethics.title',
     descriptionKey: 'ethics.description',
   },
   {
     key: 'trading',
+    backofficeKey: 'investment-policies',
     titleKey: 'trading.title',
     descriptionKey: 'trading.description',
   },
   {
     key: 'reference',
+    backofficeKey: 'reference-form',
     titleKey: 'reference.title',
     descriptionKey: 'reference.description',
   },
@@ -30,6 +34,22 @@ const documents = [
 
 export default function ComplianceClient() {
   const t = useTranslations('Compliance');
+  const [docUrls, setDocUrls] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetch('/api/compliance/documents')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.documents) {
+          const urls: Record<string, string> = {};
+          for (const [key, val] of Object.entries(data.documents as Record<string, { url: string }>)) {
+            urls[key] = val.url;
+          }
+          setDocUrls(urls);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="py-20 bg-gradient-to-b from-secondary-50 to-white">
@@ -66,14 +86,21 @@ export default function ComplianceClient() {
                 <p className="text-secondary-600 mb-6 flex-grow">
                   {t(doc.descriptionKey)}
                 </p>
-                <Link
-                  href={`/documents/${doc.key}.pdf`}
-                  download
-                  className="inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-800 transition-colors"
-                >
-                  <Download className="h-5 w-5 mr-2" />
-                  {t('download')}
-                </Link>
+                {docUrls[doc.backofficeKey] ? (
+                  <a
+                    href={docUrls[doc.backofficeKey]}
+                    download
+                    className="inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-800 transition-colors"
+                  >
+                    <Download className="h-5 w-5 mr-2" />
+                    {t('download')}
+                  </a>
+                ) : (
+                  <span className="inline-flex items-center justify-center px-6 py-3 bg-secondary-200 text-secondary-500 font-semibold rounded-lg cursor-not-allowed">
+                    <Download className="h-5 w-5 mr-2" />
+                    {t('download')}
+                  </span>
+                )}
               </div>
             </motion.div>
           ))}

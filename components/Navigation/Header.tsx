@@ -2,7 +2,7 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
-import Image from 'next/image';
+
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -44,14 +44,10 @@ export default function Header() {
           <div className="flex h-20 items-center justify-between">
           <div className="flex items-center">
             <Link href={`/${locale}`} className="flex-shrink-0 flex items-center">
-              <Image
+              <img
                 src="/images/VANILLA%20LOGO%20WHITE.svg"
                 alt="Vanilla Capital"
-                width={400}
-                height={100}
-                className="h-14 w-auto object-contain"
-                priority
-                unoptimized
+                className="h-14 w-auto"
               />
             </Link>
           </div>

@@ -2,7 +2,7 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
-import Image from 'next/image';
+
 import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 import { getWhatsAppLink } from '@/landing/lib/utils';
 import type { CompanySettingsData } from '@/lib/settings';
@@ -33,13 +33,10 @@ export default function Footer({ settings }: FooterProps) {
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2 text-left">
             <Link href={`/${locale}`} className="block w-fit mb-6">
-              <Image
+              <img
                 src="/images/VANILLA%20LOGO%20WHITE.svg"
                 alt="Vanilla Capital"
-                width={400}
-                height={100}
-                className="h-20 w-auto object-contain object-left"
-                unoptimized
+                className="h-16 w-auto"
               />
             </Link>
             <p className="text-secondary-on-dark mb-4">{t('description')}</p>
