@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { User } from 'lucide-react';
 import type { CompanySettingsData } from '@/lib/settings';
 
 interface AboutClientProps {
@@ -21,17 +22,9 @@ export default function AboutClient({ settings }: AboutClientProps) {
           name: '',
           role: m.position || '',
           bio: '',
-          image: m.photo || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+          image: m.photo || null,
         }))
-      : [
-          {
-            id: 'placeholder',
-            name: t('team.placeholder.name'),
-            role: t('team.placeholder.role'),
-            bio: t('team.placeholder.bio'),
-            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
-          },
-        ];
+      : [];
 
   return (
     <>
@@ -107,36 +100,51 @@ export default function AboutClient({ settings }: AboutClientProps) {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={member.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow"
-              >
-                <div className="relative w-52 h-72 mx-auto mb-4 rounded-lg overflow-hidden">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold text-ink text-center mb-2 font-title">
-                  {member.name}
-                </h3>
-                <p className="text-accent-600 text-center font-medium mb-4">
-                  {member.role}
-                </p>
-                <p className="text-secondary-600 text-center text-sm">
-                  {member.bio}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+          {teamMembers.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {teamMembers.map((member, index) => (
+                <motion.div
+                  key={member.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow"
+                >
+                  <div className="relative w-52 h-72 mx-auto mb-4 rounded-lg overflow-hidden">
+                    {member.image ? (
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-secondary-100 flex items-center justify-center">
+                        <User className="w-20 h-20 text-secondary-400" />
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="text-xl font-semibold text-ink text-center mb-2 font-title">
+                    {member.name}
+                  </h3>
+                  <p className="text-accent-600 text-center font-medium mb-4">
+                    {member.role}
+                  </p>
+                  <p className="text-secondary-600 text-center text-sm">
+                    {member.bio}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-12">
+              <div className="w-52 h-72 rounded-lg bg-secondary-100 flex items-center justify-center mb-4">
+                <User className="w-20 h-20 text-secondary-400" />
+              </div>
+              <p className="text-secondary-500 font-subtitle">{t('team.subtitle')}</p>
+            </div>
+          )}
         </div>
       </section>
     </>
