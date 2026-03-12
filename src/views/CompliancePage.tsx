@@ -31,9 +31,25 @@ export default function CompliancePage() {
   const [docPdfs, setDocPdfs] = useState<Record<string, string>>({})
   const [expandedSteps, setExpandedSteps] = useState<Set<number>>(new Set([]))
   const [asideOpen, setAsideOpen] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const { t } = useLanguage()
 
   const closeAside = useCallback(() => setAsideOpen(false), [])
+
+  useEffect(() => {
+    fetch('/api/compliance/documents')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.documents) {
+          const urls: Record<string, string> = {}
+          for (const [key, val] of Object.entries(data.documents as Record<string, { url: string }>)) {
+            urls[key] = val.url
+          }
+          setDocPdfs(urls)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     if (!asideOpen) return
@@ -61,15 +77,23 @@ export default function CompliancePage() {
     })
   }
 
-  const handleFileUpload = (docId: string, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (docId: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file && file.type === 'application/pdf') {
-      const url = URL.createObjectURL(file)
-      setDocPdfs((prev) => {
-        if (prev[docId]) URL.revokeObjectURL(prev[docId])
-        return { ...prev, [docId]: url }
-      })
+    if (!file || file.type !== 'application/pdf') return
+    setUploading(true)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('docKey', docId)
+      const res = await fetch('/api/compliance/documents', { method: 'POST', body: fd })
+      if (!res.ok) throw new Error()
+      const { url } = await res.json()
+      setDocPdfs((prev) => ({ ...prev, [docId]: url }))
       setSelectedDoc({ id: docId, type: 'pdf' })
+    } catch {
+      // upload failed silently
+    } finally {
+      setUploading(false)
     }
   }
 

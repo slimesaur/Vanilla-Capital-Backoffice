@@ -3,13 +3,11 @@
 import { useState, useEffect } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useToast } from '../contexts/ToastContext'
-import clsx from 'clsx'
 
 interface TeamMemberForm {
   id?: string
   photo: string
   position: string
-  _file?: File
 }
 
 interface SettingsForm {
@@ -30,6 +28,8 @@ function phoneMask(value: string): string {
     return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${digits.slice(4)}`
   return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${digits.slice(4, 9)}-${digits.slice(9)}`
 }
+
+const ACCEPTED_IMAGE_TYPES = '.png, .jpg, .jpeg, .webp'
 
 export default function SettingsPage() {
   const { t } = useLanguage()
@@ -160,24 +160,34 @@ export default function SettingsPage() {
   }
 
   const inputClass =
-    'w-full px-3 py-2 rounded-lg border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm focus:outline-none focus:ring-2 focus:ring-vanilla-secondary/50'
+    'w-full px-3 py-2.5 rounded-lg border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm font-interTight focus:outline-none focus:ring-2 focus:ring-vanilla-secondary/50'
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold text-[var(--text-primary)] mb-8 font-interTight">
-        {t('settings.title')}
-      </h1>
+    <div className="p-4 sm:p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-canela text-[var(--text-primary)]">
+          {t('settings.title')}
+        </h1>
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={saving}
+          className="px-5 py-2 rounded-lg bg-vanilla-secondary text-vanilla-main font-interTight text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+        >
+          {saving ? t('settings.saving') : t('settings.save')}
+        </button>
+      </div>
 
       {/* Contact Section */}
-      <section className="mb-10">
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4 font-interTight">
+      <section className="mb-8">
+        <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-4">
           {t('settings.contactSection')}
         </h2>
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-1">
+            <div className="text-[var(--text-accent)]/70 text-xs font-arpona uppercase mb-1">
               {t('settings.phone')}
-            </label>
+            </div>
             <input
               type="text"
               value={form.phone}
@@ -187,9 +197,9 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-1">
+            <div className="text-[var(--text-accent)]/70 text-xs font-arpona uppercase mb-1">
               {t('settings.email')}
-            </label>
+            </div>
             <input
               type="email"
               value={form.email}
@@ -199,21 +209,9 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-1">
-              {t('settings.address')}
-            </label>
-            <input
-              type="text"
-              value={form.address}
-              onChange={(e) => updateField('address', e.target.value)}
-              placeholder="Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR"
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-1">
+            <div className="text-[var(--text-accent)]/70 text-xs font-arpona uppercase mb-1">
               {t('settings.whatsapp')}
-            </label>
+            </div>
             <input
               type="text"
               value={form.whatsapp}
@@ -222,133 +220,125 @@ export default function SettingsPage() {
               className={inputClass}
             />
           </div>
+          <div>
+            <div className="text-[var(--text-accent)]/70 text-xs font-arpona uppercase mb-1">
+              {t('settings.address')}
+            </div>
+            <input
+              type="text"
+              value={form.address}
+              onChange={(e) => updateField('address', e.target.value)}
+              placeholder="Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR"
+              className={inputClass}
+            />
+          </div>
         </div>
       </section>
 
       {/* About Us Section */}
-      <section className="mb-10">
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4 font-interTight">
+      <section className="mb-8">
+        <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-4">
           {t('settings.aboutSection')}
         </h2>
-        <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-1">
-              {t('settings.mission')}
-            </label>
-            <textarea
-              value={form.mission}
-              onChange={(e) => updateField('mission', e.target.value)}
-              placeholder={t('settings.missionPlaceholder')}
-              rows={5}
-              className={inputClass}
-            />
+
+        <div className="mb-6">
+          <div className="text-[var(--text-accent)]/70 text-xs font-arpona uppercase mb-1">
+            {t('settings.mission')}
+          </div>
+          <textarea
+            value={form.mission}
+            onChange={(e) => updateField('mission', e.target.value)}
+            placeholder={t('settings.missionPlaceholder')}
+            rows={5}
+            className={inputClass}
+          />
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <div className="text-[var(--text-accent)]/70 text-xs font-arpona uppercase">
+              {t('settings.teamMembers')}
+            </div>
+            <button
+              type="button"
+              onClick={addMember}
+              className="px-3 py-1.5 text-sm rounded-lg bg-vanilla-secondary text-vanilla-main hover:opacity-90 transition-opacity font-interTight"
+            >
+              + {t('settings.addMember')}
+            </button>
           </div>
 
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <label className="text-sm font-medium text-[var(--text-secondary)]">
-                {t('settings.teamMembers')}
-              </label>
-              <button
-                type="button"
-                onClick={addMember}
-                className="px-3 py-1.5 text-sm rounded-lg bg-vanilla-secondary text-vanilla-main hover:opacity-90 transition-opacity font-interTight"
-              >
-                + {t('settings.addMember')}
-              </button>
-            </div>
-
-            {form.teamMembers.length === 0 && (
-              <p className="text-sm text-[var(--text-secondary)] italic">
+          {form.teamMembers.length === 0 && (
+            <div className="border-2 border-dashed border-[var(--border-color)] rounded-lg p-8 text-center">
+              <p className="text-sm text-[var(--text-accent)]/70 font-interTight">
                 {t('settings.addMember')}...
               </p>
-            )}
-
-            <div className="space-y-4">
-              {form.teamMembers.map((member, index) => (
-                <div
-                  key={member.id || `new-${index}`}
-                  className="p-4 rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)]"
-                >
-                  <div className="flex items-start gap-4">
-                    {/* Photo */}
-                    <div className="flex-shrink-0">
-                      <div className="w-20 h-28 rounded-lg overflow-hidden bg-[var(--bg-primary)] border border-[var(--border-color)] relative">
-                        {member.photo ? (
-                          <img
-                            src={member.photo}
-                            alt={member.position}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[var(--text-secondary)]">
-                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                          </div>
-                        )}
-                      </div>
-                      <label className="mt-1 block text-center">
-                        <span className="text-xs text-vanilla-secondary cursor-pointer hover:underline">
-                          {t('settings.photo')}
-                        </span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0]
-                            if (file) handlePhotoUpload(index, file)
-                          }}
-                        />
-                      </label>
-                    </div>
-
-                    {/* Fields */}
-                    <div className="flex-1 space-y-2">
-                      <div>
-                        <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
-                          {t('settings.position')}
-                        </label>
-                        <input
-                          type="text"
-                          value={member.position}
-                          onChange={(e) => updateMember(index, 'position', e.target.value)}
-                          className={inputClass}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Remove */}
-                    <button
-                      type="button"
-                      onClick={() => removeMember(index)}
-                      className="flex-shrink-0 p-1 text-red-500 hover:text-red-600 transition-colors"
-                      title={t('settings.removeMember')}
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              ))}
             </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {form.teamMembers.map((member, index) => (
+              <div
+                key={member.id || `new-${index}`}
+                className="rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)] overflow-hidden"
+              >
+                {/* Clickable photo area */}
+                <label className="block cursor-pointer">
+                  <div className="w-full aspect-[3/4] bg-[var(--bg-primary)] relative overflow-hidden">
+                    {member.photo ? (
+                      <img
+                        src={member.photo}
+                        alt={member.position}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center text-[var(--text-secondary)] gap-2">
+                        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span className="text-[10px] font-interTight text-[var(--text-accent)]/50">
+                          {ACCEPTED_IMAGE_TYPES}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <input
+                    type="file"
+                    accept={ACCEPTED_IMAGE_TYPES}
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handlePhotoUpload(index, file)
+                    }}
+                  />
+                </label>
+
+                {/* Fields */}
+                <div className="p-3 space-y-2">
+                  <div>
+                    <div className="text-[var(--text-accent)]/70 text-xs font-arpona uppercase mb-1">
+                      {t('settings.position')}
+                    </div>
+                    <input
+                      type="text"
+                      value={member.position}
+                      onChange={(e) => updateMember(index, 'position', e.target.value)}
+                      className={inputClass}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeMember(index)}
+                    className="w-full text-center py-1.5 text-xs font-interTight text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                  >
+                    {t('settings.removeMember')}
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-
-      {/* Save Button */}
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={saving}
-          className="px-6 py-2.5 rounded-lg bg-vanilla-secondary text-vanilla-main font-interTight font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
-        >
-          {saving ? t('settings.saving') : t('settings.save')}
-        </button>
-      </div>
     </div>
   )
 }

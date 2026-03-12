@@ -117,7 +117,7 @@ export default function AboutClient({ settings }: AboutClientProps) {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow"
               >
-                <div className="relative w-36 h-48 mx-auto mb-4 rounded-lg overflow-hidden">
+                <div className="relative w-52 h-72 mx-auto mb-4 rounded-lg overflow-hidden">
                   <Image
                     src={member.image}
                     alt={member.name}
