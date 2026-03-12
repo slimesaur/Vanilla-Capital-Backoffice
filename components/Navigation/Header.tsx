@@ -8,6 +8,7 @@ import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import LanguageSwitcher from '@/landing/components/LanguageSwitcher/LanguageSwitcher';
 import { cn } from '@/landing/lib/utils';
+import LandingLogo from './LandingLogo';
 
 export default function Header() {
   const t = useTranslations('Navigation');
@@ -42,14 +43,8 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A2433] backdrop-blur-sm shadow-sm font-subtitle-alt">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
-          <div className="flex items-center">
-            <Link href={`/${locale}`} className="flex-shrink-0 flex items-center">
-              <img
-                src="/images/VANILLA%20LOGO%20WHITE.svg"
-                alt="Vanilla Capital"
-                className="h-14 w-auto"
-              />
-            </Link>
+          <div className="flex items-center pr-6">
+            <LandingLogo size="header" />
           </div>
 
           {/* Desktop Navigation */}

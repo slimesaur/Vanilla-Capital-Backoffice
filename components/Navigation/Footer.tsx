@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 import { getWhatsAppLink } from '@/landing/lib/utils';
 import type { CompanySettingsData } from '@/lib/settings';
+import LandingLogo from './LandingLogo';
 
 interface FooterProps {
   settings?: CompanySettingsData;
@@ -32,13 +33,9 @@ export default function Footer({ settings }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2 text-left">
-            <Link href={`/${locale}`} className="block w-fit mb-6">
-              <img
-                src="/images/VANILLA%20LOGO%20WHITE.svg"
-                alt="Vanilla Capital"
-                className="h-16 w-auto"
-              />
-            </Link>
+            <div className="mb-6">
+              <LandingLogo size="footer" />
+            </div>
             <p className="text-secondary-on-dark mb-4">{t('description')}</p>
           </div>
 
