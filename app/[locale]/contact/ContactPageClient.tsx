@@ -6,8 +6,13 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, MessageCircle, Send } from 'lucide-react';
 import { getWhatsAppLink } from '@/landing/lib/utils';
 import Button from '@/landing/components/ui/Button';
+import type { CompanySettingsData } from '@/lib/settings';
 
-export default function ContactPageClient() {
+interface ContactPageClientProps {
+  settings?: CompanySettingsData;
+}
+
+export default function ContactPageClient({ settings }: ContactPageClientProps) {
   const t = useTranslations('Contact');
   const [formData, setFormData] = useState({
     name: '',
@@ -17,11 +22,15 @@ export default function ContactPageClient() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const rawPhone = settings?.phone || '+5541988195090';
   const contactInfo = {
-    phone: '+55 41 98819-5090',
-    email: 'atendimento@vanillacapital.com.br',
-    address: 'Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR',
-    whatsapp: getWhatsAppLink('+5541988195090', t('whatsappMessage')),
+    phone: rawPhone,
+    email: settings?.email || 'atendimento@vanillacapital.com.br',
+    address: settings?.address || 'Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR',
+    whatsapp: getWhatsAppLink(
+      settings?.whatsapp || rawPhone,
+      t('whatsappMessage'),
+    ),
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

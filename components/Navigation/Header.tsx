@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LanguageSwitcher from '@/landing/components/LanguageSwitcher/LanguageSwitcher';
 import { cn } from '@/landing/lib/utils';
 
@@ -14,6 +14,16 @@ export default function Header() {
   const locale = useLocale();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/auth/session')
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (data?.user) setIsLoggedIn(true);
+      })
+      .catch(() => {});
+  }, []);
 
   const navigation = [
     { name: t('home'), href: `/${locale}`, exact: true },
@@ -31,15 +41,15 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A2433] backdrop-blur-sm shadow-sm font-subtitle-alt">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+          <div className="flex h-20 items-center justify-between">
           <div className="flex items-center">
             <Link href={`/${locale}`} className="flex-shrink-0 flex items-center">
               <Image
                 src="/images/VANILLA%20LOGO%20WHITE.svg"
                 alt="Vanilla Capital"
-                width={300}
-                height={72}
-                className="h-20 w-auto object-contain min-w-[220px]"
+                width={400}
+                height={100}
+                className="h-14 w-auto object-contain"
                 priority
                 unoptimized
               />
@@ -63,10 +73,10 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href="/login"
-              className="text-sm font-medium text-secondary-200 hover:text-accent-300 transition-colors"
+              href={isLoggedIn ? '/backoffice' : '/login'}
+              className="text-sm font-medium px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
             >
-              {t('login')}
+              {isLoggedIn ? t('backoffice') : t('login')}
             </Link>
             <LanguageSwitcher />
           </div>
@@ -74,10 +84,10 @@ export default function Header() {
           {/* Mobile menu button */}
           <div className="flex items-center space-x-4 md:hidden">
             <Link
-              href="/login"
-              className="text-sm font-medium text-secondary-200 hover:text-accent-300"
+              href={isLoggedIn ? '/backoffice' : '/login'}
+              className="text-sm font-medium px-3 py-1.5 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
             >
-              {t('login')}
+              {isLoggedIn ? t('backoffice') : t('login')}
             </Link>
             <LanguageSwitcher />
             <button
@@ -113,11 +123,11 @@ export default function Header() {
                 </Link>
               ))}
               <Link
-                href="/login"
+                href={isLoggedIn ? '/backoffice' : '/login'}
                 onClick={() => setIsMenuOpen(false)}
-                className="block rounded-md px-3 py-2 text-base font-medium text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100"
+                className="block rounded-md px-3 py-2 text-base font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors text-center mt-2"
               >
-                {t('login')}
+                {isLoggedIn ? t('backoffice') : t('login')}
               </Link>
             </div>
           </div>

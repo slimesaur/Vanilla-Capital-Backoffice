@@ -45,6 +45,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/logos') ||
     pathname.startsWith('/benchmark') ||
     pathname.startsWith('/images') ||
+    pathname.startsWith('/uploads') ||
     STATIC_EXTENSIONS.some((ext) => pathname.endsWith(ext))
   ) {
     return NextResponse.next()

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: 'Vanilla Capital',
   description: 'Consultoria de investimentos e serviços financeiros. Proteção patrimonial, investimentos em ativos mobiliários, leilão de imóveis e consultoria empresarial.',
   icons: {
-    icon: '/logos/LOGO LIGHT VERSION.svg',
+    icon: '/images/VANILLA FAVICON.png',
   },
 }
 

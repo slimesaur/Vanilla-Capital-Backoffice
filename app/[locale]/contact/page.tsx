@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 import ContactPageClient from './ContactPageClient';
+import { getCompanySettings } from '@/lib/settings';
 
 export async function generateMetadata({
   params,
@@ -23,10 +24,11 @@ export default async function ContactPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const settings = await getCompanySettings();
 
   return (
     <div className="pt-16">
-      <ContactPageClient />
+      <ContactPageClient settings={settings} />
     </div>
   );
 }
