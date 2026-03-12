@@ -69,14 +69,9 @@ export default function AboutClient({ settings }: AboutClientProps) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="relative h-64 lg:h-96 rounded-lg overflow-hidden"
+              className="relative h-64 lg:h-96 rounded-lg overflow-hidden bg-secondary-100 flex items-center justify-center"
             >
-              <Image
-                src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=600&fit=crop"
-                alt="Team"
-                fill
-                className="object-cover"
-              />
+              <User className="w-24 h-24 text-secondary-400" />
             </motion.div>
           </div>
         </div>
