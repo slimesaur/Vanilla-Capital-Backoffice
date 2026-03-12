@@ -5,31 +5,40 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 import { getWhatsAppLink } from '@/landing/lib/utils';
+import type { CompanySettingsData } from '@/lib/settings';
 
-export default function Footer() {
+interface FooterProps {
+  settings?: CompanySettingsData;
+}
+
+export default function Footer({ settings }: FooterProps) {
   const t = useTranslations('Footer');
   const locale = useLocale();
 
+  const rawPhone = settings?.phone || '+5541988195090';
   const contactInfo = {
-    phone: '+5541988195090',
-    email: 'atendimento@vanillacapital.com.br',
-    address: 'Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR',
-    whatsapp: getWhatsAppLink('+5541988195090', t('whatsappMessage')),
+    phone: rawPhone,
+    email: settings?.email || 'atendimento@vanillacapital.com.br',
+    address: settings?.address || 'Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR',
+    whatsapp: getWhatsAppLink(
+      settings?.whatsapp || rawPhone,
+      t('whatsappMessage'),
+    ),
   };
 
   return (
     <footer className="bg-[#1A2433] text-white font-subtitle-alt">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info - logo absolutely positioned so it doesn't push text */}
-          <div className="col-span-1 md:col-span-2 text-left relative pt-36">
-            <Link href={`/${locale}`} className="absolute top-0 left-0 block w-fit">
+          {/* Company Info */}
+          <div className="col-span-1 md:col-span-2 text-left">
+            <Link href={`/${locale}`} className="block w-fit mb-6">
               <Image
                 src="/images/VANILLA%20LOGO%20WHITE.svg"
                 alt="Vanilla Capital"
-                width={600}
-                height={160}
-                className="h-36 w-auto object-contain object-left max-w-full"
+                width={400}
+                height={100}
+                className="h-20 w-auto object-contain object-left"
                 unoptimized
               />
             </Link>

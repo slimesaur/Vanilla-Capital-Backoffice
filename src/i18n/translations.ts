@@ -4,9 +4,11 @@ export const translations = {
   en: {
     // Layout
     nav: {
-      mainPage: 'Main Page',
+      landingPage: 'Landing Page',
       clients: 'Clients',
       compliance: 'Compliance',
+      settings: 'Settings',
+      logOut: 'Log Out',
     },
     theme: {
       switchToLight: 'Switch to light mode',
@@ -18,9 +20,26 @@ export const translations = {
       pt: 'Português',
     },
 
-    // MainPage
-    mainPage: {
-      altImage: 'Vanilla Capital - Orientation. Foundation. Clarity.',
+    // Settings
+    settings: {
+      title: 'Settings',
+      contactSection: 'Contact',
+      aboutSection: 'About Us',
+      phone: 'Phone',
+      email: 'Email',
+      address: 'Address',
+      whatsapp: 'WhatsApp',
+      mission: 'Our Mission',
+      missionPlaceholder: 'Describe the company mission...',
+      teamMembers: 'Team Members',
+      addMember: 'Add Member',
+      removeMember: 'Remove',
+      position: 'Position',
+      photo: 'Photo',
+      save: 'Save',
+      saving: 'Saving...',
+      saved: 'Settings saved successfully!',
+      saveFailed: 'Failed to save settings.',
     },
 
     // ClientsPage
@@ -258,9 +277,11 @@ export const translations = {
   pt: {
     // Layout
     nav: {
-      mainPage: 'Página Principal',
+      landingPage: 'Landing Page',
       clients: 'Clientes',
       compliance: 'Compliance',
+      settings: 'Configurações',
+      logOut: 'Sair',
     },
     theme: {
       switchToLight: 'Alternar para modo claro',
@@ -271,9 +292,26 @@ export const translations = {
       pt: 'Português',
     },
 
-    // MainPage
-    mainPage: {
-      altImage: 'Vanilla Capital - Orientação. Fundação. Clareza.',
+    // Settings
+    settings: {
+      title: 'Configurações',
+      contactSection: 'Contato',
+      aboutSection: 'Quem Somos',
+      phone: 'Telefone',
+      email: 'E-mail',
+      address: 'Endereço',
+      whatsapp: 'WhatsApp',
+      mission: 'Nossa Missão',
+      missionPlaceholder: 'Descreva a missão da empresa...',
+      teamMembers: 'Membros da Equipe',
+      addMember: 'Adicionar Membro',
+      removeMember: 'Remover',
+      position: 'Cargo',
+      photo: 'Foto',
+      save: 'Salvar',
+      saving: 'Salvando...',
+      saved: 'Configurações salvas com sucesso!',
+      saveFailed: 'Falha ao salvar configurações.',
     },
 
     // ClientsPage

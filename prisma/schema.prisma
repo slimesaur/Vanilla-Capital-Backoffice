@@ -75,3 +75,29 @@ model RegistrationResponse {
   @@index([approvedClientId])
   @@map("registration_responses")
 }
+
+model CompanySettings {
+  id        String   @id @default(uuid())
+  phone     String?
+  email     String?
+  address   String?
+  whatsapp  String?
+  mission   String?
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  teamMembers TeamMember[]
+
+  @@map("company_settings")
+}
+
+model TeamMember {
+  id         String          @id @default(uuid())
+  photo      String?
+  position   String?
+  order      Int             @default(0)
+  settingsId String          @map("settings_id")
+  settings   CompanySettings @relation(fields: [settingsId], references: [id], onDelete: Cascade)
+
+  @@index([settingsId])
+  @@map("team_members")
+}

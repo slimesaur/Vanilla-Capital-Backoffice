@@ -3,20 +3,35 @@
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import type { CompanySettingsData } from '@/lib/settings';
 
-export default function AboutClient() {
+interface AboutClientProps {
+  settings?: CompanySettingsData;
+}
+
+export default function AboutClient({ settings }: AboutClientProps) {
   const t = useTranslations('About');
 
-  // Placeholder team data - to be replaced with real data
-  const teamMembers = [
-    {
-      id: 1,
-      name: t('team.placeholder.name'),
-      role: t('team.placeholder.role'),
-      bio: t('team.placeholder.bio'),
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
-    },
-  ];
+  const missionText = settings?.mission || t('mission.description');
+
+  const teamMembers =
+    settings?.teamMembers && settings.teamMembers.length > 0
+      ? settings.teamMembers.map((m) => ({
+          id: m.id,
+          name: '',
+          role: m.position || '',
+          bio: '',
+          image: m.photo || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+        }))
+      : [
+          {
+            id: 'placeholder',
+            name: t('team.placeholder.name'),
+            role: t('team.placeholder.role'),
+            bio: t('team.placeholder.bio'),
+            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+          },
+        ];
 
   return (
     <>
@@ -53,7 +68,7 @@ export default function AboutClient() {
                 {t('mission.title')}
               </h2>
               <p className="text-secondary-600 leading-relaxed mb-4">
-                {t('mission.description')}
+                {missionText}
               </p>
             </motion.div>
             <motion.div
@@ -102,7 +117,7 @@ export default function AboutClient() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow"
               >
-                <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden">
+                <div className="relative w-36 h-48 mx-auto mb-4 rounded-lg overflow-hidden">
                   <Image
                     src={member.image}
                     alt={member.name}
