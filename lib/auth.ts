@@ -57,7 +57,7 @@ export async function getSessionUser() {
     data: { expiresAt: new Date(Date.now() + SESSION_TTL_MS) },
   })
 
-  return { id: session.user.id, email: session.user.email }
+  return { id: session.user.id, email: session.user.email, name: session.user.name }
 }
 
 export async function destroySession() {
