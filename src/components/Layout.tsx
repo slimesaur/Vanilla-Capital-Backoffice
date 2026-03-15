@@ -40,6 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { path: '/pt', label: t('nav.landingPage'), external: true },
     { path: '/backoffice/clients', label: t('nav.clients') },
     { path: '/backoffice/compliance', label: t('nav.compliance') },
+    { path: '/backoffice/users', label: t('nav.users') },
     { path: '/backoffice/settings', label: t('nav.settings') },
   ]
 
