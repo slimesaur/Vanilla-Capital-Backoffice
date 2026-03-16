@@ -2,7 +2,7 @@
 
 import { useLocale } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
-import { Globe } from 'lucide-react';
+import BrandIcon from '@/landing/components/ui/BrandIcon';
 import { useState, useRef, useEffect } from 'react';
 import { locales, type Locale } from '@/i18n';
 import { cn } from '@/landing/lib/utils';
@@ -47,7 +47,7 @@ export default function LanguageSwitcher() {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-secondary-200 hover:text-accent-300 hover:bg-white/5 transition-colors"
       >
-        <Globe className="h-4 w-4" />
+        <BrandIcon name="21" size={16} variant="dark" />
         <span>{languageNames[locale]}</span>
       </button>
 

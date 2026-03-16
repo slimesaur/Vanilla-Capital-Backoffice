@@ -84,9 +84,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             </h2>
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
-                <div className="bg-accent-100 p-3 rounded-lg">
-                  <BrandIcon name="17" size={24} />
-                </div>
+                <BrandIcon name="17" size={24} variant="light" className="flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-ink mb-1">
                     {t('info.phone')}
@@ -101,9 +99,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-accent-100 p-3 rounded-lg">
-                  <BrandIcon name="16" size={24} />
-                </div>
+                <BrandIcon name="16" size={24} variant="light" className="flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-ink mb-1">
                     {t('info.email')}
@@ -118,9 +114,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-accent-100 p-3 rounded-lg">
-                  <BrandIcon name="15" size={24} />
-                </div>
+                <BrandIcon name="15" size={24} variant="light" className="flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-ink mb-1">
                     {t('info.address')}
@@ -130,9 +124,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-accent-100 p-3 rounded-lg">
-                  <BrandIcon name="18" size={24} />
-                </div>
+                <BrandIcon name="18" size={24} variant="light" className="flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-ink mb-1">
                     WhatsApp
