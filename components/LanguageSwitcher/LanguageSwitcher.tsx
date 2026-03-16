@@ -47,7 +47,7 @@ export default function LanguageSwitcher() {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-secondary-200 hover:text-accent-300 hover:bg-white/5 transition-colors"
       >
-        <BrandIcon name="21" size={16} variant="light" />
+        <BrandIcon name="21" size={20} variant="light" />
         <span>{languageNames[locale]}</span>
       </button>
 

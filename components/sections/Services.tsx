@@ -40,8 +40,8 @@ export default function Services() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow border border-secondary-100 h-full flex flex-col">
-                  <div className={`${service.bgColor} w-14 h-14 rounded-lg flex items-center justify-center mb-4`}>
-                    <BrandIcon name={service.icon} size={40} variant="dark" />
+                  <div className={`${service.bgColor} w-16 h-16 rounded-lg flex items-center justify-center mb-4`}>
+                    <BrandIcon name={service.icon} size={48} variant="dark" />
                   </div>
                   <h3 className="text-xl font-semibold text-ink mb-2 font-title">
                     {t(`${service.key}.title`)}

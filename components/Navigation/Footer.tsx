@@ -91,7 +91,7 @@ export default function Footer({ settings }: FooterProps) {
             <h4 className="text-lg font-semibold mb-4">{t('contact')}</h4>
             <ul className="space-y-3">
               <li className="flex items-start space-x-3">
-                <BrandIcon name="17" size={20} variant="light" className="mt-0.5 flex-shrink-0" />
+                <BrandIcon name="17" size={24} variant="light" className="mt-0.5 flex-shrink-0" />
                 <a
                   href={`tel:${contactInfo.phone}`}
                   className="text-secondary-on-dark hover:text-white transition-colors"
@@ -100,7 +100,7 @@ export default function Footer({ settings }: FooterProps) {
                 </a>
               </li>
               <li className="flex items-start space-x-3">
-                <BrandIcon name="16" size={20} variant="light" className="mt-0.5 flex-shrink-0" />
+                <BrandIcon name="16" size={24} variant="light" className="mt-0.5 flex-shrink-0" />
                 <a
                   href={`mailto:${contactInfo.email}`}
                   className="text-secondary-on-dark hover:text-white transition-colors"
@@ -109,11 +109,11 @@ export default function Footer({ settings }: FooterProps) {
                 </a>
               </li>
               <li className="flex items-start space-x-3">
-                <BrandIcon name="15" size={20} variant="light" className="mt-0.5 flex-shrink-0" />
+                <BrandIcon name="15" size={24} variant="light" className="mt-0.5 flex-shrink-0" />
                 <span className="text-secondary-on-dark">{contactInfo.address}</span>
               </li>
               <li className="flex items-start space-x-3">
-                <BrandIcon name="18" size={20} variant="light" className="mt-0.5 flex-shrink-0" />
+                <BrandIcon name="18" size={24} variant="light" className="mt-0.5 flex-shrink-0" />
                 <a
                   href={contactInfo.whatsapp}
                   target="_blank"
