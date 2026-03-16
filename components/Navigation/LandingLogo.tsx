@@ -14,7 +14,7 @@ export default function LandingLogo({ className = '', size = 'header' }: Landing
   const locale = useLocale();
   const { theme, mounted } = useTheme();
 
-  const heightClass = size === 'header' ? 'h-20' : 'h-32';
+  const heightClass = size === 'header' ? 'h-20' : 'h-64';
 
   if (!mounted) {
     return (
