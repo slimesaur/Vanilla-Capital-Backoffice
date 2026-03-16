@@ -14,25 +14,30 @@ export default function LandingLogo({ className = '', size = 'header' }: Landing
   const locale = useLocale();
   const { theme, mounted } = useTheme();
 
-  const heightClass = size === 'header' ? 'h-20' : 'h-64';
+  const isFooter = size === 'footer';
+  const heightClass = isFooter ? 'h-auto' : 'h-20';
+  const sizeClasses = isFooter ? 'h-auto w-full max-w-2xl' : 'h-20 w-auto max-w-full object-contain';
+
+  const linkClasses = isFooter
+    ? `flex-shrink-0 flex items-start ${className}`
+    : `flex-shrink-0 flex items-center ${className}`;
 
   if (!mounted) {
     return (
-      <Link href={`/${locale}`} className={`flex-shrink-0 flex items-center ${className}`}>
+      <Link href={`/${locale}`} className={linkClasses}>
         <div className={`${heightClass} w-auto min-w-[80px] bg-transparent`} aria-hidden="true" />
       </Link>
     );
   }
 
-  // Header uses LOGO DARK VERSION; Footer uses new LOGO FEAT MEU PATRIMONIO (wider, cropped)
-  const logoSrc = size === 'footer' ? '/logos/LOGO FEAT MEU PATRIMONIO.svg' : '/logos/LOGO DARK VERSION.svg';
+  const logoSrc = isFooter ? '/logos/LOGO FEAT MEU PATRIMONIO.svg' : '/logos/LOGO DARK VERSION.svg';
 
   return (
-    <Link href={`/${locale}`} className={`flex-shrink-0 flex items-center ${className}`}>
+    <Link href={`/${locale}`} className={linkClasses}>
       <img
         src={logoSrc}
         alt="Vanilla Capital"
-        className={`${heightClass} w-auto max-w-full object-contain`}
+        className={sizeClasses}
       />
     </Link>
   );

@@ -30,10 +30,10 @@ export default function Footer({ settings }: FooterProps) {
   return (
     <footer className="bg-[#1A2433] text-white font-subtitle-alt">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2 text-left">
-            <div className="mb-6">
+            <div className="mb-4 overflow-visible">
               <LandingLogo size="footer" />
             </div>
             <p className="text-secondary-on-dark mb-4">{t('description')}</p>
