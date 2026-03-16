@@ -8,7 +8,7 @@ export default function Hero() {
           src="/benchmark/003.png"
           alt="Vanilla Capital"
           fill
-          className="object-cover object-center"
+          className="object-contain object-center scale-[1.02]"
           priority
           quality={90}
         />
