@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { services } from '@/lib/servicesData';
+import BrandIcon from '@/landing/components/ui/BrandIcon';
 
 export default function PortfolioClient() {
   const t = useTranslations('Portfolio');
@@ -26,7 +27,6 @@ export default function PortfolioClient() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {services.map((service, index) => {
-            const Icon = service.icon;
             return (
               <motion.div
                 key={service.key}
@@ -36,7 +36,7 @@ export default function PortfolioClient() {
               >
                 <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-secondary-100">
                   <div className={`${service.bgColor} w-16 h-16 rounded-lg flex items-center justify-center mb-6`}>
-                    <Icon className={`${service.color} h-8 w-8`} />
+                    <BrandIcon name={service.icon} size={48} />
                   </div>
                   <h2 className="text-2xl font-semibold text-ink mb-4 font-title">
                     {t(`${service.key}.title`)}
