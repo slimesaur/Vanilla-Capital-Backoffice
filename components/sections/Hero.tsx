@@ -11,7 +11,7 @@ export default function Hero() {
     >
       <div className="absolute inset-0 z-0">
         <Image
-          src="/benchmark/003.png"
+          src="/hero/HERO001.png"
           alt="Vanilla Capital"
           fill
           className="object-contain object-center scale-[1.02]"
