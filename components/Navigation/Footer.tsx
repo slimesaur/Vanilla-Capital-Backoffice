@@ -33,7 +33,7 @@ export default function Footer({ settings }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2 text-left">
-            <div className="mb-4 overflow-visible">
+            <div className="mb-4 overflow-visible md:-mt-[2.5%]">
               <LandingLogo size="footer" />
             </div>
             <p className="text-secondary-on-dark mb-4">{t('description')}</p>
