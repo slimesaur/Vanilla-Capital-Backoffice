@@ -1,10 +1,8 @@
-import { Shield, TrendingUp, Gavel, Briefcase } from 'lucide-react'
-
 export const services = [
-  { key: 'patrimonial', icon: Shield, color: 'text-accent-600', bgColor: 'bg-accent-50' },
-  { key: 'assets', icon: TrendingUp, color: 'text-accent-600', bgColor: 'bg-accent-50' },
-  { key: 'auction', icon: Gavel, color: 'text-accent-600', bgColor: 'bg-accent-50' },
-  { key: 'consulting', icon: Briefcase, color: 'text-accent-600', bgColor: 'bg-accent-50' },
+  { key: 'patrimonial', icon: '13', bgColor: 'bg-accent-50' },
+  { key: 'assets', icon: '08', bgColor: 'bg-accent-50' },
+  { key: 'auction', icon: '22', bgColor: 'bg-accent-50' },
+  { key: 'consulting', icon: '09', bgColor: 'bg-accent-50' },
 ] as const
 
 export type ServiceKey = (typeof services)[number]['key']

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { services } from '@/lib/servicesData';
+import BrandIcon from '@/landing/components/ui/BrandIcon';
 
 export default function Services() {
   const t = useTranslations('Home.services');
@@ -30,7 +31,6 @@ export default function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => {
-            const Icon = service.icon;
             return (
               <motion.div
                 key={service.key}
@@ -40,8 +40,8 @@ export default function Services() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow border border-secondary-100 h-full flex flex-col">
-                  <div className={`${service.bgColor} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
-                    <Icon className={`${service.color} h-6 w-6`} />
+                  <div className={`${service.bgColor} w-14 h-14 rounded-lg flex items-center justify-center mb-4`}>
+                    <BrandIcon name={service.icon} size={40} />
                   </div>
                   <h3 className="text-xl font-semibold text-ink mb-2 font-title">
                     {t(`${service.key}.title`)}

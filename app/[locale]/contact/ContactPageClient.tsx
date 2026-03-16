@@ -3,8 +3,9 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, MessageCircle, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { getWhatsAppLink } from '@/landing/lib/utils';
+import BrandIcon from '@/landing/components/ui/BrandIcon';
 import Button from '@/landing/components/ui/Button';
 import type { CompanySettingsData } from '@/lib/settings';
 
@@ -84,7 +85,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
                 <div className="bg-accent-100 p-3 rounded-lg">
-                  <Phone className="h-6 w-6 text-accent-600" />
+                  <BrandIcon name="17" size={24} />
                 </div>
                 <div>
                   <h3 className="font-semibold text-ink mb-1">
@@ -101,7 +102,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
 
               <div className="flex items-start space-x-4">
                 <div className="bg-accent-100 p-3 rounded-lg">
-                  <Mail className="h-6 w-6 text-accent-600" />
+                  <BrandIcon name="16" size={24} />
                 </div>
                 <div>
                   <h3 className="font-semibold text-ink mb-1">
@@ -118,7 +119,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
 
               <div className="flex items-start space-x-4">
                 <div className="bg-accent-100 p-3 rounded-lg">
-                  <MapPin className="h-6 w-6 text-accent-600" />
+                  <BrandIcon name="15" size={24} />
                 </div>
                 <div>
                   <h3 className="font-semibold text-ink mb-1">
@@ -130,7 +131,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
 
               <div className="flex items-start space-x-4">
                 <div className="bg-accent-100 p-3 rounded-lg">
-                  <MessageCircle className="h-6 w-6 text-accent-600" />
+                  <BrandIcon name="18" size={24} />
                 </div>
                 <div>
                   <h3 className="font-semibold text-ink mb-1">
