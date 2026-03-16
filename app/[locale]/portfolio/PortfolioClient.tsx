@@ -36,7 +36,7 @@ export default function PortfolioClient() {
               >
                 <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-secondary-100">
                   <div className={`${service.bgColor} w-16 h-16 rounded-lg flex items-center justify-center mb-6`}>
-                    <BrandIcon name={service.icon} size={48} variant="light" />
+                    <BrandIcon name={service.icon} size={48} variant="dark" />
                   </div>
                   <h2 className="text-2xl font-semibold text-ink mb-4 font-title">
                     {t(`${service.key}.title`)}

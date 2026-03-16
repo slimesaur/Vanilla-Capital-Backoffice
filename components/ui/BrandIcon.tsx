@@ -1,5 +1,9 @@
 import Image from 'next/image';
 
+/**
+ * variant="light" → cream/gold icons for DARK backgrounds (footer, header)
+ * variant="dark"  → dark blue/gold icons for LIGHT backgrounds (services, contact, portfolio)
+ */
 interface BrandIconProps {
   name: string;
   size?: number;
