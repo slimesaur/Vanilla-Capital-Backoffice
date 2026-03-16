@@ -24,15 +24,15 @@ export default function LandingLogo({ className = '', size = 'header' }: Landing
     );
   }
 
-  // Header and footer always have dark background (#1A2433) - use LOGO DARK VERSION (white/light fill)
-  const logoSrc = '/logos/LOGO DARK VERSION.svg';
+  // Header uses LOGO DARK VERSION; Footer uses new LOGO FEAT MEU PATRIMONIO (wider, cropped)
+  const logoSrc = size === 'footer' ? '/logos/LOGO FEAT MEU PATRIMONIO.svg' : '/logos/LOGO DARK VERSION.svg';
 
   return (
     <Link href={`/${locale}`} className={`flex-shrink-0 flex items-center ${className}`}>
       <img
         src={logoSrc}
         alt="Vanilla Capital"
-        className={`${heightClass} w-auto object-contain`}
+        className={`${heightClass} w-auto max-w-full object-contain`}
       />
     </Link>
   );
