@@ -11,7 +11,7 @@ export interface RegistrationResponse {
 export interface RegistrationFieldDefinition {
   key: string
   type: 'string' | 'number' | 'select' | 'date' | 'checkbox'
-  mask?: 'cpf' | 'cnpj' | 'cep' | 'phone' | 'rg' | 'date'
+  mask?: 'cpf' | 'cnpj' | 'cep' | 'phone' | 'date'
   required?: boolean
   options?: { value: string; labelKey?: string; label?: string }[]
   conditional?: { field: string; value: string }

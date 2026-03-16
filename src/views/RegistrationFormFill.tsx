@@ -6,7 +6,7 @@ import BankSelect from '../components/BankSelect'
 import { saveResponse } from '../data/registrationStore'
 import { REGISTRATION_FORM_PF } from '../data/registrationFormDefinitions'
 import type { RegistrationFormType } from '../types/registration'
-import { formatCpf, formatCep, formatPhone, formatDate, formatRg } from '../utils/masks'
+import { formatCpf, formatCep, formatPhone, formatDate } from '../utils/masks'
 import RegistrationFormPJ from './RegistrationFormPJ'
 
 const SECTIONS_PF = [
@@ -30,8 +30,7 @@ function applyMask(value: string, mask?: string): string {
     case 'phone':
       return formatPhone(value)
     case 'date':
-    case 'rg':
-      return mask === 'rg' ? formatRg(value) : formatDate(value)
+      return formatDate(value)
     default:
       return value
   }
@@ -248,9 +247,7 @@ export default function RegistrationFormFill({ formType }: { formType?: string }
                     ? 'DD/MM/YYYY'
                     : field.mask === 'phone'
                       ? '(00) 00000-0000'
-                      : field.mask === 'rg'
-                        ? '00.000.000-0'
-                        : ''
+                      : ''
             }
             value={String(answers[field.key] ?? '')}
             onChange={(e) =>

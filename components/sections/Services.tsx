@@ -12,7 +12,7 @@ export default function Services() {
   const locale = useLocale();
 
   return (
-    <section className="pt-0 pb-20 bg-white">
+    <section className="pt-10 pb-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={false}
