@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
-import { getWhatsAppLink } from '@/landing/lib/utils';
+import { getWhatsAppLink, formatPhoneDisplay } from '@/landing/lib/utils';
 import BrandIcon from '@/landing/components/ui/BrandIcon';
 import Button from '@/landing/components/ui/Button';
 import type { CompanySettingsData } from '@/lib/settings';
@@ -25,7 +25,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
 
   const rawPhone = settings?.phone || '+5541988195090';
   const contactInfo = {
-    phone: rawPhone,
+    phone: formatPhoneDisplay(rawPhone),
     email: settings?.email || 'atendimento@vanillacapital.com.br',
     address: settings?.address || 'Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR',
     whatsapp: getWhatsAppLink(
@@ -90,7 +90,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                     {t('info.phone')}
                   </h3>
                   <a
-                    href={`tel:${contactInfo.phone}`}
+                    href={`tel:+${rawPhone.replace(/\D/g, '')}`}
                     className="text-secondary-600 hover:text-accent-600 transition-colors"
                   >
                     {contactInfo.phone}

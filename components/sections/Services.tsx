@@ -12,7 +12,7 @@ export default function Services() {
   const locale = useLocale();
 
   return (
-    <section className="pt-16 pb-20 bg-white">
+    <section className="pt-16 pb-20 bg-white font-avenir font-thin">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={false}
@@ -21,10 +21,10 @@ export default function Services() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4 font-title">
+          <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4 font-avenir font-thin">
             {t('title')}
           </h2>
-          <p className="text-lg text-secondary-600 max-w-2xl mx-auto font-subtitle">
+          <p className="text-lg text-secondary-600 max-w-2xl mx-auto font-avenir font-thin">
             {t('subtitle')}
           </p>
         </motion.div>
@@ -43,7 +43,7 @@ export default function Services() {
                   <div className={`${service.bgColor} w-16 h-16 rounded-lg flex items-center justify-center mb-4`}>
                     <BrandIcon name={service.icon} size={48} variant="dark" />
                   </div>
-                  <h3 className="text-xl font-semibold text-ink mb-2 font-title">
+                  <h3 className="text-xl font-semibold text-ink mb-2 font-avenir font-thin">
                     {t(`${service.key}.title`)}
                   </h3>
                   <p className="text-secondary-600 mb-4 flex-grow">
