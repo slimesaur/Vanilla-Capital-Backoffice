@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { headers } from 'next/headers'
 import { prisma } from '@/lib/db'
 import { getSessionUser } from '@/lib/auth'
 
 export async function GET() {
+  // Use dynamic API so Next.js treats this route as dynamic (enables PUT)
+  await headers()
   try {
     const settings = await prisma.companySettings.findFirst({
       include: { teamMembers: { orderBy: { order: 'asc' } } },
