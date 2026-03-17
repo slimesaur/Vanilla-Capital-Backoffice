@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { useLanguage } from '../contexts/LanguageContext'
 import { getForm, saveResponse } from '../data/suitabilityStore'
+import { getClientsByCpf, getClientsByCnpj, updateClient } from '../data/clientsStore'
 import { formatCpf, formatCnpj, normalizeLegalName } from '../utils/masks'
 import type { SuitabilityFormData } from '../types/suitability'
 import type { SuitabilityProfile } from '../types/client'
@@ -33,6 +34,24 @@ function calculateTotalWeight(form: SuitabilityFormData, answers: Record<string,
     }
   }
   return total
+}
+
+function calculateSuitabilityAnswers(
+  form: SuitabilityFormData,
+  answers: Record<string, string | string[]>
+): { suitabilityAnswers: Record<string, number>; totalSuitabilityWeight: number } {
+  const suitabilityAnswers: Record<string, number> = {}
+  for (const q of form.questions) {
+    const selected = getSelectedTexts(answers[q.id])
+    let weight = 0
+    for (const text of selected) {
+      const opt = q.answers.find((a) => a.text === text)
+      if (opt) weight += opt.weight
+    }
+    if (weight > 0) suitabilityAnswers[q.id] = weight
+  }
+  const totalSuitabilityWeight = Object.values(suitabilityAnswers).reduce((a, b) => a + b, 0)
+  return { suitabilityAnswers, totalSuitabilityWeight }
 }
 
 function getSuitabilityProfile(totalWeight: number): SuitabilityProfile {
@@ -130,12 +149,48 @@ export default function SuitabilityFormFill({ formId }: { formId?: string }) {
         answersToSave[key] = val ?? ''
       }
     }
-    await saveResponse({
-      id: crypto.randomUUID(),
-      formId: form.id,
-      answers: answersToSave,
-      submittedAt: new Date().toISOString(),
-    })
+
+    const { suitabilityAnswers, totalSuitabilityWeight } = calculateSuitabilityAnswers(form, answers)
+    const suitabilityProfile = getSuitabilityProfile(totalSuitabilityWeight)
+
+    // Auto-link to existing client when exactly one match
+    let linked = false
+    if (entityType === 'legal_entity') {
+      const cnpj = String(answersToSave.cnpj ?? '').replace(/\D/g, '')
+      const matches = await getClientsByCnpj(cnpj)
+      if (matches.length === 1) {
+        await updateClient(matches[0].id, {
+          suitabilityAnswers,
+          totalSuitabilityWeight,
+          suitabilityProfile,
+          status: 'pending_contract',
+          suitabilityScore: totalSuitabilityWeight,
+        })
+        linked = true
+      }
+    } else {
+      const cpf = String(answersToSave.cpf ?? '').replace(/\D/g, '')
+      const matches = await getClientsByCpf(cpf)
+      if (matches.length === 1) {
+        await updateClient(matches[0].id, {
+          suitabilityAnswers,
+          totalSuitabilityWeight,
+          suitabilityProfile,
+          status: 'pending_contract',
+          suitabilityScore: totalSuitabilityWeight,
+        })
+        linked = true
+      }
+    }
+
+    if (!linked) {
+      await saveResponse({
+        id: crypto.randomUUID(),
+        formId: form.id,
+        answers: answersToSave,
+        submittedAt: new Date().toISOString(),
+      })
+    }
 
     setSubmitted(true)
   }

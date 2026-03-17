@@ -70,6 +70,7 @@ const LIST_COLUMNS_LEGAL_ENTITY: ColumnDef[] = [
   { key: 'phone', labelKey: 'clients.phone' },
   { key: 'city', labelKey: 'clients.city' },
   { key: 'uf', labelKey: 'clients.uf' },
+  { key: 'suitabilityProfile', labelKey: 'clients.suitabilityProfile' },
 ]
 
 function getDisplayValue(client: Client, key: ListColumnKey, t: (k: string) => string): string {
