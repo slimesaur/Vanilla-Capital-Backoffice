@@ -25,24 +25,27 @@ export async function PUT(request: NextRequest) {
 
     const existing = await prisma.companySettings.findFirst()
 
-    const settings = await prisma.companySettings.upsert({
-      where: { id: existing?.id ?? '00000000-0000-0000-0000-000000000000' },
-      update: {
-        phone: phone ?? null,
-        email: email ?? null,
-        address: address ?? null,
-        whatsapp: whatsapp ?? null,
-        mission: mission ?? null,
-      },
-      create: {
-        phone: phone ?? null,
-        email: email ?? null,
-        address: address ?? null,
-        whatsapp: whatsapp ?? null,
-        mission: mission ?? null,
-      },
-      include: { teamMembers: { orderBy: { order: 'asc' } } },
-    })
+    const settingsData = {
+      phone: phone ?? null,
+      email: email ?? null,
+      address: address ?? null,
+      whatsapp: whatsapp ?? null,
+      mission: mission ?? null,
+    }
+
+    let settings
+    if (existing) {
+      settings = await prisma.companySettings.update({
+        where: { id: existing.id },
+        data: settingsData,
+        include: { teamMembers: { orderBy: { order: 'asc' } } },
+      })
+    } else {
+      settings = await prisma.companySettings.create({
+        data: settingsData,
+        include: { teamMembers: { orderBy: { order: 'asc' } } },
+      })
+    }
 
     if (Array.isArray(teamMembers)) {
       const existingMemberIds = settings.teamMembers.map((m) => m.id)

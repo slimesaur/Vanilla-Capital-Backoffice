@@ -6,6 +6,9 @@ import Header from '@/landing/components/Navigation/Header';
 import Footer from '@/landing/components/Navigation/Footer';
 import { getCompanySettings } from '@/lib/settings';
 
+// Always fetch fresh settings so backoffice changes appear on landing pages (About, Contact, Footer)
+export const dynamic = 'force-dynamic';
+
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
