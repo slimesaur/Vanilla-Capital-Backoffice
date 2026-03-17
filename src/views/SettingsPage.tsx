@@ -124,10 +124,11 @@ export default function SettingsPage() {
       const res = await fetch('/api/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
         body: JSON.stringify({
           phone: phoneForStorage,
           email: form.email,
-          address: form.address,
+          address: form.address || null,
           whatsapp: form.whatsapp ? `+${form.whatsapp.replace(/\D/g, '')}` : '',
           mission: form.mission,
           teamMembers: form.teamMembers.map((m) => ({
@@ -137,8 +138,11 @@ export default function SettingsPage() {
           })),
         }),
       })
-      if (!res.ok) throw new Error()
       const data = await res.json()
+      if (!res.ok) {
+        console.error('Settings save failed:', res.status, data)
+        throw new Error(data?.error || `HTTP ${res.status}`)
+      }
       if (data.settings) {
         setForm({
           phone: phoneMask(data.settings.phone || '') || '',
