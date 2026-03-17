@@ -24,9 +24,10 @@ function phoneMask(value: string): string {
   if (digits.length === 0) return ''
   if (digits.length <= 2) return `+${digits}`
   if (digits.length <= 4) return `+${digits.slice(0, 2)} (${digits.slice(2)}`
-  if (digits.length <= 9)
-    return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${digits.slice(4)}`
-  return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${digits.slice(4, 9)}-${digits.slice(9)}`
+  const rest = digits.slice(4)
+  if (rest.length <= 4) return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${rest}`
+  if (rest.length <= 8) return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${rest.slice(0, 4)}-${rest.slice(4)}`
+  return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${rest.slice(0, 5)}-${rest.slice(5)}`
 }
 
 const ACCEPTED_IMAGE_TYPES = '.png, .jpg, .jpeg, .webp'
@@ -52,7 +53,7 @@ export default function SettingsPage() {
         if (data.settings) {
           const s = data.settings
           setForm({
-            phone: s.phone || '',
+            phone: phoneMask(s.phone || '') || '',
             email: s.email || '',
             address: s.address || '',
             whatsapp: s.whatsapp || '',
@@ -111,14 +112,16 @@ export default function SettingsPage() {
   const handleSave = async () => {
     setSaving(true)
     try {
+      const digits = form.phone.replace(/\D/g, '')
+      const phoneForStorage = digits ? `+${digits}` : ''
       const res = await fetch('/api/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          phone: form.phone,
+          phone: phoneForStorage,
           email: form.email,
           address: form.address,
-          whatsapp: form.whatsapp,
+          whatsapp: form.whatsapp ? `+${form.whatsapp.replace(/\D/g, '')}` : '',
           mission: form.mission,
           teamMembers: form.teamMembers.map((m) => ({
             id: m.id,
@@ -131,7 +134,7 @@ export default function SettingsPage() {
       const data = await res.json()
       if (data.settings) {
         setForm({
-          phone: data.settings.phone || '',
+          phone: phoneMask(data.settings.phone || '') || '',
           email: data.settings.email || '',
           address: data.settings.address || '',
           whatsapp: data.settings.whatsapp || '',
@@ -228,7 +231,7 @@ export default function SettingsPage() {
               type="text"
               value={form.address}
               onChange={(e) => updateField('address', e.target.value)}
-              placeholder="Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR"
+              placeholder="Complete address"
               className={inputClass}
             />
           </div>
