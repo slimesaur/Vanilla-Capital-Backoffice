@@ -6,7 +6,12 @@
     "contact": "Contato",
     "compliance": "Compliance",
     "login": "Entrar",
-    "backoffice": "Backoffice"
+    "backoffice": "Backoffice",
+    "signInEmail": "E-mail",
+    "signInPassword": "Senha",
+    "signInSubmit": "Entrar",
+    "signInSubmitting": "Entrando...",
+    "signInNetworkError": "Erro de conexão"
   },
   "Footer": {
     "description": "Consultoria de investimentos especializada em proteção patrimonial, investimentos em ativos mobiliários, leilão de imóveis e consultoria empresarial.",

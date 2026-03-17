@@ -2,13 +2,14 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
-
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import LanguageSwitcher from '@/landing/components/LanguageSwitcher/LanguageSwitcher';
 import { cn } from '@/landing/lib/utils';
 import LandingLogo from './LandingLogo';
+import SignInDropdown from '@/landing/components/auth/SignInDropdown';
+import SignInForm from '@/landing/components/auth/SignInForm';
 
 export default function Header() {
   const t = useTranslations('Navigation');
@@ -16,6 +17,7 @@ export default function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isMobileSignInOpen, setIsMobileSignInOpen] = useState(false);
 
   useEffect(() => {
     fetch('/api/auth/session')
@@ -39,8 +41,16 @@ export default function Header() {
     return pathname === item.href || pathname.startsWith(item.href + '/')
   }
 
+  const signInLabels = {
+    email: t('signInEmail'),
+    password: t('signInPassword'),
+    submit: t('signInSubmit'),
+    submitting: t('signInSubmitting'),
+    networkError: t('signInNetworkError'),
+  }
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A2433] backdrop-blur-sm shadow-sm font-subtitle-alt">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A2433] backdrop-blur-sm shadow-sm font-avenir font-thin">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
           <div className="flex items-center pr-6">
@@ -63,23 +73,32 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
-            <Link
-              href={isLoggedIn ? '/backoffice' : '/login'}
-              className="text-sm font-medium px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
-            >
-              {isLoggedIn ? t('backoffice') : t('login')}
-            </Link>
+            {isLoggedIn ? (
+              <Link
+                href="/backoffice"
+                className="text-sm font-medium px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+              >
+                {t('backoffice')}
+              </Link>
+            ) : (
+              <SignInDropdown
+                triggerLabel={t('login')}
+                labels={signInLabels}
+              />
+            )}
             <LanguageSwitcher />
           </div>
 
           {/* Mobile menu button */}
           <div className="flex items-center space-x-4 md:hidden">
-            <Link
-              href={isLoggedIn ? '/backoffice' : '/login'}
-              className="text-sm font-medium px-3 py-1.5 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
-            >
-              {isLoggedIn ? t('backoffice') : t('login')}
-            </Link>
+            {isLoggedIn && (
+              <Link
+                href="/backoffice"
+                className="text-sm font-medium px-3 py-1.5 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+              >
+                {t('backoffice')}
+              </Link>
+            )}
             <LanguageSwitcher />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -113,13 +132,44 @@ export default function Header() {
                   {item.name}
                 </Link>
               ))}
-              <Link
-                href={isLoggedIn ? '/backoffice' : '/login'}
-                onClick={() => setIsMenuOpen(false)}
-                className="block rounded-md px-3 py-2 text-base font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors text-center mt-2"
-              >
-                {isLoggedIn ? t('backoffice') : t('login')}
-              </Link>
+
+              {isLoggedIn ? (
+                <Link
+                  href="/backoffice"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block rounded-md px-3 py-2 text-base font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors text-center mt-2"
+                >
+                  {t('backoffice')}
+                </Link>
+              ) : (
+                <div className="mt-2">
+                  <button
+                    onClick={() => setIsMobileSignInOpen((prev) => !prev)}
+                    className="w-full flex items-center justify-center gap-2 rounded-md px-3 py-2.5 text-base font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+                  >
+                    {t('login')}
+                    {isMobileSignInOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  </button>
+
+                  <div
+                    className={cn(
+                      'overflow-hidden transition-all duration-200 ease-in-out',
+                      isMobileSignInOpen ? 'max-h-80 opacity-100 mt-3' : 'max-h-0 opacity-0'
+                    )}
+                  >
+                    <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                      <SignInForm
+                        variant="dropdown"
+                        labels={signInLabels}
+                        onSuccess={() => {
+                          setIsMenuOpen(false)
+                          setIsMobileSignInOpen(false)
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}

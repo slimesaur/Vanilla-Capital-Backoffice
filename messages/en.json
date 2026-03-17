@@ -6,7 +6,12 @@
     "contact": "Contact",
     "compliance": "Compliance",
     "login": "Login",
-    "backoffice": "Backoffice"
+    "backoffice": "Backoffice",
+    "signInEmail": "Email",
+    "signInPassword": "Password",
+    "signInSubmit": "Sign in",
+    "signInSubmitting": "Signing in...",
+    "signInNetworkError": "Network error"
   },
   "Footer": {
     "description": "Investment consultancy specialized in wealth protection, securities investments, real estate auctions and business consulting.",
