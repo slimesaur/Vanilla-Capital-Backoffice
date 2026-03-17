@@ -138,19 +138,27 @@ export default function SettingsPage() {
           })),
         }),
       })
-      const data = await res.json()
-      if (!res.ok) {
-        console.error('Settings save failed:', res.status, data)
-        throw new Error(data?.error || `HTTP ${res.status}`)
+      let data: { error?: string; code?: string; settings?: Record<string, unknown> }
+      try {
+        data = await res.json()
+      } catch {
+        data = { error: 'Invalid response' }
       }
-      if (data.settings) {
+      if (!res.ok) {
+        const msg = data?.error || `HTTP ${res.status}`
+        const code = data?.code ? ` (${data.code})` : ''
+        console.error('Settings save failed:', res.status, data)
+        throw new Error(msg + code)
+      }
+      const s = data.settings as { phone?: string; email?: string; address?: string; whatsapp?: string; mission?: string; teamMembers?: Array<{ id?: string; photo?: string; position?: string }> } | undefined
+      if (s) {
         setForm({
-          phone: phoneMask(data.settings.phone || '') || '',
-          email: data.settings.email || '',
-          address: normalizeAddress(data.settings.address),
-          whatsapp: data.settings.whatsapp || '',
-          mission: data.settings.mission || '',
-          teamMembers: (data.settings.teamMembers || []).map((m: any) => ({
+          phone: phoneMask(s.phone || '') || '',
+          email: s.email || '',
+          address: normalizeAddress(s.address),
+          whatsapp: s.whatsapp || '',
+          mission: s.mission || '',
+          teamMembers: (s.teamMembers || []).map((m: { id?: string; photo?: string; position?: string }) => ({
             id: m.id,
             photo: m.photo || '',
             position: m.position || '',
@@ -158,8 +166,9 @@ export default function SettingsPage() {
         })
       }
       showToast(t('settings.saved'))
-    } catch {
-      showToast(t('settings.saveFailed'))
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : t('settings.saveFailed')
+      showToast(msg)
     } finally {
       setSaving(false)
     }

@@ -23,9 +23,13 @@ export async function createSession(userId: string): Promise<string> {
   })
 
   const cookieStore = await cookies()
+  const isProduction = process.env.NODE_ENV === 'production'
+  const isHttps = process.env.NEXTAUTH_URL?.startsWith('https://') ?? false
+  const secure = isProduction || isHttps
+
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NEXTAUTH_URL?.startsWith('https://') ?? false,
+    secure,
     sameSite: 'lax',
     path: '/',
     maxAge: SESSION_TTL_MS / 1000,
