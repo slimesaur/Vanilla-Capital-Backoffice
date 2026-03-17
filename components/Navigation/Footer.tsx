@@ -8,6 +8,18 @@ import BrandIcon from '@/landing/components/ui/BrandIcon';
 import type { CompanySettingsData } from '@/lib/settings';
 import LandingLogo from './LandingLogo';
 
+function formatPhoneDisplay(phone: string): string {
+  if (!phone || typeof phone !== 'string') return '';
+  const digits = (phone.match(/\d/g) ?? []).join('').slice(0, 13);
+  if (digits.length < 10) return phone.trim();
+  const cc = digits.slice(0, 2);
+  const area = digits.slice(2, 4);
+  const rest = digits.slice(4);
+  if (rest.length <= 4) return `+${cc} (${area}) ${rest}`;
+  if (rest.length <= 8) return `+${cc} (${area}) ${rest.slice(0, 4)}-${rest.slice(4)}`;
+  return `+${cc} (${area}) ${rest.slice(0, 5)}-${rest.slice(5)}`;
+}
+
 interface FooterProps {
   settings?: CompanySettingsData;
 }
@@ -18,7 +30,7 @@ export default function Footer({ settings }: FooterProps) {
 
   const rawPhone = settings?.phone || '+5541988195090';
   const contactInfo = {
-    phone: rawPhone,
+    phone: formatPhoneDisplay(rawPhone),
     email: settings?.email || 'atendimento@vanillacapital.com.br',
     address: settings?.address || 'Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR',
     whatsapp: getWhatsAppLink(
@@ -28,7 +40,7 @@ export default function Footer({ settings }: FooterProps) {
   };
 
   return (
-    <footer className="bg-[#1A2433] text-white font-subtitle-alt">
+    <footer className="bg-[#1A2433] text-white font-avenir font-thin">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
           {/* Company Info */}
@@ -93,7 +105,7 @@ export default function Footer({ settings }: FooterProps) {
               <li className="flex items-start space-x-3">
                 <BrandIcon name="17" size={24} variant="light" className="mt-0.5 flex-shrink-0" />
                 <a
-                  href={`tel:${contactInfo.phone}`}
+                  href={`tel:+${rawPhone.replace(/\D/g, '')}`}
                   className="text-secondary-on-dark hover:text-white transition-colors"
                 >
                   {contactInfo.phone}
