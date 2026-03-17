@@ -91,6 +91,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Match all pathnames except _next, _vercel, and static files (include API routes for auth)
-  matcher: ['/', '/((?!_next|_vercel|.*\\..*).*)'],
+  // Match all pathnames except api, _next, _vercel, and static files
+  matcher: ['/', '/((?!api|_next|_vercel|.*\\..*).*)'],
 }

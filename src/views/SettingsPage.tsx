@@ -138,11 +138,14 @@ export default function SettingsPage() {
           })),
         }),
       })
+      const text = await res.text()
       let data: { error?: string; code?: string; settings?: Record<string, unknown> }
       try {
-        data = await res.json()
+        data = text ? JSON.parse(text) : { error: 'Empty response' }
       } catch {
-        data = { error: 'Invalid response' }
+        const excerpt = text.slice(0, 100).replace(/\n/g, ' ')
+        console.error('Settings save: non-JSON response', res.status, excerpt)
+        data = { error: `Server error (${res.status}). Try again or check the console.` }
       }
       if (!res.ok) {
         const msg = data?.error || `HTTP ${res.status}`
