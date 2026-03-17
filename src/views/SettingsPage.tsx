@@ -31,6 +31,13 @@ function phoneMask(value: string): string {
 }
 
 const ACCEPTED_IMAGE_TYPES = '.png, .jpg, .jpeg, .webp'
+const LEGACY_DEFAULT_ADDRESS = 'Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR'
+
+function normalizeAddress(addr: string | null | undefined): string {
+  const s = typeof addr === 'string' ? addr.trim() : ''
+  if (!s || s === LEGACY_DEFAULT_ADDRESS) return ''
+  return s
+}
 
 export default function SettingsPage() {
   const { t } = useLanguage()
@@ -55,7 +62,7 @@ export default function SettingsPage() {
           setForm({
             phone: phoneMask(s.phone || '') || '',
             email: s.email || '',
-            address: s.address || '',
+            address: normalizeAddress(s.address),
             whatsapp: s.whatsapp || '',
             mission: s.mission || '',
             teamMembers: (s.teamMembers || []).map((m: any) => ({
@@ -136,7 +143,7 @@ export default function SettingsPage() {
         setForm({
           phone: phoneMask(data.settings.phone || '') || '',
           email: data.settings.email || '',
-          address: data.settings.address || '',
+          address: normalizeAddress(data.settings.address),
           whatsapp: data.settings.whatsapp || '',
           mission: data.settings.mission || '',
           teamMembers: (data.settings.teamMembers || []).map((m: any) => ({
