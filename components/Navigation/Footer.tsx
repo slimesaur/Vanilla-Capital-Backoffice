@@ -7,6 +7,7 @@ import { getWhatsAppLink } from '@/landing/lib/utils';
 import BrandIcon from '@/landing/components/ui/BrandIcon';
 import type { CompanySettingsData } from '@/lib/settings';
 import LandingLogo from './LandingLogo';
+import { services } from '@/lib/servicesData';
 
 function formatPhoneDisplay(phone: string): string {
   if (!phone || typeof phone !== 'string') return '';
@@ -39,12 +40,14 @@ export default function Footer({ settings }: FooterProps) {
     ),
   };
 
+  const tServices = useTranslations('Home.services');
+
   return (
     <footer className="bg-[#1A2433] text-white font-avenir font-thin">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 items-start">
           {/* Company Info */}
-          <div className="col-span-1 md:col-span-2 text-left">
+          <div className="col-span-1 lg:col-span-2 text-left">
             <div className="mb-4 overflow-visible md:-mt-[2.5%]">
               <LandingLogo size="footer" />
             </div>
@@ -59,6 +62,23 @@ export default function Footer({ settings }: FooterProps) {
             </a>
           </div>
 
+          {/* Portfolio - all service pages */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">{t('portfolio')}</h4>
+            <ul className="space-y-2">
+              {services.map((service) => (
+                <li key={service.key}>
+                  <Link
+                    href={`/${locale}/portfolio/${service.slug}`}
+                    className="text-secondary-on-dark hover:text-white transition-colors"
+                  >
+                    {tServices(`${service.key}.title`)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           {/* Quick Links */}
           <div>
             <h4 className="text-lg font-semibold mb-4">{t('quickLinks')}</h4>
@@ -69,14 +89,6 @@ export default function Footer({ settings }: FooterProps) {
                   className="text-secondary-on-dark hover:text-white transition-colors"
                 >
                   {t('home')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/${locale}/portfolio`}
-                  className="text-secondary-on-dark hover:text-white transition-colors"
-                >
-                  {t('portfolio')}
                 </Link>
               </li>
               <li>

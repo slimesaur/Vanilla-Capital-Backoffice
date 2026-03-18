@@ -91,65 +91,85 @@
     },
     "title": "Our Portfolio",
     "subtitle": "Complete and personalized solutions for your investment needs",
-    "retirement": {
-      "title": "Retirement Planning",
-      "description": "We preserve the wealth you've worked hard to build.",
-      "subDescription": "Our team brings deep experience in retirement planning and tailored strategies. We help you define goals, diversify income sources, and adjust your plan as life changes, so you can retire with confidence.",
-      "features": {
-        "1": "Goal definition and retirement roadmap",
-        "2": "Income diversification strategies",
-        "3": "Plan adjustments as life changes"
-      }
-    },
-    "patrimonial": {
-      "title": "Wealth Protection",
-      "description": "We protect what matters most.",
-      "subDescription": "Protecting your assets is at the core of what we do. We develop customized strategies using legal structures and planning tools to shield and preserve your wealth across generations.",
-      "features": {
-        "1": "Succession planning and wealth structures",
-        "2": "Risk and vulnerability analysis",
-        "3": "Diversification and protection strategies"
-      }
-    },
-    "auction": {
-      "title": "Real Estate Auction",
-      "description": "We buy properties below market value.",
-      "subDescription": "We regularly acquire properties through our auction experience and knowledge of the real estate market. We secure exclusive opportunities, perform detailed due diligence, and support clients through each stage of the process.",
-      "features": {
-        "1": "Analysis of properties in auction",
-        "2": "Opportunity assessment",
-        "3": "Support throughout the process"
-      }
-    },
-    "assets": {
-      "title": "Asset Allocation",
-      "description": "We help you capture returns in markets we know well.",
-      "subDescription": "Our approach balances risk and return with a focus on long-term performance. We help you achieve solid results in stocks, funds, and other financial assets through disciplined, professional management.",
-      "features": {
-        "1": "Market analysis and opportunities",
-        "2": "Personalized portfolio management",
-        "3": "Monitoring and periodic reports"
-      }
-    },
-    "aiSolution": {
-      "title": "AI Solution for Business",
-      "description": "We automate your operations and align them with the latest technology.",
-      "subDescription": "We review your processes and improve them using cutting-edge AI tools. From automation to analytics, we help your company run more efficiently and stay competitive in modern times.",
-      "features": {
-        "1": "Process review and optimization",
-        "2": "Automation and AI implementation",
-        "3": "Analytics and competitive insights"
-      }
-    },
     "cta": "Contact us",
-    "consulting": {
-      "title": "Business Financial Advisory",
-      "description": "Strategic guidance for financial and governance decisions.",
-      "subDescription": "We support companies with tailored advice on financing, capital structure, mergers and acquisitions, and long-term planning. Our work focuses on clear analysis and practical steps to strengthen your financial position.",
-      "features": {
-        "1": "Financial and strategic analysis",
-        "2": "Corporate investment structuring",
-        "3": "Resource and cash flow optimization"
+    "services": {
+      "assets": {
+        "title": "Asset Allocation",
+        "descriptionTitle": "We help you capture returns in markets we know well.",
+        "descriptionP1": "Our approach balances risk and return with a focus on long-term performance. We help you achieve solid results in stocks, funds, and other financial assets through disciplined, professional management. We operate in markets we master, where our experience translates into informed decisions and consistent results.",
+        "descriptionP2": "We believe that efficient asset allocation is the foundation for wealth building. We combine fundamental analysis and long-term vision to identify opportunities and protect our clients' capital.",
+        "cardGridTitle": "Why invest in securities?",
+        "cards": {
+          "1": { "title": "Tax Advantages", "description": "Tax planning can transform your investments. Dividends from stocks are tax-free for individuals in Brazil; LCIs and LCAs offer exemption with FGC protection; and PGBL allows deduction of up to 12% of income on your tax return. We diversify across vehicles with different tax treatments to optimize your net gains." },
+          "2": { "title": "Performance and Returns", "description": "Our results are solid and consistently above the CDI benchmark. We work with discipline and proven methodology to deliver returns that make a difference to your wealth over time." },
+          "3": { "title": "Risk Management", "description": "Diversification reduces volatility and protects your capital in adverse scenarios. What matters most to us is client protection: we prioritize risk management in all allocation decisions." },
+          "4": { "title": "Conflict of Interest Mitigation", "description": "We operate on a fee-based model, aligning our interests with yours. Total transparency on fees and structure; you pay for advice, not products. Your success is our metric." }
+        }
+      },
+      "retirement": {
+        "title": "Retirement Planning",
+        "descriptionTitle": "We preserve the wealth you've worked hard to build.",
+        "descriptionP1": "Preparation for retirement is one of the most important financial decisions in life. Our team brings deep experience in income planning, diversification of sources, and plan adjustments as life changes. We let you focus on what matters while we handle bureaucracy and financial planning.",
+        "descriptionP2": "We help define realistic goals, structure complementary income sources, and track progress. We want you to retire with confidence and peace of mind.",
+        "cardGridTitle": "How to plan my retirement?",
+        "cards": {
+          "1": { "title": "Income Diagnosis & Planning", "description": "We conduct a complete diagnosis of your current situation and project income scenarios for retirement. We define goals, revenue sources, and strategies to achieve your desired standard of living." },
+          "2": { "title": "Succession Planning", "description": "Succession planning done in advance brings significant tax advantages and avoids conflicts. Structures such as holdings, funds, and pension plans can optimize the transfer of wealth to future generations." },
+          "3": { "title": "Wealth Protection", "description": "We ensure your wealth is preserved with the best possible strategy. You will enjoy retirement with security, knowing your assets are protected and well managed." },
+          "4": { "title": "Your Time Matters", "description": "Beyond income financial planning, we take care of the bureaucratic side of our clients' lives: insurance, securities, documentation, and tax obligations. You gain time for what truly matters." }
+        }
+      },
+      "patrimonial": {
+        "title": "Wealth Protection",
+        "descriptionTitle": "We protect what matters most.",
+        "descriptionP1": "Wealth protection is essential for those seeking to preserve wealth, reduce exposure to risks, and optimize tax burden. We develop tailored strategies using legal structures and instruments such as PGBL, VGBL, holdings, and offshore structures to protect and preserve your wealth across generations.",
+        "descriptionP2": "Protecting your assets is at the core of what we do. We work in partnership with lawyers and accountants to structure safe and efficient solutions.",
+        "cardGridTitle": "Who should seek Wealth Protection?",
+        "cards": {
+          "1": { "title": "Entrepreneurs & Tax Advantages", "description": "PGBL, VGBL, offshore structures, and tax planning can significantly reduce tax burden. We help choose the vehicles suited to your profile and goals." },
+          "2": { "title": "Protection against Legal Risks", "description": "Labor, family, and tax risks can compromise wealth. We are experts in the options available in Brazil to shield assets: holdings, patrimonial separation, pension, and adequate structures." },
+          "3": { "title": "Holding Consolidation", "description": "We are holding specialists. Consolidating assets in adequate structures brings governance, planned succession, and tax efficiency. We support in incorporation, restructuring, and management." },
+          "4": { "title": "Off-Shore", "description": "International structures can offer currency diversification, protection, and tax optimization. We advise on choosing jurisdictions and vehicles suited to your profile and goals." }
+        }
+      },
+      "auction": {
+        "title": "Real Estate Auction",
+        "descriptionTitle": "We buy properties below market value.",
+        "descriptionP1": "Can you imagine buying properties below market value? We have the solution. We offer an end-to-end solution for judicial and extrajudicial auctions: we identify opportunities, analyze legal and financial risks, and accompany the entire process until property delivery. Real estate diversification is an excellent way to improve returns with lower risk.",
+        "descriptionP2": "We map over 2,000 auctioneers daily across Brazil. Our specialists filter the best and safest opportunities for you.",
+        "cardGridTitle": "How to invest in Real Estate Auctions?",
+        "cards": {
+          "1": { "title": "Identify Opportunities", "description": "We map over 2,000 auctioneers daily across Brazil. We have filtered opportunities in the best regions, with safety and return potential criteria. The best chances go through our curation." },
+          "2": { "title": "Legal Analysis", "description": "Our specialists analyze the entire judicial process involved in the auction and filter only safe opportunities. We verify registration, notice, borrower documentation, and possible liens or pendencies that may affect the property." },
+          "3": { "title": "Financial Viability", "description": "We evaluate each opportunity considering short-stay Airbnb potential, rental, or sale. We track all KPIs to bring the best return on investment for our clients." },
+          "4": { "title": "End-to-End Process Support", "description": "We accompany the client from start to finish: from opportunity to sale, rental, or use of the property. We never let go of your hand. We stand by our numbers and projections with transparency and commitment." }
+        }
+      },
+      "aiSolution": {
+        "title": "AI Solutions for Business",
+        "descriptionTitle": "We automate your operations and align them with the latest technology.",
+        "descriptionP1": "Our founders have roots in technology. We are experts in AI and process implementation; we keep track of the latest trends and have the expertise to train your teams. Technology is not just a tool—it's part of our essence.",
+        "descriptionP2": "We review processes, implement automations and integrations, and train teams to operate efficiently. Your company may be more prepared than you think.",
+        "cardGridTitle": "What can Automation and AI do for my Business?",
+        "cards": {
+          "1": { "title": "Process Automation", "description": "We implement APIs and integrations to connect your systems, reduce manual human resource needs, and save entrepreneurs' time. You can focus on what matters while the machine handles operations." },
+          "2": { "title": "AI Agents", "description": "We create personalized AI agents for different functions: customer service, email and folder organization, client support. We reduce the risk of human error and operational costs. Current technology is more capable than you imagine." },
+          "3": { "title": "Software House", "description": "We develop customized software for your business: websites, internal systems, dashboards, and any solution your company needs. Code built to adapt to your operations." },
+          "4": { "title": "Sell more using technology", "description": "We conduct a diagnosis of your company to keep it aligned with the latest in the market. We search for the best solutions and help with implementation so you sell more and operate better." }
+        }
+      },
+      "consulting": {
+        "title": "Business Financial Advisory",
+        "descriptionTitle": "Strategic guidance for financial and investment decisions.",
+        "descriptionP1": "We have tailored solutions for every demand. Whether for capital structuring, feasibility analysis, due diligence, or long-term planning, our team is ready to help. Contact us and discover how we can support your company.",
+        "descriptionP2": "We support companies with tailored advice on financing, mergers and acquisitions, governance, and resource optimization. Clear analysis and practical steps to strengthen your financial position.",
+        "cardGridTitle": "Some of our experiences:",
+        "cards": {
+          "1": { "title": "Mergers & Acquisitions (M&A)", "description": "We advise on M&A processes: valuation, deal structuring, due diligence, and negotiation. We support buyers and sellers through all stages of the transaction." },
+          "2": { "title": "Judicial Financial Expert", "description": "We act as experts in judicial proceedings involving economic assessment, damage calculation, or liability settlement. Technical experience and recognized methodology." },
+          "3": { "title": "Controllership & Governance", "description": "Structuring controllership, corporate governance processes, and cash flow optimization. We support companies in having reliable information for decision-making." },
+          "4": { "title": "Economic Feasibility Analysis", "description": "Used for opening new franchises, new companies, or in tender due diligence. Financial modeling, scenarios, and data-based recommendations." }
+        }
       }
     }
   },

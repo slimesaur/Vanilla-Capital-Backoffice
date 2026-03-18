@@ -91,67 +91,87 @@
     },
     "title": "Nosso Portfólio",
     "subtitle": "Soluções completas e personalizadas para suas necessidades de investimento",
-    "retirement": {
-      "title": "Planejamento de Aposentadoria",
-      "description": "Preservamos o patrimônio que você construiu com tanto esforço.",
-      "subDescription": "Nossa equipe traz experiência profunda em planejamento de aposentadoria e estratégias personalizadas. Ajudamos você a definir metas, diversificar fontes de renda e ajustar seu plano à medida que a vida muda, para que você possa se aposentar com confiança.",
-      "features": {
-        "1": "Definição de metas e roadmap de aposentadoria",
-        "2": "Estratégias de diversificação de renda",
-        "3": "Ajustes do plano conforme a vida muda"
+    "services": {
+      "retirement": {
+        "title": "Planejamento de Aposentadoria",
+        "descriptionTitle": "Preservamos o patrimônio que você construiu com tanto esforço.",
+        "descriptionP1": "A preparação para aposentadoria é uma das decisões financeiras mais importantes da vida. Nossa equipe traz experiência profunda em planejamento de renda, diversificação de fontes e ajuste do plano à medida que a vida muda. Permitimos que você foque no que importa enquanto cuidamos da burocracia e do planejamento financeiro.",
+        "descriptionP2": "Ajudamos a definir metas realistas, estruturar fontes de renda complementares e acompanhar o progresso. Queremos que você se aposente com confiança e tranquilidade.",
+        "cardGridTitle": "Como planejar minha aposentadoria?",
+        "cards": {
+          "1": { "title": "Diagnóstico e Planejamento", "description": "Fazemos um diagnóstico completo da sua situação atual e projetamos cenários de renda para aposentadoria. Definimos metas, fontes de receita e estratégias para atingir o padrão de vida desejado." },
+          "2": { "title": "Planejamento Sucessório", "description": "O planejamento sucessório feito com antecedência traz vantagens tributárias significativas e evita conflitos. Estruturas como holdings, fundos e previdência podem otimizar a transferência de patrimônio para as próximas gerações." },
+          "3": { "title": "Proteção Patrimonial", "description": "Garantimos que sua riqueza seja preservada com a melhor estratégia possível. Você poderá usufruir da aposentadoria com segurança, sabendo que seu patrimônio está protegido e bem gerido." },
+          "4": { "title": "Seu Tempo Importa", "description": "Além do planejamento financeiro de renda, cuidamos da parte burocrática da vida dos nossos clientes: seguros, títulos, documentação e obrigações fiscais. Você ganha tempo para o que realmente importa." }
+        }
+      },
+      "patrimonial": {
+        "title": "Proteção Patrimonial",
+        "descriptionTitle": "Protegemos o que mais importa.",
+        "descriptionP1": "A proteção patrimonial é essencial para quem busca preservar riqueza, reduzir exposição a riscos e otimizar a carga tributária. Desenvolvemos estratégias personalizadas usando estruturas jurídicas e instrumentos como PGBL, VGBL, holdings e estruturas offshore para proteger e preservar seu patrimônio ao longo das gerações.",
+        "descriptionP2": "Proteger seus ativos está no centro do que fazemos. Trabalhamos em parceria com advogados e contadores para estruturar soluções seguras e eficientes.",
+        "cardGridTitle": "Para quem é a Proteção Patrimonial?",
+        "cards": {
+          "1": { "title": "Empresários e Vantagens Tributárias", "description": "PGBL, VGBL, estruturas offshore e planejamento tributário podem reduzir significativamente a carga fiscal. Ajudamos a escolher os veículos adequados ao seu perfil e objetivos." },
+          "2": { "title": "Proteção contra Riscos Jurídicos", "description": "Riscos trabalhistas, familiares e fiscais podem comprometer patrimônio. Somos especialistas nas opções disponíveis no Brasil para blindar ativos: holdings, separação patrimonial, previdência e estruturas adequadas." },
+          "3": { "title": "Holding Consolidation", "description": "Somos especialistas em holdings. A consolidação de ativos em estruturas adequadas traz governança, sucessão planejada e eficiência tributária. Apoiamos na constituição, reestruturação e gestão." },
+          "4": { "title": "Off-Shore", "description": "Estruturas internacionais podem oferecer diversificação cambial, proteção e otimização tributária. Assessoramos na escolha de jurisdições e veículos adequados ao seu perfil e objetivos." }
+        }
+      },
+      "auction": {
+        "title": "Leilão de Imóveis",
+        "descriptionTitle": "Compramos imóveis abaixo do valor de mercado.",
+        "descriptionP1": "Você imagina comprar imóveis abaixo do valor de mercado? Temos a solução. Oferecemos uma solução completa de ponta a ponta em leilões judiciais e extrajudiciais: identificamos oportunidades, analisamos riscos jurídicos e financeiros e acompanhamos todo o processo até a entrega do imóvel. A diversificação imobiliária é uma excelente forma de melhorar rentabilidade com menor risco.",
+        "descriptionP2": "Mapeamos diariamente mais de 2.000 leiloeiros em todo o Brasil. Nossos especialistas filtram as melhores e mais seguras oportunidades para você.",
+        "cardGridTitle": "Como investir em Leilões de Imóveis?",
+        "cards": {
+          "1": { "title": "Identificação de Oportunidades", "description": "Mapeamos mais de 2.000 leiloeiros diariamente em todo o Brasil. Temos oportunidades filtradas nas melhores regiões, com critérios de segurança e potencial de retorno. As melhores chances passam por nossa curadoria." },
+          "2": { "title": "Análise Jurídica", "description": "Nossos especialistas analisam todo o processo judicial envolvido no leilão e filtram apenas oportunidades seguras. Verificamos matrícula, edital, documentação do mutuário e possíveis ônus ou pendências que possam afetar o imóvel." },
+          "3": { "title": "Viabilidade Financeira", "description": "Avaliamos cada oportunidade considerando potencial de Airbnb de curta permanência, locação ou venda. Acompanhamos todos os KPIs para trazer o melhor retorno sobre o investimento para nossos clientes." },
+          "4": { "title": "Suporte de Ponta a Ponta", "description": "Acompanhamos o cliente do início ao fim: desde a oportunidade até a venda, locação ou uso do imóvel. Nunca soltamos sua mão. Garantimos nossos números e projeções com transparência e compromisso." }
+        }
+      },
+      "assets": {
+        "title": "Alocação de Ativos",
+        "descriptionTitle": "Ajudamos você a capturar retornos em mercados que conhecemos bem.",
+        "descriptionP1": "Nossa abordagem equilibra risco e retorno com foco em desempenho de longo prazo. Ajudamos você a alcançar resultados sólidos em ações, fundos e outros ativos financeiros através de gestão disciplinada e profissional. Trabalhamos em mercados que dominamos, onde nossa experiência se traduz em decisões informadas e resultados consistentes.",
+        "descriptionP2": "Acreditamos que a alocação eficiente de ativos é a base para a construção de patrimônio. Combinamos análise fundamental e visão de longo prazo para identificar oportunidades e proteger o capital dos nossos clientes.",
+        "cardGridTitle": "Por que investir em ativos mobiliários?",
+        "cards": {
+          "1": { "title": "Vantagem Tributária", "description": "O planejamento fiscal pode transformar seus investimentos. Dividendos de ações são isentos de IR para pessoas físicas no Brasil; LCIs e LCAs oferecem isenção com proteção do FGC; e o PGBL permite dedução de até 12% da renda na declaração. Diversificamos entre veículos com diferentes tratamentos tributários para otimizar seus ganhos líquidos." },
+          "2": { "title": "Performance e Rentabilidade", "description": "Nossos resultados são sólidos e consistentemente acima do benchmark CDI. Trabalhamos com disciplina e metodologia comprovada para entregar rentabilidade que faça a diferença no seu patrimônio ao longo do tempo." },
+          "3": { "title": "Gerenciamento de Risco", "description": "A diversificação reduz a volatilidade e protege seu capital em cenários adversos. O que mais importa para nós é a proteção do cliente: priorizamos gestão de risco em todas as decisões de alocação." },
+          "4": { "title": "Mitigação de Conflitos", "description": "Trabalhamos em modelo fee-based, alinhando nossos interesses aos seus. Transparência total em taxas e estrutura; você paga por assessoria, não por produtos. Seu sucesso é nossa métrica." }
+        }
+      },
+      "aiSolution": {
+        "title": "Solução em IA para Negócios",
+        "descriptionTitle": "Automatizamos suas operações e alinhamos com a tecnologia mais recente.",
+        "descriptionP1": "Nossos fundadores têm raízes na tecnologia. Somos especialistas em IA e implementação de processos; acompanhamos as tendências mais recentes e temos expertise para capacitar suas equipes. A tecnologia não é apenas ferramenta—é parte da nossa essência.",
+        "descriptionP2": "Revisamos processos, implementamos automações e integrações, e treinamos times para operar com eficiência. Sua empresa pode estar mais preparada do que você imagina.",
+        "cardGridTitle": "O que Automação e IA podem fazer pelo meu Negócio?",
+        "cards": {
+          "1": { "title": "Automação de Processos", "description": "Implementamos APIs e integrações para conectar seus sistemas, reduzir a necessidade de recursos humanos manuais e poupar tempo dos empreendedores. Você pode focar no que importa enquanto a máquina cuida do operacional." },
+          "2": { "title": "Agentes de IA", "description": "Criamos agentes de IA personalizados para diferentes funções: atendimento, organização de e-mails e pastas, suporte ao cliente. Reduzimos o risco de erro humano e os custos operacionais. A tecnologia atual é mais capaz do que você imagina." },
+          "3": { "title": "Software House", "description": "Desenvolvemos software sob medida para o seu negócio: sites, sistemas internos, dashboards e qualquer solução que sua empresa precise. Código feito para se adaptar às suas operações." },
+          "4": { "title": "Venda mais usando tecnologia", "description": "Fazemos um diagnóstico da sua empresa para mantê-la alinhada ao que há de mais recente no mercado. Buscamos as melhores soluções e ajudamos na implementação para que você venda mais e opere melhor." }
+        }
+      },
+      "consulting": {
+        "title": "Assessoria Financeira Empresarial",
+        "descriptionTitle": "Orientação estratégica para decisões financeiras e de investimento.",
+        "descriptionP1": "Temos soluções sob medida para cada demanda. Seja para estruturação de capital, análise de viabilidade, due diligence ou planejamento de longo prazo, nossa equipe está pronta para ajudar. Entre em contato e descubra como podemos apoiar sua empresa.",
+        "descriptionP2": "Apoiamos empresas com assessoria personalizada em financiamento, fusões e aquisições, governança e otimização de recursos. Análise clara e passos práticos para fortalecer sua posição financeira.",
+        "cardGridTitle": "Algumas de nossas experiências:",
+        "cards": {
+          "1": { "title": "Fusões e Aquisições (M&A)", "description": "Assessoramos em processos de M&A: valuation, estruturação de negócio, due diligence e negociação. Apoiamos compradores e vendedores em todas as etapas da transação." },
+          "2": { "title": "Perícia Financeira Judicial", "description": "Atuamos como peritos em processos judiciais que envolvem avaliação econômica, cálculo de danos ou liquidação de passivos. Experiência técnica e metodologia reconhecida." },
+          "3": { "title": "Controladoria & Governança", "description": "Estruturação de controladoria, processos de governança corporativa e otimização de fluxo de caixa. Apoiamos empresas a terem informações confiáveis para decisão." },
+          "4": { "title": "Análise de Viabilidade Econômica", "description": "Utilizada na abertura de novas franquias, novas empresas ou em due diligence de licitações. Modelagem financeira, cenários e recomendações baseadas em dados." }
+        }
       }
     },
-    "patrimonial": {
-      "title": "Proteção Patrimonial",
-      "description": "Protegemos o que mais importa.",
-      "subDescription": "Proteger seus ativos está no centro do que fazemos. Desenvolvemos estratégias personalizadas usando estruturas jurídicas e ferramentas de planejamento para proteger e preservar sua riqueza através das gerações.",
-      "features": {
-        "1": "Planejamento sucessório e estruturas patrimoniais",
-        "2": "Análise de riscos e vulnerabilidades",
-        "3": "Estratégias de diversificação e proteção"
-      }
-    },
-    "auction": {
-      "title": "Leilão de Imóveis",
-      "description": "Compramos imóveis abaixo do valor de mercado.",
-      "subDescription": "Adquirimos regularmente imóveis através da nossa experiência em leilões e conhecimento do mercado imobiliário. Garantimos oportunidades exclusivas, realizamos due diligence detalhada e apoiamos os clientes em cada etapa do processo.",
-      "features": {
-        "1": "Análise de imóveis em leilão",
-        "2": "Avaliação de oportunidades",
-        "3": "Suporte durante todo o processo"
-      }
-    },
-    "assets": {
-      "title": "Alocação de Ativos",
-      "description": "Ajudamos você a capturar retornos em mercados que conhecemos bem.",
-      "subDescription": "Nossa abordagem equilibra risco e retorno com foco em desempenho de longo prazo. Ajudamos você a alcançar resultados sólidos em ações, fundos e outros ativos financeiros através de gestão disciplinada e profissional.",
-      "features": {
-        "1": "Análise de mercado e oportunidades",
-        "2": "Gestão de carteiras personalizadas",
-        "3": "Acompanhamento e relatórios periódicos"
-      }
-    },
-    "aiSolution": {
-      "title": "Solução em IA para Negócios",
-      "description": "Automatizamos suas operações e alinhamos com a mais recente tecnologia.",
-      "subDescription": "Revisamos seus processos e os melhoramos usando ferramentas de IA de ponta. Da automação à análise de dados, ajudamos sua empresa a operar com mais eficiência e manter-se competitiva nos tempos modernos.",
-      "features": {
-        "1": "Revisão e otimização de processos",
-        "2": "Automação e implementação de IA",
-        "3": "Análise de dados e insights competitivos"
-      }
-    },
-    "cta": "Entre em contato",
-    "consulting": {
-      "title": "Assessoria Financeira Empresarial",
-      "description": "Orientação estratégica para decisões financeiras e de governança.",
-      "subDescription": "Apoiamos empresas com assessoria personalizada em financiamento, estrutura de capital, fusões e aquisições e planejamento de longo prazo. Nosso trabalho foca em análise clara e passos práticos para fortalecer sua posição financeira.",
-      "features": {
-        "1": "Análise financeira e estratégica",
-        "2": "Estruturação de investimentos corporativos",
-        "3": "Otimização de recursos e fluxo de caixa"
-      }
-    }
+    "cta": "Entre em contato"
   },
   "About": {
     "ctaTitle": "Vamos conversar",
