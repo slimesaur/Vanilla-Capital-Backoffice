@@ -43,7 +43,6 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_BLOCKING_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preload" href="/hero/HERO001.png?v=5" as="image" fetchPriority="high" />
       </head>
       <body className="font-sans">
         <Providers>{children}</Providers>

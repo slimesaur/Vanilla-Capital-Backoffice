@@ -27,7 +27,6 @@ export default async function Hero() {
           loop
           playsInline
           preload="auto"
-          poster={`/hero/HERO001.png?v=${HERO_VERSION}`}
           className="w-full h-full object-cover object-center"
           aria-label="Vanilla Capital investment consultancy background"
         >
