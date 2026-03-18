@@ -38,14 +38,14 @@ export default function StrategicPartners() {
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center justify-center h-16 md:h-20 grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 ${logo === 'GENIAL.svg' ? 'bg-secondary-100' : ''}`}
+              className={`flex items-center justify-center h-20 md:h-24 grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 ${logo === 'GENIAL.svg' ? 'bg-secondary-100' : ''}`}
             >
               <Image
                 src={`/partners/${logo}`}
                 alt={alt}
-                width={160}
-                height={64}
-                className={`h-16 md:h-20 w-auto object-contain ${logo === 'GENIAL.svg' ? 'mix-blend-multiply' : ''}`}
+                width={200}
+                height={96}
+                className={`h-20 md:h-24 w-auto object-contain ${logo === 'GENIAL.svg' ? 'mix-blend-multiply' : ''}`}
               />
             </a>
           ))}
