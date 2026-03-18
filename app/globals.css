@@ -16,6 +16,7 @@
   src: url('/fonts/Canela-Regular-Trial.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -23,6 +24,7 @@
   src: url('/fonts/Canela-Bold-Trial.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -30,6 +32,7 @@
   src: url('/fonts/CanelaText-Regular-Trial.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -37,6 +40,7 @@
   src: url('/fonts/CanelaText-Bold-Trial.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -44,6 +48,7 @@
   src: url('/fonts/CanelaDeck-Regular-Trial.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -51,6 +56,7 @@
   src: url('/fonts/CanelaDeck-Bold-Trial.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 /* Arpona */
@@ -61,6 +67,7 @@
        local('system-ui'), local('-apple-system'), local('BlinkMacSystemFont');
   font-weight: 400 700;
   font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -141,6 +148,25 @@ body {
 .collapse-reveal > .collapse-reveal-inner {
   overflow: hidden;
   min-height: 0;
+}
+
+/* Button press feedback - UX best practice for instant click confirmation */
+@layer utilities {
+  .pressable {
+    transition: transform 0.1s ease;
+  }
+  .pressable:active {
+    transform: scale(0.97);
+  }
+}
+
+@layer base {
+  button {
+    transition: transform 0.1s ease;
+  }
+  button:active {
+    transform: scale(0.97);
+  }
 }
 
 /* Toast container */

@@ -49,6 +49,14 @@ export default function Footer({ settings }: FooterProps) {
               <LandingLogo size="footer" />
             </div>
             <p className="text-secondary-on-dark mb-4">{t('description')}</p>
+            <a
+              href={contactInfo.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pressable inline-block mt-2 px-4 py-2 text-sm font-medium rounded-lg bg-accent-500 hover:bg-accent-400 text-[#1A2433] transition-colors"
+            >
+              {t('startSuitability')}
+            </a>
           </div>
 
           {/* Quick Links */}
@@ -132,14 +140,33 @@ export default function Footer({ settings }: FooterProps) {
                   rel="noopener noreferrer"
                   className="text-secondary-on-dark hover:text-white transition-colors"
                 >
-                  WhatsApp
+                  {contactInfo.phone}
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-primary-400/50">
+        <div className="mt-8 pt-8 border-t border-primary-400/50 space-y-4">
+          <div className="flex flex-wrap justify-center gap-6 items-center">
+            <span className="text-secondary-on-dark-muted text-xs">{t('regulatedBy')}</span>
+            <a
+              href="https://www.gov.br/cvm/pt-br"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-secondary-on-dark hover:text-accent-300 text-sm font-medium transition-colors"
+            >
+              CVM
+            </a>
+            <a
+              href="https://www.anbima.com.br"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-secondary-on-dark hover:text-accent-300 text-sm font-medium transition-colors"
+            >
+              Anbima
+            </a>
+          </div>
           <p className="text-center text-secondary-on-dark-muted text-sm">
             {t('copyright')} © {new Date().getFullYear()} Vanilla Capital. {t('rightsReserved')}
           </p>

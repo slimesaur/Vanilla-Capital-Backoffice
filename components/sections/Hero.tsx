@@ -28,25 +28,30 @@ export default async function Hero() {
           preload="auto"
           poster="/hero/HERO001.png"
           className="w-full h-full object-cover object-center"
+          aria-label="Vanilla Capital investment consultancy background"
         >
           <source src="/hero/HERO002.mp4" type="video/mp4" />
         </video>
       </div>
 
-      {/* Tagline above button - button stays at original position */}
-      <div className="absolute top-[42%] left-6 sm:left-8 z-10">
-        <div className="absolute bottom-full left-0 mb-3 font-avenir font-thin text-primary text-lg sm:text-xl uppercase leading-snug tracking-[0.15em]">
-          <span className="whitespace-nowrap block">{t('tagline1')}</span>
-          <span className="whitespace-nowrap block">{t('tagline2')}</span>
+      {/* Tagline and button: mobile left-6/sm:left-8, desktop same container as Strategic Partners */}
+      <div className="absolute top-[35%] left-6 sm:left-8 md:left-0 md:right-0 z-10">
+        <div className="relative md:mx-auto md:max-w-7xl md:px-6 lg:px-8">
+          <h1 className="sr-only">{t('title')}</h1>
+          <div className="mb-3 font-avenir font-thin text-primary text-2xl sm:text-3xl md:text-4xl uppercase leading-snug tracking-[0.15em]" aria-hidden="true">
+            <span className="whitespace-nowrap block">{t('tagline1')}</span>
+            <span className="whitespace-nowrap block">{t('tagline2')}</span>
+          </div>
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Contact us via WhatsApp"
+            className="pressable inline-block px-6 py-3 text-base font-avenir font-thin rounded-lg bg-accent-500 text-secondary-50 hover:bg-accent-400 transition-colors duration-200"
+          >
+            {t('knowMore')}
+          </a>
         </div>
-        <a
-          href={whatsappHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-4 py-2 text-sm font-avenir font-thin rounded-lg bg-accent-500 text-secondary-50 hover:bg-accent-400 transition-colors duration-200"
-        >
-          {t('knowMore')}
-        </a>
       </div>
     </section>
   );

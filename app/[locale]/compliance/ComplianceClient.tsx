@@ -90,7 +90,7 @@ export default function ComplianceClient() {
                   <a
                     href={docUrls[doc.backofficeKey]}
                     download
-                    className="inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-800 transition-colors"
+                    className="pressable inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-800 transition-colors"
                   >
                     <Download className="h-5 w-5 mr-2" />
                     {t('download')}

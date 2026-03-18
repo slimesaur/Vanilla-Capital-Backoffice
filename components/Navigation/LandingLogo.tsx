@@ -16,7 +16,7 @@ export default function LandingLogo({ className = '', size = 'header' }: Landing
 
   const isFooter = size === 'footer';
   const heightClass = isFooter ? 'h-auto' : 'h-20';
-  const sizeClasses = isFooter ? 'h-auto w-full max-w-2xl' : 'h-20 w-auto max-w-full object-contain';
+  const sizeClasses = isFooter ? 'h-auto w-full max-w-xl' : 'h-20 w-auto max-w-full object-contain';
 
   const linkClasses = isFooter
     ? `flex-shrink-0 flex items-start ${className}`

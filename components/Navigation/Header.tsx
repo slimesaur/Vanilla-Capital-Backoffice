@@ -100,7 +100,7 @@ export default function Header() {
             {isLoggedIn ? (
               <Link
                 href="/backoffice"
-                className="text-sm font-medium px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+                className="pressable text-sm font-medium px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
               >
                 {t('backoffice')}
               </Link>
@@ -118,7 +118,7 @@ export default function Header() {
             {isLoggedIn && (
               <Link
                 href="/backoffice"
-                className="text-sm font-medium px-3 py-1.5 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+                className="pressable text-sm font-medium px-3 py-1.5 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
               >
                 {t('backoffice')}
               </Link>
@@ -127,6 +127,9 @@ export default function Header() {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-secondary-200 hover:text-accent-300"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-nav-menu"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -137,9 +140,18 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-[#1A2433]">
+        {/* Mobile Navigation - smooth drop animation per UX best practices (300–400ms, ease-out) */}
+        <div
+          id="mobile-nav-menu"
+          className={cn(
+            'md:hidden overflow-hidden',
+            isMenuOpen ? 'max-h-[70vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+          )}
+          style={{
+            transition: 'max-height .7s ease, opacity .7s ease',
+          }}
+        >
+          <div className="bg-[#1A2433]">
             <div className="space-y-1 px-2 pb-3 pt-2 border-t border-white/10">
               {navigation.map((item) => (
                 <Link
@@ -161,7 +173,7 @@ export default function Header() {
                 <Link
                   href="/backoffice"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block rounded-md px-3 py-2 text-base font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors text-center mt-2"
+                  className="pressable block rounded-md px-3 py-2 text-base font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors text-center mt-2"
                 >
                   {t('backoffice')}
                 </Link>
@@ -196,7 +208,7 @@ export default function Header() {
               )}
             </div>
           </div>
-        )}
+        </div>
       </nav>
     </header>
   );

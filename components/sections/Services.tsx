@@ -43,16 +43,24 @@ export default function Services() {
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-primary-900"
+      className="relative w-full py-12 md:py-16 bg-secondary-100"
       aria-label={t('title')}
     >
-      {/* Hero carousel container - 16:9 viewport-filling */}
-      <div
-        className="relative w-full overflow-hidden"
-        style={{ aspectRatio: ASPECT_RATIO }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-8 md:mb-10">
+          {t('title')}
+        </h2>
+        {/* Framed carousel container - Quartzo-style */}
+        <div
+          className="relative w-full overflow-hidden rounded-xl border border-secondary-200/80 bg-primary-900 shadow-xl"
+        >
+          {/* Hero carousel - 16:9 within frame */}
+          <div
+            className="relative w-full overflow-hidden rounded-t-xl"
+            style={{ aspectRatio: ASPECT_RATIO }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
         <AnimatePresence initial={false} mode="sync">
           <motion.div
             key={activeIndex}
@@ -125,42 +133,51 @@ export default function Services() {
                 </motion.div>
               )}
             </AnimatePresence>
-            <Link
-              href={`/${locale}/portfolio`}
-              className="inline-flex items-center px-5 py-2 text-sm bg-accent-500 hover:bg-accent-400 text-secondary-50 font-avenir font-thin rounded-lg transition-colors duration-300"
-            >
-              {t('learnMore')}
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href={`/${locale}/portfolio`}
+                className="pressable inline-flex items-center px-5 py-2 text-sm bg-accent-500 hover:bg-accent-400 text-secondary-50 font-avenir font-thin rounded-lg transition-colors duration-300"
+              >
+                {t('learnMore')}
+              </Link>
+              <Link
+                href={`/${locale}/contact`}
+                className="pressable inline-flex items-center px-5 py-2 text-sm bg-white/20 hover:bg-white/30 text-secondary-50 font-avenir font-thin rounded-lg border border-secondary-50/50 transition-colors duration-300"
+              >
+                {t('contactUs')}
+              </Link>
+            </div>
           </div>
         </div>
+          </div>
 
-      </div>
-
-      {/* Dot navigation */}
-      <div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2"
-        role="tablist"
-        aria-label="Service navigation"
-      >
-        {services.map((service, index) => (
-          <button
-            key={service.key}
-            type="button"
-            role="tab"
-            aria-selected={activeIndex === index}
-            aria-label={`${t(`${service.key}.title`)}`}
-            onClick={() => goToSlide(index)}
-            className="p-1.5 rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
+          {/* Dot navigation */}
+          <div
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2"
+            role="tablist"
+            aria-label="Service navigation"
           >
-            <span
-              className={`block rounded-full transition-all duration-300 ${
-                activeIndex === index
-                  ? 'w-8 h-2.5 bg-accent-400'
-                  : 'w-2.5 h-2.5 bg-secondary-50/60 hover:bg-secondary-50'
-              }`}
-            />
-          </button>
-        ))}
+            {services.map((service, index) => (
+              <button
+                key={service.key}
+                type="button"
+                role="tab"
+                aria-selected={activeIndex === index}
+                aria-label={`${t(`${service.key}.title`)}`}
+                onClick={() => goToSlide(index)}
+                className="p-1.5 rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
+              >
+                <span
+                  className={`block rounded-full transition-all duration-300 ${
+                    activeIndex === index
+                      ? 'w-8 h-2.5 bg-accent-400'
+                      : 'w-2.5 h-2.5 bg-secondary-50/60 hover:bg-secondary-50'
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

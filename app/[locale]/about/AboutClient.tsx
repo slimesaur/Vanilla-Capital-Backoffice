@@ -1,6 +1,7 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { User } from 'lucide-react';
@@ -12,6 +13,7 @@ interface AboutClientProps {
 
 export default function AboutClient({ settings }: AboutClientProps) {
   const t = useTranslations('About');
+  const locale = useLocale();
 
   const missionText = settings?.mission || t('mission.description');
 
@@ -140,6 +142,31 @@ export default function AboutClient({ settings }: AboutClientProps) {
               <p className="text-secondary-500 font-subtitle">{t('team.subtitle')}</p>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-b from-white to-secondary-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4 font-title">
+              {t('ctaTitle')}
+            </h2>
+            <p className="text-lg text-secondary-600 max-w-2xl mx-auto mb-8 font-subtitle">
+              {t('ctaSubtitle')}
+            </p>
+            <Link
+              href={`/${locale}/contact`}
+              className="pressable inline-flex items-center px-8 py-3 text-base font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-lg transition-colors"
+            >
+              {t('ctaButton')}
+            </Link>
+          </motion.div>
         </div>
       </section>
     </>

@@ -10,11 +10,13 @@
     "signInEmail": "E-mail",
     "signInPassword": "Senha",
     "signInSubmit": "Entrar",
+    "signInSubtitle": "Entre na sua conta",
     "signInSubmitting": "Entrando...",
     "signInNetworkError": "Erro de conexão"
   },
   "Footer": {
-    "description": "Consultoria de investimentos especializada em proteção patrimonial, investimentos em ativos mobiliários, leilão de imóveis e consultoria empresarial.",
+    "description": "Gestão e Consultoria Patrimonial especializada em soluções para proteção pessoal e assessoria empresarial.",
+    "startSuitability": "Abra sua conta",
     "quickLinks": "Links Rápidos",
     "home": "Início",
     "portfolio": "Portfólio",
@@ -23,7 +25,8 @@
     "compliance": "Compliance",
     "copyright": "Copyright",
     "rightsReserved": "Todos os direitos reservados.",
-    "whatsappMessage": "Olá, gostaria de saber mais sobre os serviços da Vanilla Capital."
+    "whatsappMessage": "Olá, gostaria de saber mais sobre os serviços da Vanilla Capital.",
+    "regulatedBy": "Regulamentado por"
   },
   "Home": {
     "metadata": {
@@ -35,18 +38,20 @@
       "subtitle": "Consultoria especializada em investimentos e proteção patrimonial para construir o amanhã que você deseja.",
       "cta": "Entre em contato",
       "learnMore": "Conheça nossos serviços",
-      "knowMore": "Contato",
+      "knowMore": "Saiba mais",
       "tagline1": "ESSÊNCIA COMO BASE.",
       "tagline2": "CLAREZA COMO GUIA."
     },
     "strategicPartners": {
       "title": "Parceiros Estratégicos",
-      "description": "Invista com transparência através das instituições financeiras mais renomadas do mercado."
+      "description": "Invista com transparência através das instituições financeiras mais renomadas do mercado.",
+      "cta": "Invista conosco"
     },
     "services": {
       "title": "Nossos Serviços",
       "subtitle": "Soluções completas para suas necessidades de investimento e gestão patrimonial",
       "learnMore": "Saiba mais",
+      "contactUs": "Entre em contato",
       "retirement": {
         "title": "Planejamento de Aposentadoria",
         "description": "Preservamos o patrimônio que você construiu com tanto esforço.",
@@ -136,6 +141,7 @@
         "3": "Análise de dados e insights competitivos"
       }
     },
+    "cta": "Entre em contato",
     "consulting": {
       "title": "Assessoria Financeira Empresarial",
       "description": "Orientação estratégica para decisões financeiras e de governança.",
@@ -148,6 +154,9 @@
     }
   },
   "About": {
+    "ctaTitle": "Vamos conversar",
+    "ctaSubtitle": "Agende uma consulta para discutir seus objetivos financeiros.",
+    "ctaButton": "Entre em contato",
     "metadata": {
       "title": "Quem Somos - Vanilla Capital",
       "description": "Conheça a equipe da Vanilla Capital, especialistas em consultoria de investimentos e gestão patrimonial."
@@ -187,7 +196,11 @@
       "message": "Mensagem",
       "submit": "Enviar Mensagem",
       "submitting": "Enviando...",
-      "success": "Mensagem enviada com sucesso! Entraremos em contato em breve."
+      "success": "Mensagem enviada com sucesso! Entraremos em contato em breve.",
+      "error": "Algo deu errado. Tente novamente ou entre em contato via WhatsApp.",
+      "privacy": "Ao enviar, você concorda que a Vanilla Capital pode usar seus dados para responder à sua solicitação. Não compartilhamos suas informações com terceiros. Consulte nossa política de privacidade.",
+      "nextSteps": "O que acontece em seguida",
+      "nextStepsDescription": "Responderemos em até 24 horas úteis. Você também pode nos contatar diretamente via WhatsApp para atendimento mais rápido."
     }
   },
   "Compliance": {

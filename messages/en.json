@@ -10,11 +10,13 @@
     "signInEmail": "Email",
     "signInPassword": "Password",
     "signInSubmit": "Sign in",
+    "signInSubtitle": "Sign in to your account",
     "signInSubmitting": "Signing in...",
     "signInNetworkError": "Network error"
   },
   "Footer": {
-    "description": "Investment consultancy specialized in wealth protection, securities investments, real estate auctions and business consulting.",
+    "description": "Wealth Management and Consultancy specialized in solutions for personal protection and business advisory.",
+    "startSuitability": "Open your account",
     "quickLinks": "Quick Links",
     "home": "Home",
     "portfolio": "Portfolio",
@@ -23,7 +25,8 @@
     "compliance": "Compliance",
     "copyright": "Copyright",
     "rightsReserved": "All rights reserved.",
-    "whatsappMessage": "Hello, I would like to know more about Vanilla Capital services."
+    "whatsappMessage": "Hello, I would like to know more about Vanilla Capital services.",
+    "regulatedBy": "Regulated by"
   },
   "Home": {
     "metadata": {
@@ -35,18 +38,20 @@
       "subtitle": "Specialized consultancy in investments and wealth protection to build the tomorrow you desire.",
       "cta": "Get in touch",
       "learnMore": "Learn about our services",
-      "knowMore": "Contact",
-      "tagline1": "ESSENCE AS FOUNDATION",
-      "tagline2": "CLARITY AS A GUIDE"
+      "knowMore": "Know more",
+      "tagline1": "ESSENCE AS FOUNDATION.",
+      "tagline2": "CLARITY AS A GUIDE."
     },
     "strategicPartners": {
       "title": "Strategic Partners",
-      "description": "Invest with transparency through the most renowned financial institutions in the market."
+      "description": "Invest with transparency through the most renowned financial institutions in the market.",
+      "cta": "Invest with us"
     },
     "services": {
       "title": "Our Services",
       "subtitle": "Complete solutions for your investment and wealth management needs",
       "learnMore": "Know more",
+      "contactUs": "Contact us",
       "retirement": {
         "title": "Retirement Planning",
         "description": "We preserve the wealth you've worked hard to build.",
@@ -136,6 +141,7 @@
         "3": "Analytics and competitive insights"
       }
     },
+    "cta": "Contact us",
     "consulting": {
       "title": "Business Financial Advisory",
       "description": "Strategic guidance for financial and governance decisions.",
@@ -148,6 +154,9 @@
     }
   },
   "About": {
+    "ctaTitle": "Let's talk",
+    "ctaSubtitle": "Schedule a consultation to discuss your financial goals.",
+    "ctaButton": "Get in touch",
     "metadata": {
       "title": "About Us - Vanilla Capital",
       "description": "Meet the Vanilla Capital team, specialists in investment consultancy and wealth management."
@@ -187,7 +196,11 @@
       "message": "Message",
       "submit": "Send Message",
       "submitting": "Sending...",
-      "success": "Message sent successfully! We will contact you soon."
+      "success": "Message sent successfully! We will contact you soon.",
+      "error": "Something went wrong. Please try again or contact us via WhatsApp.",
+      "privacy": "By submitting, you agree that Vanilla Capital may use your data to respond to your inquiry. We do not share your information with third parties. See our privacy policy for details.",
+      "nextSteps": "What happens next",
+      "nextStepsDescription": "We will respond within 24 business hours. You can also reach us directly via WhatsApp for faster assistance."
     }
   },
   "Compliance": {

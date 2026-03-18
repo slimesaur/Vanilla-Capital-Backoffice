@@ -1,12 +1,14 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { services } from '@/lib/servicesData';
 import BrandIcon from '@/landing/components/ui/BrandIcon';
 
 export default function PortfolioClient() {
   const t = useTranslations('Portfolio');
+  const locale = useLocale();
 
   return (
     <section className="py-20 bg-gradient-to-b from-secondary-50 to-white">
@@ -25,7 +27,7 @@ export default function PortfolioClient() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => {
             return (
               <motion.div
@@ -34,17 +36,20 @@ export default function PortfolioClient() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-secondary-100">
+                <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-secondary-100 h-full flex flex-col">
                   <div className={`${service.bgColor} w-20 h-20 rounded-lg flex items-center justify-center mb-6`}>
                     <BrandIcon name={service.icon} size={56} variant="dark" />
                   </div>
-                  <h2 className="text-2xl font-semibold text-ink mb-4 font-title">
+                  <h2 className="text-2xl font-semibold text-ink mb-3 font-title">
                     {t(`${service.key}.title`)}
                   </h2>
-                  <p className="text-secondary-600 leading-relaxed mb-4">
+                  <p className="font-avenir font-bold text-secondary-700 mb-2">
                     {t(`${service.key}.description`)}
                   </p>
-                  <ul className="space-y-2 text-secondary-600">
+                  <p className="text-secondary-600 leading-relaxed mb-4 font-avenir font-thin flex-grow">
+                    {t(`${service.key}.subDescription`)}
+                  </p>
+                  <ul className="space-y-2 text-secondary-600 mb-6">
                     {[1, 2, 3].map((item) => {
                       const feature = t(`${service.key}.features.${item}`, { returnObjects: true });
                       if (typeof feature === 'string' && feature) {
@@ -58,6 +63,12 @@ export default function PortfolioClient() {
                       return null;
                     })}
                   </ul>
+                  <Link
+                    href={`/${locale}/contact`}
+                    className="pressable inline-flex items-center px-5 py-2.5 text-sm font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-lg transition-colors"
+                  >
+                    {t('cta')}
+                  </Link>
                 </div>
               </motion.div>
             );
