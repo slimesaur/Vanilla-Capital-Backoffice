@@ -34,27 +34,48 @@
       "title": "We invest in your future",
       "subtitle": "Specialized consultancy in investments and wealth protection to build the tomorrow you desire.",
       "cta": "Get in touch",
-      "learnMore": "Learn about our services"
+      "learnMore": "Learn about our services",
+      "knowMore": "Contact",
+      "tagline1": "ESSENCE AS FOUNDATION",
+      "tagline2": "CLARITY AS A GUIDE"
+    },
+    "strategicPartners": {
+      "title": "Strategic Partners",
+      "description": "Invest with transparency through the most renowned financial institutions in the market."
     },
     "services": {
       "title": "Our Services",
       "subtitle": "Complete solutions for your investment and wealth management needs",
-      "learnMore": "Learn more",
+      "learnMore": "Know more",
+      "retirement": {
+        "title": "Retirement Planning",
+        "description": "We preserve the wealth you've worked hard to build.",
+        "subDescription": "Our team brings deep experience in retirement planning and tailored strategies. We help you define goals, diversify income sources, and adjust your plan as life changes, so you can retire with confidence."
+      },
       "patrimonial": {
         "title": "Wealth Protection",
-        "description": "Personalized strategies to protect and preserve your wealth over time."
-      },
-      "assets": {
-        "title": "Securities Investment",
-        "description": "Professional management of investments in stocks, funds and other financial market assets."
+        "description": "We protect what matters most.",
+        "subDescription": "Protecting your assets is at the core of what we do. We develop customized strategies using legal structures and planning tools to shield and preserve your wealth across generations."
       },
       "auction": {
-        "title": "Real Estate Auctions",
-        "description": "Exclusive opportunities in real estate auctions with detailed analysis and specialized support."
+        "title": "Real Estate Auction",
+        "description": "We buy properties below market value.",
+        "subDescription": "We regularly acquire properties through our auction experience and knowledge of the real estate market. We secure exclusive opportunities, perform detailed due diligence, and support clients through each stage of the process."
+      },
+      "assets": {
+        "title": "Asset Allocation",
+        "description": "We help you capture returns in markets we know well.",
+        "subDescription": "Our approach balances risk and return with a focus on long-term performance. We help you achieve solid results in stocks, funds, and other financial assets through disciplined, professional management."
+      },
+      "aiSolution": {
+        "title": "AI Solution for Business",
+        "description": "We automate your operations and align them with the latest technology.",
+        "subDescription": "We review your processes and improve them using cutting-edge AI tools. From automation to analytics, we help your company run more efficiently and stay competitive in modern times."
       },
       "consulting": {
-        "title": "Business Consulting",
-        "description": "Strategic advisory for companies in financial and investment decisions."
+        "title": "Business Financial Advisory",
+        "description": "Strategic guidance for financial and governance decisions.",
+        "subDescription": "We support companies with tailored advice on financing, capital structure, mergers and acquisitions, and long-term planning. Our work focuses on clear analysis and practical steps to strengthen your financial position."
       }
     }
   },
@@ -65,36 +86,60 @@
     },
     "title": "Our Portfolio",
     "subtitle": "Complete and personalized solutions for your investment needs",
+    "retirement": {
+      "title": "Retirement Planning",
+      "description": "We preserve the wealth you've worked hard to build.",
+      "subDescription": "Our team brings deep experience in retirement planning and tailored strategies. We help you define goals, diversify income sources, and adjust your plan as life changes, so you can retire with confidence.",
+      "features": {
+        "1": "Goal definition and retirement roadmap",
+        "2": "Income diversification strategies",
+        "3": "Plan adjustments as life changes"
+      }
+    },
     "patrimonial": {
       "title": "Wealth Protection",
-      "description": "We develop personalized strategies to protect and preserve your wealth, considering your long-term goals and risk profile.",
+      "description": "We protect what matters most.",
+      "subDescription": "Protecting your assets is at the core of what we do. We develop customized strategies using legal structures and planning tools to shield and preserve your wealth across generations.",
       "features": {
         "1": "Succession planning and wealth structures",
         "2": "Risk and vulnerability analysis",
         "3": "Diversification and protection strategies"
       }
     },
-    "assets": {
-      "title": "Securities Investment",
-      "description": "Professional management of investments in stocks, real estate funds, fixed income and other financial market assets, with constant monitoring.",
-      "features": {
-        "1": "Market analysis and opportunities",
-        "2": "Personalized portfolio management",
-        "3": "Monitoring and periodic reports"
-      }
-    },
     "auction": {
-      "title": "Real Estate Auctions",
-      "description": "Exclusive opportunities in real estate auctions with detailed analysis, risk assessment and complete support throughout the process.",
+      "title": "Real Estate Auction",
+      "description": "We buy properties below market value.",
+      "subDescription": "We regularly acquire properties through our auction experience and knowledge of the real estate market. We secure exclusive opportunities, perform detailed due diligence, and support clients through each stage of the process.",
       "features": {
         "1": "Analysis of properties in auction",
         "2": "Opportunity assessment",
         "3": "Support throughout the process"
       }
     },
+    "assets": {
+      "title": "Asset Allocation",
+      "description": "We help you capture returns in markets we know well.",
+      "subDescription": "Our approach balances risk and return with a focus on long-term performance. We help you achieve solid results in stocks, funds, and other financial assets through disciplined, professional management.",
+      "features": {
+        "1": "Market analysis and opportunities",
+        "2": "Personalized portfolio management",
+        "3": "Monitoring and periodic reports"
+      }
+    },
+    "aiSolution": {
+      "title": "AI Solution for Business",
+      "description": "We automate your operations and align them with the latest technology.",
+      "subDescription": "We review your processes and improve them using cutting-edge AI tools. From automation to analytics, we help your company run more efficiently and stay competitive in modern times.",
+      "features": {
+        "1": "Process review and optimization",
+        "2": "Automation and AI implementation",
+        "3": "Analytics and competitive insights"
+      }
+    },
     "consulting": {
-      "title": "Business Consulting",
-      "description": "Strategic advisory for companies in financial decisions, investment structuring and resource optimization.",
+      "title": "Business Financial Advisory",
+      "description": "Strategic guidance for financial and governance decisions.",
+      "subDescription": "We support companies with tailored advice on financing, capital structure, mergers and acquisitions, and long-term planning. Our work focuses on clear analysis and practical steps to strengthen your financial position.",
       "features": {
         "1": "Financial and strategic analysis",
         "2": "Corporate investment structuring",

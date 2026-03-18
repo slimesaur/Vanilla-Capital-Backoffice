@@ -34,27 +34,48 @@
       "title": "Investimos no seu futuro",
       "subtitle": "Consultoria especializada em investimentos e proteção patrimonial para construir o amanhã que você deseja.",
       "cta": "Entre em contato",
-      "learnMore": "Conheça nossos serviços"
+      "learnMore": "Conheça nossos serviços",
+      "knowMore": "Contato",
+      "tagline1": "ESSÊNCIA COMO BASE.",
+      "tagline2": "CLAREZA COMO GUIA."
+    },
+    "strategicPartners": {
+      "title": "Parceiros Estratégicos",
+      "description": "Invista com transparência através das instituições financeiras mais renomadas do mercado."
     },
     "services": {
       "title": "Nossos Serviços",
       "subtitle": "Soluções completas para suas necessidades de investimento e gestão patrimonial",
       "learnMore": "Saiba mais",
+      "retirement": {
+        "title": "Planejamento de Aposentadoria",
+        "description": "Preservamos o patrimônio que você construiu com tanto esforço.",
+        "subDescription": "Nossa equipe traz experiência profunda em planejamento de aposentadoria e estratégias personalizadas. Ajudamos você a definir metas, diversificar fontes de renda e ajustar seu plano à medida que a vida muda, para que você possa se aposentar com confiança."
+      },
       "patrimonial": {
         "title": "Proteção Patrimonial",
-        "description": "Estratégias personalizadas para proteger e preservar seu patrimônio ao longo do tempo."
-      },
-      "assets": {
-        "title": "Investimento em Ativos Mobiliários",
-        "description": "Gestão profissional de investimentos em ações, fundos e outros ativos do mercado financeiro."
+        "description": "Protegemos o que mais importa.",
+        "subDescription": "Proteger seus ativos está no centro do que fazemos. Desenvolvemos estratégias personalizadas usando estruturas jurídicas e ferramentas de planejamento para proteger e preservar sua riqueza através das gerações."
       },
       "auction": {
         "title": "Leilão de Imóveis",
-        "description": "Oportunidades exclusivas em leilões de imóveis com análise detalhada e suporte especializado."
+        "description": "Compramos imóveis abaixo do valor de mercado.",
+        "subDescription": "Adquirimos regularmente imóveis através da nossa experiência em leilões e conhecimento do mercado imobiliário. Garantimos oportunidades exclusivas, realizamos due diligence detalhada e apoiamos os clientes em cada etapa do processo."
+      },
+      "assets": {
+        "title": "Alocação de Ativos",
+        "description": "Ajudamos você a capturar retornos em mercados que conhecemos bem.",
+        "subDescription": "Nossa abordagem equilibra risco e retorno com foco em desempenho de longo prazo. Ajudamos você a alcançar resultados sólidos em ações, fundos e outros ativos financeiros através de gestão disciplinada e profissional."
+      },
+      "aiSolution": {
+        "title": "Solução em IA para Negócios",
+        "description": "Automatizamos suas operações e alinhamos com a mais recente tecnologia.",
+        "subDescription": "Revisamos seus processos e os melhoramos usando ferramentas de IA de ponta. Da automação à análise de dados, ajudamos sua empresa a operar com mais eficiência e manter-se competitiva nos tempos modernos."
       },
       "consulting": {
-        "title": "Consultoria Empresarial",
-        "description": "Assessoria estratégica para empresas em decisões financeiras e de investimento."
+        "title": "Assessoria Financeira Empresarial",
+        "description": "Orientação estratégica para decisões financeiras e de governança.",
+        "subDescription": "Apoiamos empresas com assessoria personalizada em financiamento, estrutura de capital, fusões e aquisições e planejamento de longo prazo. Nosso trabalho foca em análise clara e passos práticos para fortalecer sua posição financeira."
       }
     }
   },
@@ -65,36 +86,60 @@
     },
     "title": "Nosso Portfólio",
     "subtitle": "Soluções completas e personalizadas para suas necessidades de investimento",
+    "retirement": {
+      "title": "Planejamento de Aposentadoria",
+      "description": "Preservamos o patrimônio que você construiu com tanto esforço.",
+      "subDescription": "Nossa equipe traz experiência profunda em planejamento de aposentadoria e estratégias personalizadas. Ajudamos você a definir metas, diversificar fontes de renda e ajustar seu plano à medida que a vida muda, para que você possa se aposentar com confiança.",
+      "features": {
+        "1": "Definição de metas e roadmap de aposentadoria",
+        "2": "Estratégias de diversificação de renda",
+        "3": "Ajustes do plano conforme a vida muda"
+      }
+    },
     "patrimonial": {
       "title": "Proteção Patrimonial",
-      "description": "Desenvolvemos estratégias personalizadas para proteger e preservar seu patrimônio, considerando seus objetivos de longo prazo e perfil de risco.",
+      "description": "Protegemos o que mais importa.",
+      "subDescription": "Proteger seus ativos está no centro do que fazemos. Desenvolvemos estratégias personalizadas usando estruturas jurídicas e ferramentas de planejamento para proteger e preservar sua riqueza através das gerações.",
       "features": {
         "1": "Planejamento sucessório e estruturas patrimoniais",
         "2": "Análise de riscos e vulnerabilidades",
         "3": "Estratégias de diversificação e proteção"
       }
     },
-    "assets": {
-      "title": "Investimento em Ativos Mobiliários",
-      "description": "Gestão profissional de investimentos em ações, fundos imobiliários, renda fixa e outros ativos do mercado financeiro, com acompanhamento constante.",
-      "features": {
-        "1": "Análise de mercado e oportunidades",
-        "2": "Gestão de carteiras personalizadas",
-        "3": "Acompanhamento e relatórios periódicos"
-      }
-    },
     "auction": {
       "title": "Leilão de Imóveis",
-      "description": "Oportunidades exclusivas em leilões de imóveis com análise detalhada, avaliação de riscos e suporte completo durante todo o processo.",
+      "description": "Compramos imóveis abaixo do valor de mercado.",
+      "subDescription": "Adquirimos regularmente imóveis através da nossa experiência em leilões e conhecimento do mercado imobiliário. Garantimos oportunidades exclusivas, realizamos due diligence detalhada e apoiamos os clientes em cada etapa do processo.",
       "features": {
         "1": "Análise de imóveis em leilão",
         "2": "Avaliação de oportunidades",
         "3": "Suporte durante todo o processo"
       }
     },
+    "assets": {
+      "title": "Alocação de Ativos",
+      "description": "Ajudamos você a capturar retornos em mercados que conhecemos bem.",
+      "subDescription": "Nossa abordagem equilibra risco e retorno com foco em desempenho de longo prazo. Ajudamos você a alcançar resultados sólidos em ações, fundos e outros ativos financeiros através de gestão disciplinada e profissional.",
+      "features": {
+        "1": "Análise de mercado e oportunidades",
+        "2": "Gestão de carteiras personalizadas",
+        "3": "Acompanhamento e relatórios periódicos"
+      }
+    },
+    "aiSolution": {
+      "title": "Solução em IA para Negócios",
+      "description": "Automatizamos suas operações e alinhamos com a mais recente tecnologia.",
+      "subDescription": "Revisamos seus processos e os melhoramos usando ferramentas de IA de ponta. Da automação à análise de dados, ajudamos sua empresa a operar com mais eficiência e manter-se competitiva nos tempos modernos.",
+      "features": {
+        "1": "Revisão e otimização de processos",
+        "2": "Automação e implementação de IA",
+        "3": "Análise de dados e insights competitivos"
+      }
+    },
     "consulting": {
-      "title": "Consultoria Empresarial",
-      "description": "Assessoria estratégica para empresas em decisões financeiras, estruturação de investimentos e otimização de recursos.",
+      "title": "Assessoria Financeira Empresarial",
+      "description": "Orientação estratégica para decisões financeiras e de governança.",
+      "subDescription": "Apoiamos empresas com assessoria personalizada em financiamento, estrutura de capital, fusões e aquisições e planejamento de longo prazo. Nosso trabalho foca em análise clara e passos práticos para fortalecer sua posição financeira.",
       "features": {
         "1": "Análise financeira e estratégica",
         "2": "Estruturação de investimentos corporativos",

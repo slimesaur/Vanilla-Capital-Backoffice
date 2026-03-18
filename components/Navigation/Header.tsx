@@ -4,12 +4,14 @@ import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import LanguageSwitcher from '@/landing/components/LanguageSwitcher/LanguageSwitcher';
 import { cn } from '@/landing/lib/utils';
 import LandingLogo from './LandingLogo';
 import SignInDropdown from '@/landing/components/auth/SignInDropdown';
 import SignInForm from '@/landing/components/auth/SignInForm';
+
+const SCROLL_THRESHOLD = 80; // px to scroll before header hides
 
 export default function Header() {
   const t = useTranslations('Navigation');
@@ -18,6 +20,25 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileSignInOpen, setIsMobileSignInOpen] = useState(false);
+  const [headerVisible, setHeaderVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  // Show header when scrolling up, hide when scrolling down (Quartzo-style)
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY;
+      if (y < SCROLL_THRESHOLD) {
+        setHeaderVisible(true);
+      } else if (y > lastScrollY.current) {
+        setHeaderVisible(false);
+      } else {
+        setHeaderVisible(true);
+      }
+      lastScrollY.current = y;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     fetch('/api/auth/session')
@@ -50,7 +71,10 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A2433] backdrop-blur-sm shadow-sm font-avenir font-thin">
+    <header
+      className="fixed top-0 left-0 right-0 z-50 bg-[#1A2433] backdrop-blur-sm shadow-sm font-avenir font-thin transition-transform duration-300 ease-out"
+      style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}
+    >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
           <div className="flex items-center pr-6">

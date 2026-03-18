@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 import Hero from '@/landing/components/sections/Hero';
+import StrategicPartners from '@/landing/components/sections/StrategicPartners';
 import Services from '@/landing/components/sections/Services';
 
 export async function generateMetadata({
@@ -28,6 +29,7 @@ export default async function HomePage({
   return (
     <>
       <Hero />
+      <StrategicPartners />
       <Services />
     </>
   );
