@@ -1,10 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 import { getCompanySettings } from '@/lib/settings';
 import { getWhatsAppLink } from '@/landing/lib/utils';
-import HeroMedia from './HeroMedia';
 
 // Hero dimensions: 1409×793 (aspect ratio ~1.78)
 const ASPECT_RATIO = 1409 / 793;
+const HERO_VERSION = '5';
 
 export default async function Hero() {
   const t = await getTranslations('Home.hero');
@@ -20,7 +20,20 @@ export default async function Hero() {
       className="relative w-full overflow-hidden"
       style={{ aspectRatio: `${ASPECT_RATIO}` }}
     >
-      <HeroMedia />
+      <div className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={`/hero/HERO001.png?v=${HERO_VERSION}`}
+          className="w-full h-full object-cover object-center"
+          aria-label="Vanilla Capital investment consultancy background"
+        >
+          <source src={`/hero/HERO002.mp4?v=${HERO_VERSION}`} type="video/mp4" />
+        </video>
+      </div>
 
       {/* Tagline and button: mobile left-6/sm:left-8, desktop same container as Strategic Partners */}
       <div className="absolute top-[35%] left-6 sm:left-8 md:left-0 md:right-0 z-10">
