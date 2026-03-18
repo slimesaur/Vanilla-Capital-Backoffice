@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 
-// Cache-busting version: bump when hero assets change to force fresh load
-const HERO_VERSION = 3;
+// Per-deploy cache buster - ensures fresh load, no old image flash
+const HERO_VERSION = process.env.NEXT_PUBLIC_HERO_VERSION || '4';
 const POSTER_URL = `/hero/HERO001.png?v=${HERO_VERSION}`;
 const VIDEO_URL = `/hero/HERO002.mp4?v=${HERO_VERSION}`;
 
@@ -18,24 +18,26 @@ export default function HeroMedia() {
   }, []);
 
   return (
-    <div
-      className="absolute inset-0 z-0 transition-opacity duration-150"
-      style={{ opacity: posterReady ? 1 : 0 }}
-    >
-      <div className="absolute inset-0 bg-[#2a3647]" aria-hidden="true" />
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        poster={POSTER_URL}
-        fetchPriority="high"
-        className="w-full h-full object-cover object-center"
-        aria-label="Vanilla Capital investment consultancy background"
-      >
-        <source src={VIDEO_URL} type="video/mp4" />
-      </video>
+    <div className="absolute inset-0 z-0">
+      <div
+        className="absolute inset-0 bg-[#2a3647] transition-opacity duration-200"
+        style={{ opacity: posterReady ? 0 : 1 }}
+        aria-hidden="true"
+      />
+      {posterReady && (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={POSTER_URL}
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          aria-label="Vanilla Capital investment consultancy background"
+        >
+          <source src={VIDEO_URL} type="video/mp4" />
+        </video>
+      )}
     </div>
   );
 }
