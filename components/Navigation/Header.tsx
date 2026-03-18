@@ -10,18 +10,22 @@ import { cn } from '@/landing/lib/utils';
 import LandingLogo from './LandingLogo';
 import SignInDropdown from '@/landing/components/auth/SignInDropdown';
 import SignInForm from '@/landing/components/auth/SignInForm';
+import { services } from '@/lib/servicesData';
 
 const SCROLL_THRESHOLD = 80; // px to scroll before header hides
 
 export default function Header() {
   const t = useTranslations('Navigation');
+  const tServices = useTranslations('Home.services');
   const locale = useLocale();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileSignInOpen, setIsMobileSignInOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
   const lastScrollY = useRef(0);
+  const portfolioRef = useRef<HTMLDivElement>(null);
 
   // Show header when scrolling up, hide when scrolling down (Quartzo-style)
   useEffect(() => {
@@ -49,9 +53,22 @@ export default function Header() {
       .catch(() => {});
   }, []);
 
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (portfolioRef.current && !portfolioRef.current.contains(e.target as Node)) {
+        setIsPortfolioOpen(false);
+      }
+    }
+    if (isPortfolioOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isPortfolioOpen]);
+
+  const isPortfolioActive = pathname.startsWith(`/${locale}/portfolio`);
+
   const navigation = [
     { name: t('home'), href: `/${locale}`, exact: true },
-    { name: t('portfolio'), href: `/${locale}/portfolio` },
     { name: t('about'), href: `/${locale}/about` },
     { name: t('contact'), href: `/${locale}/contact` },
     { name: t('compliance'), href: `/${locale}/compliance` },
@@ -83,7 +100,62 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:space-x-8">
-            {navigation.map((item) => (
+            {navigation.slice(0, 1).map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  'text-sm font-medium transition-colors hover:text-accent-300',
+                  isActive(item)
+                    ? 'text-secondary-100'
+                    : 'text-secondary-200'
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+            {/* Portfolio Dropdown */}
+            <div className="relative" ref={portfolioRef}>
+              <button
+                onClick={() => setIsPortfolioOpen((prev) => !prev)}
+                className={cn(
+                  'flex items-center gap-1 text-sm font-medium transition-colors hover:text-accent-300',
+                  isPortfolioActive
+                    ? 'text-secondary-100'
+                    : 'text-secondary-200'
+                )}
+                aria-expanded={isPortfolioOpen}
+                aria-haspopup="true"
+              >
+                {t('portfolio')}
+                <ChevronDown className={cn('h-4 w-4 transition-transform', isPortfolioOpen && 'rotate-180')} />
+              </button>
+              <div
+                className={cn(
+                  'absolute left-0 top-full mt-1 min-w-[200px] rounded-lg border border-white/10 bg-[#1A2433] py-2 shadow-lg transition-all',
+                  isPortfolioOpen
+                    ? 'opacity-100 visible'
+                    : 'invisible opacity-0'
+                )}
+              >
+                {services.map((service) => (
+                  <Link
+                    key={service.key}
+                    href={`/${locale}/portfolio/${service.slug}`}
+                    onClick={() => setIsPortfolioOpen(false)}
+                    className={cn(
+                      'block px-4 py-2 text-sm transition-colors hover:bg-primary-400/10 hover:text-secondary-100',
+                      pathname === `/${locale}/portfolio/${service.slug}`
+                        ? 'text-secondary-100 bg-primary-400/10'
+                        : 'text-secondary-200'
+                    )}
+                  >
+                    {tServices(`${service.key}.title`)}
+                  </Link>
+                ))}
+              </div>
+            </div>
+            {navigation.slice(1).map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
@@ -153,7 +225,41 @@ export default function Header() {
         >
           <div className="bg-[#1A2433]">
             <div className="space-y-1 px-2 pb-3 pt-2 border-t border-white/10">
-              {navigation.map((item) => (
+              <Link
+                href={`/${locale}`}
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  'block rounded-md px-3 py-2 text-base font-medium',
+                  pathname === `/${locale}` ? 'bg-primary-400/20 text-secondary-100' : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
+                )}
+              >
+                {t('home')}
+              </Link>
+              <div>
+                <button
+                  onClick={() => setIsPortfolioOpen((prev) => !prev)}
+                  className={cn(
+                    'flex w-full items-center justify-between rounded-md px-3 py-2 text-base font-medium',
+                    isPortfolioActive ? 'bg-primary-400/20 text-secondary-100' : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
+                  )}
+                >
+                  {t('portfolio')}
+                  {isPortfolioOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                </button>
+                <div className={cn('overflow-hidden', isPortfolioOpen ? 'max-h-80' : 'max-h-0')}>
+                  {services.map((service) => (
+                    <Link
+                      key={service.key}
+                      href={`/${locale}/portfolio/${service.slug}`}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block rounded-md px-5 py-2 text-sm text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100"
+                    >
+                      {tServices(`${service.key}.title`)}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              {navigation.slice(1).map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}

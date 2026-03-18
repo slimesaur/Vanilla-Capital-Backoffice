@@ -135,7 +135,7 @@ export default function Services() {
             </AnimatePresence>
             <div className="flex flex-wrap gap-3">
               <Link
-                href={`/${locale}/portfolio`}
+                href={`/${locale}/portfolio/${activeService.slug}`}
                 className="pressable inline-flex items-center px-5 py-2 text-sm bg-accent-500 hover:bg-accent-400 text-secondary-50 font-avenir font-thin rounded-lg transition-colors duration-300"
               >
                 {t('learnMore')}
