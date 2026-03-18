@@ -26,11 +26,12 @@ export default async function Hero() {
           loop
           playsInline
           preload="auto"
-          poster="/hero/HERO001.png"
+          poster="/hero/HERO001.png?v=2"
+          fetchPriority="high"
           className="w-full h-full object-cover object-center"
           aria-label="Vanilla Capital investment consultancy background"
         >
-          <source src="/hero/HERO002.mp4" type="video/mp4" />
+          <source src="/hero/HERO002.mp4?v=2" type="video/mp4" />
         </video>
       </div>
 
