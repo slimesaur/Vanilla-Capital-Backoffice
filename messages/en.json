@@ -78,7 +78,7 @@
         "subDescription": "We review your processes and improve them using cutting-edge AI tools. From automation to analytics, we help your company run more efficiently and stay competitive in modern times."
       },
       "consulting": {
-        "title": "Business Financial Advisory",
+        "title": "Business Consulting",
         "description": "Strategic guidance for financial and governance decisions.",
         "subDescription": "We support companies with tailored advice on financing, capital structure, mergers and acquisitions, and long-term planning. Our work focuses on clear analysis and practical steps to strengthen your financial position."
       }
@@ -100,10 +100,10 @@
         "descriptionP2": "We believe that efficient asset allocation is the foundation of wealth building. We combine fundamental analysis and long-term vision to identify opportunities and preserve our clients' capital.",
         "cardGridTitle": "Why invest in securities?",
         "cards": {
-          "1": { "title": "Tax Advantages", "description": "Tax planning can transform your investments. Dividends from stocks are tax-free for individuals in Brazil; LCIs and LCAs offer exemption with FGC protection; and PGBL allows deduction of up to 12% of income on your tax return. We diversify across vehicles with different tax treatments to optimize your net gains." },
-          "2": { "title": "Performance and Returns", "description": "Our results are solid and consistently above the CDI benchmark. We work with discipline and proven methodology to deliver returns that make a difference to your wealth over time." },
-          "3": { "title": "Risk Management", "description": "Diversification reduces volatility and protects your capital in adverse scenarios. What matters most to us is client protection: we prioritize risk management in all allocation decisions." },
-          "4": { "title": "Conflict of Interest Mitigation", "description": "We operate on a fee-based model, aligning our interests with yours. Total transparency on fees and structure; you pay for advice, not products. Your success is our metric." }
+          "1": { "title": "Tax Advantages", "description": "Tax planning can transform your investments. Dividends from stocks are tax-free for individuals in Brazil; PGBL allows deduction of up to 12% of income on your tax return. We diversify across vehicles with different tax treatments to optimize your net gains." },
+          "2": { "title": "Performance and Returns", "description": "Our results are solid and consistently above the CDI benchmark. We work with discipline and proven methodology to deliver returns." },
+          "3": { "title": "Risk Management", "description": "What matters most to us is client protection: we prioritize risk management in all allocation decisions." },
+          "4": { "title": "Conflict of Interest Mitigation", "description": "We operate on a fee-based model, aligning our interests with yours. Total transparency on fees and structure. Your success is our metric." }
         }
       },
       "retirement": {
@@ -114,9 +114,9 @@
         "cardGridTitle": "How to plan my retirement?",
         "cards": {
           "1": { "title": "Income Diagnosis & Planning", "description": "We conduct a complete diagnosis of your current situation and project income scenarios for retirement. We define goals, revenue sources, and strategies to achieve your desired standard of living." },
-          "2": { "title": "Succession Planning", "description": "Succession planning done in advance brings significant tax advantages and avoids conflicts. Structures such as holdings, funds, and pension plans can optimize the transfer of wealth to future generations." },
+          "2": { "title": "Succession Planning", "description": "Succession planning brings significant tax advantages and avoids conflicts. Structures such as holdings, funds, and pension plans can optimize the transfer of wealth to future generations." },
           "3": { "title": "Wealth Protection", "description": "We ensure your wealth is preserved with the best possible strategy. You will enjoy retirement with security, knowing your assets are protected and well managed." },
-          "4": { "title": "Your Time Matters", "description": "Beyond income financial planning, we take care of the bureaucratic side of our clients' lives: insurance, securities, documentation, and tax obligations. You gain time for what truly matters." }
+          "4": { "title": "Your Time Matters", "description": "We take care of the bureaucratic side of our clients' lives: insurance, securities, documentation, and tax obligations. You gain time for what truly matters." }
         }
       },
       "patrimonial": {
@@ -139,7 +139,7 @@
         "descriptionP2": "We map over 2,000 auctioneers daily across Brazil. Our specialists filter the best and safest opportunities for you.",
         "cardGridTitle": "How to invest in Real Estate Auctions?",
         "cards": {
-          "1": { "title": "Identify Opportunities", "description": "We map over 2,000 auctioneers daily across Brazil. We have filtered opportunities in the best regions, with safety and return potential criteria. The best chances go through our curation." },
+          "1": { "title": "Identify Opportunities", "description": "We map over 2,000 auctioneers daily. We have filtered opportunities in the best regions, with safety and return potential criteria. The best chances go through our curation." },
           "2": { "title": "Legal Analysis", "description": "Our specialists analyze the entire judicial process involved in the auction and filter only safe opportunities. We verify registration, notice, borrower documentation, and possible liens or pendencies that may affect the property." },
           "3": { "title": "Financial Viability", "description": "We evaluate each opportunity considering short-stay Airbnb potential, rental, or sale. We track all KPIs to bring the best return on investment for our clients." },
           "4": { "title": "End-to-End Process Support", "description": "We accompany the client from start to finish: from opportunity to sale, rental, or use of the property. We support you at every step. We stand by our numbers and projections with transparency and commitment." }
@@ -159,7 +159,7 @@
         }
       },
       "consulting": {
-        "title": "Business Financial Advisory",
+        "title": "Business Consulting",
         "descriptionTitle": "Strategic guidance for financial and investment decisions.",
         "descriptionP1": "We have tailored solutions for every demand. Whether for capital structuring, feasibility analysis, due diligence, or long-term planning, our team is ready to help. Contact us and discover how we can support your company.",
         "descriptionP2": "We support companies with tailored advice on financing, mergers and acquisitions, governance, and resource optimization. Clear analysis and practical steps to strengthen your financial position.",
@@ -183,13 +183,22 @@
     },
     "title": "About Us",
     "subtitle": "A team of specialists dedicated to building our clients' future",
-    "mission": {
-      "title": "Our Mission",
-      "description": "Vanilla Capital is a Brazilian investment consultancy specialized in helping our clients understand how to invest their money for the future. We offer wealth protection services, securities investments, real estate auctions and business consulting, always focusing on excellence and building lasting relationships."
+    "manifesto": {
+      "label": "Manifesto",
+      "p1": "When essence is defined,",
+      "p2": "clarity emerges naturally.",
+      "p3": "And it is from this combination that progress happens.",
+      "p4": "with consistency, focus and precision.",
+      "p5": "Because everything that grows needs foundation.",
+      "p6": "And everything that advances needs direction.",
+      "closing1": "Essence as foundation.",
+      "closing2": "Clarity as guide."
     },
     "team": {
       "title": "Our Team",
       "subtitle": "Experienced professionals committed to our clients' success",
+      "defaultDescription": "Software Engineer, specialist in regulatory compliance, focused on wealth protection and CVM compliance.",
+      "defaultDescription2": "Partner and specialist in wealth management and investment consultancy.",
       "placeholder": {
         "name": "Add team member",
         "role": "Position",

@@ -45,14 +45,14 @@ export default function LanguageSwitcher() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-secondary-200 hover:text-accent-300 hover:bg-white/5 transition-colors"
+        className="flex items-center space-x-2 px-3 py-2 rounded-none text-sm font-medium text-secondary-200 hover:text-accent-300 hover:bg-white/5 transition-colors"
       >
         <BrandIcon name="21" size={20} variant="light" />
         <span>{languageNames[locale]}</span>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-32 bg-[#1A2433] rounded-md shadow-lg ring-1 ring-white/10 z-50 border border-white/10">
+        <div className="absolute right-0 mt-2 w-32 bg-[#1A2433] rounded-none shadow-lg ring-1 ring-white/10 z-50 border border-white/10">
           <div className="py-1">
             {locales.map((loc) => (
               <button

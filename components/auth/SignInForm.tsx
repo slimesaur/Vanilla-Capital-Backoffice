@@ -78,7 +78,7 @@ export default function SignInForm({ variant = 'page', labels, onSuccess }: Sign
           autoFocus={!isDropdown}
           autoComplete="email"
           className={cn(
-            'w-full rounded-lg border outline-none transition',
+            'w-full rounded-none border outline-none transition',
             isDropdown
               ? 'px-3 py-2 text-sm bg-white/5 border-white/10 text-secondary-100 placeholder:text-secondary-300 focus:ring-2 focus:ring-accent-400/50 focus:border-accent-400'
               : 'px-4 py-2.5 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] font-interTight focus:ring-2 focus:ring-vanilla-secondary/50 focus:border-vanilla-secondary'
@@ -108,7 +108,7 @@ export default function SignInForm({ variant = 'page', labels, onSuccess }: Sign
             required
             autoComplete="current-password"
             className={cn(
-              'w-full pr-10 rounded-lg border outline-none transition',
+              'w-full pr-10 rounded-none border outline-none transition',
               isDropdown
                 ? 'px-3 py-2 text-sm bg-white/5 border-white/10 text-secondary-100 placeholder:text-secondary-300 focus:ring-2 focus:ring-accent-400/50 focus:border-accent-400'
                 : 'px-4 py-2.5 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] font-interTight focus:ring-2 focus:ring-vanilla-secondary/50 focus:border-vanilla-secondary'
@@ -144,7 +144,7 @@ export default function SignInForm({ variant = 'page', labels, onSuccess }: Sign
         type="submit"
         disabled={loading}
         className={cn(
-          'w-full rounded-lg font-medium transition disabled:opacity-50',
+          'w-full rounded-none clip-cut-corners font-medium transition disabled:opacity-50',
           isDropdown
             ? 'px-3 py-2 text-sm bg-accent-500 text-white hover:bg-accent-400'
             : 'px-4 py-2.5 bg-vanilla-secondary text-vanilla-main font-interTight hover:opacity-90'

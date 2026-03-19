@@ -19,6 +19,7 @@ const PUBLIC_API_PATHS = [
   '/api/auth/login',
   '/api/auth/logout',
   '/api/auth/session',
+  '/api/contact',
   '/api/registration/responses',
   '/api/suitability/forms/',
 ]

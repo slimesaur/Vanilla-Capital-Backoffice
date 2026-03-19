@@ -76,8 +76,8 @@ export default function ComplianceClient() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-secondary-100 h-full flex flex-col">
-                <div className="bg-accent-100 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
+              <div className="bg-white rounded-none clip-cut-corners-all p-8 shadow-lg hover:shadow-xl transition-shadow border border-secondary-100 h-full flex flex-col">
+                <div className="bg-accent-100 w-16 h-16 rounded-none flex items-center justify-center mb-6">
                   <FileText className="h-8 w-8 text-accent-600" />
                 </div>
                 <h2 className="text-2xl font-semibold text-ink mb-4 font-title">
@@ -90,13 +90,13 @@ export default function ComplianceClient() {
                   <a
                     href={docUrls[doc.backofficeKey]}
                     download
-                    className="pressable inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-800 transition-colors"
+                    className="pressable clip-cut-corners inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-none hover:bg-primary-800 transition-colors"
                   >
                     <Download className="h-5 w-5 mr-2" />
                     {t('download')}
                   </a>
                 ) : (
-                  <span className="inline-flex items-center justify-center px-6 py-3 bg-secondary-200 text-secondary-500 font-semibold rounded-lg cursor-not-allowed">
+                  <span className="clip-cut-corners inline-flex items-center justify-center px-6 py-3 bg-secondary-200 text-secondary-500 font-semibold rounded-none cursor-not-allowed">
                     <Download className="h-5 w-5 mr-2" />
                     {t('download')}
                   </span>
@@ -110,7 +110,7 @@ export default function ComplianceClient() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 bg-secondary-50 rounded-xl p-8"
+          className="mt-12 bg-secondary-50 rounded-none clip-cut-corners-all p-8"
         >
           <h3 className="text-xl font-semibold text-ink mb-4 font-title">
             {t('info.title')}

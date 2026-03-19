@@ -1,14 +1,17 @@
 import FormLayout from '@/components/FormLayout'
 import RegistrationFormFill from '@/views/RegistrationFormFill'
+import { getCompanySettings } from '@/lib/settings'
 
 interface Props {
-  params: { formType: string }
+  params: Promise<{ formType: string }>
 }
 
-export default function RegistrationFillPage({ params }: Props) {
+export default async function RegistrationFillPage({ params }: Props) {
+  const { formType } = await params
+  const settings = await getCompanySettings()
   return (
-    <FormLayout>
-      <RegistrationFormFill formType={params.formType} />
+    <FormLayout settings={settings}>
+      <RegistrationFormFill formType={formType} />
     </FormLayout>
   )
 }

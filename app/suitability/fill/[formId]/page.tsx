@@ -1,14 +1,17 @@
 import FormLayout from '@/components/FormLayout'
 import SuitabilityFormFill from '@/views/SuitabilityFormFill'
+import { getCompanySettings } from '@/lib/settings'
 
 interface Props {
-  params: { formId: string }
+  params: Promise<{ formId: string }>
 }
 
-export default function SuitabilityFillPage({ params }: Props) {
+export default async function SuitabilityFillPage({ params }: Props) {
+  const { formId } = await params
+  const settings = await getCompanySettings()
   return (
-    <FormLayout>
-      <SuitabilityFormFill formId={params.formId} />
+    <FormLayout settings={settings}>
+      <SuitabilityFormFill formId={formId} />
     </FormLayout>
   )
 }

@@ -112,3 +112,14 @@ model ComplianceDocument {
 
   @@map("compliance_documents")
 }
+
+model ContactLead {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contact_leads")
+}

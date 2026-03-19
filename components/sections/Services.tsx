@@ -52,11 +52,11 @@ export default function Services() {
         </h2>
         {/* Framed carousel container - Quartzo-style */}
         <div
-          className="relative w-full overflow-hidden rounded-xl border border-secondary-200/80 bg-primary-900 shadow-xl"
+          className="relative w-full overflow-hidden rounded-none clip-cut-corners-all border border-secondary-200/80 bg-primary-900 shadow-xl"
         >
           {/* Hero carousel - 16:9 within frame */}
           <div
-            className="relative w-full overflow-hidden rounded-t-xl"
+            className="relative w-full overflow-hidden rounded-none"
             style={{ aspectRatio: ASPECT_RATIO }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -136,13 +136,13 @@ export default function Services() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href={`/${locale}/portfolio/${activeService.slug}`}
-                className="pressable inline-flex items-center px-5 py-2 text-sm bg-accent-500 hover:bg-accent-400 text-secondary-50 font-avenir font-thin rounded-lg transition-colors duration-300"
+                className="pressable clip-cut-corners inline-flex items-center px-5 py-2 text-sm bg-accent-500 hover:bg-accent-400 text-secondary-50 font-avenir font-thin rounded-none transition-colors duration-300"
               >
                 {t('learnMore')}
               </Link>
               <Link
                 href={`/${locale}/contact`}
-                className="pressable inline-flex items-center px-5 py-2 text-sm bg-white/20 hover:bg-white/30 text-secondary-50 font-avenir font-thin rounded-lg border border-secondary-50/50 transition-colors duration-300"
+                className="pressable clip-cut-corners inline-flex items-center px-5 py-2 text-sm bg-white/20 hover:bg-white/30 text-secondary-50 font-avenir font-thin rounded-none border border-secondary-50/50 transition-colors duration-300"
               >
                 {t('contactUs')}
               </Link>
@@ -165,10 +165,10 @@ export default function Services() {
                 aria-selected={activeIndex === index}
                 aria-label={`${t(`${service.key}.title`)}`}
                 onClick={() => goToSlide(index)}
-                className="p-1.5 rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
+                className="p-1.5 rounded-none transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
               >
                 <span
-                  className={`block rounded-full transition-all duration-300 ${
+                  className={`block rounded-none transition-all duration-300 ${
                     activeIndex === index
                       ? 'w-8 h-2.5 bg-accent-400'
                       : 'w-2.5 h-2.5 bg-secondary-50/60 hover:bg-secondary-50'

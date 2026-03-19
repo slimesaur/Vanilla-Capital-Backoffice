@@ -64,12 +64,28 @@ function ContactRow({ type, href, wrap = false, children }: { type: 'phone' | 'w
 
 interface FormLayoutProps {
   children: React.ReactNode
+  settings?: {
+    phone?: string | null
+    email?: string | null
+    address?: string | null
+    whatsapp?: string | null
+  }
 }
 
-export default function FormLayout({ children }: FormLayoutProps) {
+const DEFAULT_PHONE = '+5541988195090'
+const DEFAULT_EMAIL = 'atendimento@vanillacapital.com.br'
+const DEFAULT_ADDRESS = 'Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR'
+
+export default function FormLayout({ children, settings }: FormLayoutProps) {
   const { theme, mounted, toggleTheme } = useTheme()
   const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const phone = settings?.phone || DEFAULT_PHONE
+  const email = settings?.email || DEFAULT_EMAIL
+  const address = settings?.address || DEFAULT_ADDRESS
+  const whatsapp = settings?.whatsapp || phone
+  const whatsappHref = `https://wa.me/${whatsapp.replace(/\D/g, '').slice(0, 13)}`
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), [])
 
@@ -94,14 +110,14 @@ export default function FormLayout({ children }: FormLayoutProps) {
         )}
       </div>
       <div className="p-4 border-b border-[var(--border-color)] space-y-1">
-        <ContactRow type="phone" href="tel:+554130529500">+55 (41) 3052-9500</ContactRow>
-        <ContactRow type="whatsapp" href="https://wa.me/5541988195090">+55 (41) 98819-5090</ContactRow>
-        <ContactRow type="email" href="mailto:atendimento@vanillacapital.com.br">atendimento@vanillacapital.com.br</ContactRow>
+        <ContactRow type="phone" href={`tel:${phone.replace(/\D/g, '')}`}>{phone}</ContactRow>
+        <ContactRow type="whatsapp" href={whatsappHref}>{whatsapp}</ContactRow>
+        <ContactRow type="email" href={`mailto:${email}`}>{email}</ContactRow>
         <ContactRow type="link" href="https://vanillacapital.com.br">vanillacapital.com.br</ContactRow>
       </div>
       <div className="flex-1" />
       <div className="p-4 border-t border-[var(--border-color)]">
-        <ContactRow type="location" wrap>Av. Iguaçu, 2820 - Batel, Curitiba - PR, 80240-030</ContactRow>
+        <ContactRow type="location" wrap>{address}</ContactRow>
       </div>
       <div className="p-6 border-t border-[var(--border-color)] flex items-center gap-2">
         {mounted && (

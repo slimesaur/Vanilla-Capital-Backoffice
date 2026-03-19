@@ -78,7 +78,7 @@
         "subDescription": "Revisamos seus processos e os melhoramos usando ferramentas de IA de ponta. Da automação à análise de dados, ajudamos sua empresa a operar com mais eficiência e manter-se competitiva nos tempos modernos."
       },
       "consulting": {
-        "title": "Assessoria Financeira Empresarial",
+        "title": "Consultoria Empresarial",
         "description": "Orientação estratégica para decisões financeiras e de governança.",
         "subDescription": "Apoiamos empresas com assessoria personalizada em financiamento, estrutura de capital, fusões e aquisições e planejamento de longo prazo. Nosso trabalho foca em análise clara e passos práticos para fortalecer sua posição financeira."
       }
@@ -100,9 +100,9 @@
         "cardGridTitle": "Como planejar minha aposentadoria?",
         "cards": {
           "1": { "title": "Diagnóstico e Planejamento", "description": "Fazemos um diagnóstico completo da sua situação atual e projetamos cenários de renda para aposentadoria. Definimos metas, fontes de receita e estratégias para atingir o padrão de vida desejado." },
-          "2": { "title": "Planejamento Sucessório", "description": "O planejamento sucessório feito com antecedência traz vantagens tributárias significativas e evita conflitos. Estruturas como holdings, fundos e previdência podem otimizar a transferência de patrimônio para as próximas gerações." },
+          "2": { "title": "Planejamento Sucessório", "description": "O planejamento sucessório traz vantagens tributárias significativas e evita conflitos. Estruturas como holdings, fundos e previdência podem otimizar a transferência de patrimônio para as próximas gerações." },
           "3": { "title": "Proteção Patrimonial", "description": "Garantimos que sua riqueza seja preservada com a melhor estratégia possível. Você poderá usufruir da aposentadoria com segurança, sabendo que seu patrimônio está protegido e bem gerido." },
-          "4": { "title": "Seu Tempo Importa", "description": "Além do planejamento financeiro de renda, cuidamos da parte burocrática da vida dos nossos clientes: seguros, títulos, documentação e obrigações fiscais. Você ganha tempo para o que realmente importa." }
+          "4": { "title": "Seu Tempo Importa", "description": "Cuidamos da parte burocrática da vida dos nossos clientes: seguros, títulos, documentação e obrigações fiscais. Você ganha tempo para o que realmente importa." }
         }
       },
       "patrimonial": {
@@ -125,7 +125,7 @@
         "descriptionP2": "Mapeamos diariamente mais de 2.000 leiloeiros em todo o Brasil. Nossos especialistas filtram as melhores e mais seguras oportunidades para você.",
         "cardGridTitle": "Como investir em Leilões de Imóveis?",
         "cards": {
-          "1": { "title": "Identificação de Oportunidades", "description": "Mapeamos mais de 2.000 leiloeiros diariamente em todo o Brasil. Temos oportunidades filtradas nas melhores regiões, com critérios de segurança e potencial de retorno. As melhores chances passam por nossa curadoria." },
+          "1": { "title": "Identificação de Oportunidades", "description": "Mapeamos mais de 2.000 leiloeiros diariamente. Temos oportunidades filtradas nas melhores regiões, com critérios de segurança e potencial de retorno. As melhores chances passam por nossa curadoria." },
           "2": { "title": "Análise Jurídica", "description": "Nossos especialistas analisam todo o processo judicial envolvido no leilão e filtram apenas oportunidades seguras. Verificamos matrícula, edital, documentação do mutuário e possíveis ônus ou pendências que possam afetar o imóvel." },
           "3": { "title": "Viabilidade Financeira", "description": "Avaliamos cada oportunidade considerando potencial de Airbnb de curta permanência, locação ou venda. Acompanhamos todos os KPIs para trazer o melhor retorno sobre o investimento para nossos clientes." },
           "4": { "title": "Suporte de Ponta a Ponta", "description": "Acompanhamos o cliente do início ao fim: desde a oportunidade até a venda, locação ou uso do imóvel. Acompanhamos cada etapa com você. Garantimos nossos números e projeções com transparência e compromisso." }
@@ -138,10 +138,10 @@
         "descriptionP2": "Acreditamos que a alocação eficiente de ativos é a base da construção patrimonial. Combinamos análise fundamental e visão de longo prazo para identificar oportunidades e preservar o capital dos nossos clientes.",
         "cardGridTitle": "Por que investir em ativos mobiliários?",
         "cards": {
-          "1": { "title": "Vantagem Tributária", "description": "O planejamento fiscal pode transformar seus investimentos. Dividendos de ações são isentos de IR para pessoas físicas no Brasil; LCIs e LCAs oferecem isenção com proteção do FGC; e o PGBL permite dedução de até 12% da renda na declaração. Diversificamos entre veículos com diferentes tratamentos tributários para otimizar seus ganhos líquidos." },
-          "2": { "title": "Performance e Rentabilidade", "description": "Nossos resultados são sólidos e consistentemente acima do benchmark CDI. Trabalhamos com disciplina e metodologia comprovada para entregar rentabilidade que faça a diferença no seu patrimônio ao longo do tempo." },
-          "3": { "title": "Gerenciamento de Risco", "description": "A diversificação reduz a volatilidade e protege seu capital em cenários adversos. O que mais importa para nós é a proteção do cliente: priorizamos gestão de risco em todas as decisões de alocação." },
-          "4": { "title": "Mitigação de Conflitos", "description": "Trabalhamos em modelo fee-based, alinhando nossos interesses aos seus. Transparência total em taxas e estrutura; você paga por assessoria, não por produtos. Seu sucesso é nossa métrica." }
+          "1": { "title": "Vantagem Tributária", "description": "O planejamento fiscal pode transformar seus investimentos. Dividendos de ações são isentos de IR para pessoas físicas no Brasil; o PGBL permite dedução de até 12% da renda na declaração. Diversificamos entre veículos com diferentes tratamentos tributários para otimizar seus ganhos líquidos." },
+          "2": { "title": "Performance e Rentabilidade", "description": "Nossos resultados são sólidos e consistentemente acima do benchmark CDI. Trabalhamos com disciplina e metodologia comprovada para entregar rentabilidade." },
+          "3": { "title": "Gerenciamento de Risco", "description": "O que mais importa para nós é a proteção do cliente: priorizamos gestão de risco em todas as decisões de alocação." },
+          "4": { "title": "Mitigação de Conflitos", "description": "Trabalhamos em modelo fee-based, alinhando nossos interesses aos seus. Transparência total em taxas e estrutura. Seu sucesso é nossa métrica." }
         }
       },
       "aiSolution": {
@@ -158,7 +158,7 @@
         }
       },
       "consulting": {
-        "title": "Assessoria Financeira Empresarial",
+        "title": "Consultoria Empresarial",
         "descriptionTitle": "Orientação estratégica para decisões financeiras e de investimento.",
         "descriptionP1": "Temos soluções sob medida para cada demanda. Seja para estruturação de capital, análise de viabilidade, due diligence ou planejamento de longo prazo, nossa equipe está pronta para ajudar. Entre em contato e descubra como podemos apoiar sua empresa.",
         "descriptionP2": "Apoiamos empresas com assessoria personalizada em financiamento, fusões e aquisições, governança e otimização de recursos. Análise clara e passos práticos para fortalecer sua posição financeira.",
@@ -183,13 +183,22 @@
     },
     "title": "Quem Somos",
     "subtitle": "Uma equipe de especialistas dedicados a construir o futuro dos nossos clientes",
-    "mission": {
-      "title": "Nossa Missão",
-      "description": "A Vanilla Capital é uma consultoria de investimentos brasileira especializada em ajudar nossos clientes a entender como investir seu dinheiro para o futuro. Oferecemos serviços de proteção patrimonial, investimentos em ativos mobiliários, leilão de imóveis e consultoria empresarial, sempre com foco na excelência e na construção de relacionamentos duradouros."
+    "manifesto": {
+      "label": "Manifesto",
+      "p1": "Quando a essência está definida,",
+      "p2": "a clareza surge naturalmente.",
+      "p3": "E é dessa combinação que o avanço acontece.",
+      "p4": "com consistência, foco e precisão.",
+      "p5": "Porque tudo o que cresce precisa de fundamento.",
+      "p6": "E tudo o que avança precisa de direção.",
+      "closing1": "Essência como base.",
+      "closing2": "Clareza como guia."
     },
     "team": {
       "title": "Nossa Equipe",
       "subtitle": "Profissionais experientes comprometidos com o sucesso dos nossos clientes",
+      "defaultDescription": "Software Engineer, especialista em compliance regulatório, com foco em proteção patrimonial e conformidade com a CVM.",
+      "defaultDescription2": "Sócio e especialista em gestão patrimonial e consultoria de investimentos.",
       "placeholder": {
         "name": "Adicione membro da equipe",
         "role": "Cargo",

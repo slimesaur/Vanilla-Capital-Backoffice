@@ -34,7 +34,7 @@ export default function ServiceCardGrid({
           {cards.map((card, index) => (
             <div
               key={index}
-              className="bg-primary-600 rounded-xl p-8 lg:p-10 shadow-lg border border-primary-500/30 flex flex-col"
+              className="bg-primary-600 rounded-none clip-cut-corners-all p-8 lg:p-10 shadow-lg border border-primary-500/30 flex flex-col"
             >
               <div className="mb-7">
                 <BrandIcon
@@ -47,7 +47,7 @@ export default function ServiceCardGrid({
               <h3 className="text-xl font-avenir font-thin text-accent-400 mb-6 line-clamp-2 min-h-[2.8em]">
                 {card.title}
               </h3>
-              <p className="text-sm text-secondary-100 font-avenir font-thin leading-relaxed flex-grow">
+              <p className="text-sm text-secondary-100 font-avenir font-thin leading-relaxed flex-grow text-justify">
                 {card.description}
               </p>
             </div>

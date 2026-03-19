@@ -32,8 +32,14 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <div className="flex min-h-screen flex-col">
+        <a
+          href="#main"
+          className="sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent-500 focus:text-white focus:rounded-none focus:outline-none focus:w-auto focus:h-auto focus:m-0 focus:overflow-visible"
+        >
+          Skip to main content
+        </a>
         <Header />
-        <main className="flex-1 pt-20">{children}</main>
+        <main id="main" className="flex-1 pt-20">{children}</main>
         <Footer settings={settings} />
       </div>
     </NextIntlClientProvider>

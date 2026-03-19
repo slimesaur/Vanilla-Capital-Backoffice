@@ -26,6 +26,7 @@ export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const lastScrollY = useRef(0);
   const portfolioRef = useRef<HTMLDivElement>(null);
+  const mobilePortfolioRef = useRef<HTMLDivElement>(null);
 
   // Show header when scrolling up, hide when scrolling down (Quartzo-style)
   useEffect(() => {
@@ -54,16 +55,26 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (portfolioRef.current && !portfolioRef.current.contains(e.target as Node)) {
-        setIsPortfolioOpen(false);
-      }
-    }
-    if (isPortfolioOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }
+    if (!isPortfolioOpen) return;
+
+    const handler = (e: MouseEvent) => {
+      const target = e.target as Node;
+      const insideDesktop = portfolioRef.current?.contains(target);
+      const insideMobile = mobilePortfolioRef.current?.contains(target);
+      if (!insideDesktop && !insideMobile) setIsPortfolioOpen(false);
+    };
+
+    const tm = setTimeout(() => document.addEventListener('mousedown', handler), 0);
+    return () => {
+      clearTimeout(tm);
+      document.removeEventListener('mousedown', handler);
+    };
   }, [isPortfolioOpen]);
+
+  // Reset portfolio dropdown when mobile menu closes
+  useEffect(() => {
+    if (!isMenuOpen) setIsPortfolioOpen(false);
+  }, [isMenuOpen]);
 
   const isPortfolioActive = pathname.startsWith(`/${locale}/portfolio`);
 
@@ -117,6 +128,7 @@ export default function Header() {
             {/* Portfolio Dropdown */}
             <div className="relative" ref={portfolioRef}>
               <button
+                type="button"
                 onClick={() => setIsPortfolioOpen((prev) => !prev)}
                 className={cn(
                   'flex items-center gap-1 text-sm font-medium transition-colors hover:text-accent-300',
@@ -132,10 +144,10 @@ export default function Header() {
               </button>
               <div
                 className={cn(
-                  'absolute left-0 top-full mt-1 min-w-[200px] rounded-lg border border-white/10 bg-[#1A2433] py-2 shadow-lg transition-all',
+                  'absolute left-0 top-full mt-2 min-w-[220px] rounded-none bg-primary-800 shadow-xl transition-all',
                   isPortfolioOpen
-                    ? 'opacity-100 visible'
-                    : 'invisible opacity-0'
+                    ? 'opacity-100 visible pointer-events-auto translate-y-0'
+                    : 'invisible opacity-0 pointer-events-none -translate-y-1'
                 )}
               >
                 {services.map((service) => (
@@ -144,10 +156,10 @@ export default function Header() {
                     href={`/${locale}/portfolio/${service.slug}`}
                     onClick={() => setIsPortfolioOpen(false)}
                     className={cn(
-                      'block px-4 py-2 text-sm transition-colors hover:bg-primary-400/10 hover:text-secondary-100',
+                      'block px-4 py-3 text-sm font-medium transition-colors first:pt-3 last:pb-3',
                       pathname === `/${locale}/portfolio/${service.slug}`
-                        ? 'text-secondary-100 bg-primary-400/10'
-                        : 'text-secondary-200'
+                        ? 'text-accent-300 bg-accent-500/15'
+                        : 'text-secondary-200 hover:text-secondary-100 hover:bg-white/5'
                     )}
                   >
                     {tServices(`${service.key}.title`)}
@@ -172,7 +184,7 @@ export default function Header() {
             {isLoggedIn ? (
               <Link
                 href="/backoffice"
-                className="pressable text-sm font-medium px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+                className="pressable clip-cut-corners text-sm font-medium px-4 py-2 rounded-none bg-accent-500 text-white hover:bg-accent-400 transition-colors"
               >
                 {t('backoffice')}
               </Link>
@@ -190,7 +202,7 @@ export default function Header() {
             {isLoggedIn && (
               <Link
                 href="/backoffice"
-                className="pressable text-sm font-medium px-3 py-1.5 rounded-lg bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+                className="pressable clip-cut-corners text-sm font-medium px-3 py-1.5 rounded-none bg-accent-500 text-white hover:bg-accent-400 transition-colors"
               >
                 {t('backoffice')}
               </Link>
@@ -229,17 +241,18 @@ export default function Header() {
                 href={`/${locale}`}
                 onClick={() => setIsMenuOpen(false)}
                 className={cn(
-                  'block rounded-md px-3 py-2 text-base font-medium',
-                  pathname === `/${locale}` ? 'bg-primary-400/20 text-secondary-100' : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
+'block rounded-none px-3 py-2 text-base font-medium',
+                pathname === `/${locale}` ? 'bg-primary-400/20 text-secondary-100' : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
                 )}
               >
                 {t('home')}
               </Link>
-              <div>
+              <div ref={mobilePortfolioRef}>
                 <button
+                  type="button"
                   onClick={() => setIsPortfolioOpen((prev) => !prev)}
                   className={cn(
-                    'flex w-full items-center justify-between rounded-md px-3 py-2 text-base font-medium',
+                    'flex w-full items-center justify-between rounded-none px-3 py-2 text-base font-medium',
                     isPortfolioActive ? 'bg-primary-400/20 text-secondary-100' : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
                   )}
                 >
@@ -251,8 +264,11 @@ export default function Header() {
                     <Link
                       key={service.key}
                       href={`/${locale}/portfolio/${service.slug}`}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="block rounded-md px-5 py-2 text-sm text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100"
+                      onClick={() => {
+                        setIsMenuOpen(false)
+                        setIsPortfolioOpen(false)
+                      }}
+                      className="block rounded-none px-5 py-3 text-sm font-medium text-secondary-200 hover:bg-white/5 hover:text-secondary-100 touch-manipulation min-h-[44px] flex items-center"
                     >
                       {tServices(`${service.key}.title`)}
                     </Link>
@@ -265,7 +281,7 @@ export default function Header() {
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
                   className={cn(
-                    'block rounded-md px-3 py-2 text-base font-medium',
+                    'block rounded-none px-3 py-2 text-base font-medium',
                     isActive(item)
                       ? 'bg-primary-400/20 text-secondary-100'
                       : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
@@ -279,18 +295,18 @@ export default function Header() {
                 <Link
                   href="/backoffice"
                   onClick={() => setIsMenuOpen(false)}
-                  className="pressable block rounded-md px-3 py-2 text-base font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors text-center mt-2"
+                  className="pressable clip-cut-corners block rounded-none px-3 py-2 text-base font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors text-center mt-8"
                 >
                   {t('backoffice')}
                 </Link>
               ) : (
-                <div className="mt-2">
+                <div className="mt-8">
                   <button
                     onClick={() => setIsMobileSignInOpen((prev) => !prev)}
-                    className="w-full flex items-center justify-center gap-2 rounded-md px-3 py-2.5 text-base font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+                    className="pressable clip-cut-corners flex items-center justify-start gap-2 rounded-none px-3 py-2 text-sm font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors"
                   >
                     {t('login')}
-                    {isMobileSignInOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    {isMobileSignInOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                   </button>
 
                   <div
@@ -299,7 +315,7 @@ export default function Header() {
                       isMobileSignInOpen ? 'max-h-80 opacity-100 mt-3' : 'max-h-0 opacity-0'
                     )}
                   >
-                    <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                    <div className="rounded-none border border-white/10 bg-white/5 p-4">
                       <SignInForm
                         variant="dropdown"
                         labels={signInLabels}

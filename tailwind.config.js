@@ -65,6 +65,7 @@ module.exports = {
       },
       fontFamily: {
         avenir: ['Avenir', 'Avenir Next', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
         canela: ['Canela', 'serif'],
         canelaText: ['CanelaText', 'serif'],
         canelaDeck: ['CanelaDeck', 'serif'],

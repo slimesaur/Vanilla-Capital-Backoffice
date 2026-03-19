@@ -39,7 +39,7 @@ export default function ServicePageClient({
 
       {/* Description section */}
       <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-avenir font-bold text-2xl md:text-3xl text-ink mb-6">
             {t(`services.${serviceKey}.descriptionTitle`)}
           </h2>
@@ -52,7 +52,7 @@ export default function ServicePageClient({
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="pressable inline-flex px-6 py-3 text-sm font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-lg transition-colors"
+              className="pressable clip-cut-corners inline-flex px-6 py-3 text-sm font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-none transition-colors"
             >
               {t('cta')}
             </a>

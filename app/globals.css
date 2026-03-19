@@ -6,6 +6,9 @@
 /* Cormorant Garamond for landing page subtitles */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 
+/* Montserrat for manifesto body text */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -150,8 +153,62 @@ body {
   min-height: 0;
 }
 
-/* Button press feedback - UX best practice for instant click confirmation */
+/* Cut corners: bottom-left + top-right at 45° – for buttons and cards */
 @layer utilities {
+  .clip-cut-corners {
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .clip-cut-corners-lg {
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  }
+  /* V notches on left and right sides only, no corner cuts */
+  .clip-v-cut-sides {
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(50% - 5px),
+      calc(100% - 3px) 50%,
+      100% calc(50% + 5px),
+      100% 100%,
+      0 100%,
+      0 calc(50% + 5px),
+      3px 50%,
+      0 calc(50% - 5px),
+      0 0
+    );
+  }
+  /* All four corners cut at 45°, no V notches on sides */
+  .clip-cut-corners-four {
+    clip-path: polygon(
+      20px 0,
+      calc(100% - 20px) 0,
+      100% 20px,
+      100% calc(100% - 20px),
+      calc(100% - 20px) 100%,
+      20px 100%,
+      0 calc(100% - 20px),
+      0 20px
+    );
+  }
+  /* All four corners cut at 45° + small V notch mid-left & mid-right – for cards */
+  .clip-cut-corners-all {
+    clip-path: polygon(
+      20px 0,
+      calc(100% - 20px) 0,
+      100% 20px,
+      100% calc(50% - 5px),
+      calc(100% - 3px) 50%,
+      100% calc(50% + 5px),
+      100% calc(100% - 20px),
+      calc(100% - 20px) 100%,
+      20px 100%,
+      0 calc(100% - 20px),
+      0 calc(50% + 5px),
+      3px 50%,
+      0 calc(50% - 5px),
+      0 20px
+    );
+  }
   .pressable {
     transition: transform 0.1s ease;
   }

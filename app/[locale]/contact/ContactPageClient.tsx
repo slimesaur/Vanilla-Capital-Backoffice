@@ -22,6 +22,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const rawPhone = settings?.phone || '+5541988195090';
   const contactInfo = {
@@ -37,13 +38,29 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // TODO: Implement actual form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      alert(t('form.success'));
+    setSubmitStatus('idle');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setSubmitStatus('error');
+        return;
+      }
+
+      setSubmitStatus('success');
       setFormData({ name: '', email: '', phone: '', message: '' });
-    }, 1000);
+    } catch {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -142,7 +159,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             </div>
 
             {/* Map */}
-            <div className="mt-8 rounded-lg overflow-hidden shadow-lg">
+            <div className="mt-8 rounded-none overflow-hidden shadow-lg">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.5!2d-49.3!3d-25.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce8b8b8b8b8b%3A0x8b8b8b8b8b8b8b8b!2sRua%20Paulo%20Set%C3%BAbal%2C%205081%20-%20Boqueir%C3%A3o%2C%20Curitiba%20-%20PR%2C%2081750-190!5e0!3m2!1spt-BR!2sbr!4v1234567890"
                 width="100%"
@@ -159,14 +176,26 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
 
           {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
           >
-            <div className="bg-white rounded-xl p-8 shadow-lg">
+            <div className="bg-white rounded-none clip-cut-corners-all p-8 shadow-lg">
               <h2 className="text-2xl font-bold text-ink mb-6 font-title">
                 {t('form.title')}
               </h2>
+
+              {submitStatus === 'success' && (
+                <div className="mb-6 p-4 rounded-none bg-green-50 border border-green-200 text-green-800 text-sm">
+                  {t('form.success')}
+                </div>
+              )}
+              {submitStatus === 'error' && (
+                <div className="mb-6 p-4 rounded-none bg-red-50 border border-red-200 text-red-800 text-sm">
+                  {t('form.error')}
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label
@@ -182,7 +211,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-secondary-300 rounded-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                   />
                 </div>
 
@@ -200,7 +229,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-secondary-300 rounded-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                   />
                 </div>
 
@@ -217,7 +246,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-secondary-300 rounded-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                   />
                 </div>
 
@@ -235,9 +264,11 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                     onChange={handleChange}
                     rows={5}
                     required
-                    className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-secondary-300 rounded-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                   />
                 </div>
+
+                <p className="text-xs text-secondary-500">{t('form.privacy')}</p>
 
                 <Button
                   type="submit"
@@ -254,6 +285,11 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                   )}
                 </Button>
               </form>
+
+              <div className="mt-8 pt-6 border-t border-secondary-200">
+                <h3 className="font-semibold text-ink mb-2">{t('form.nextSteps')}</h3>
+                <p className="text-sm text-secondary-600">{t('form.nextStepsDescription')}</p>
+              </div>
             </div>
           </motion.div>
         </div>
