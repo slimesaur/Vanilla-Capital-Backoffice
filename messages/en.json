@@ -69,8 +69,8 @@
       },
       "assets": {
         "title": "Asset Allocation",
-        "description": "We help you capture returns in markets we know well.",
-        "subDescription": "Our approach balances risk and return with a focus on long-term performance. We help you achieve solid results in stocks, funds, and other financial assets through disciplined, professional management."
+        "description": "Custom solutions to protect your wealth with sustainable returns.",
+        "subDescription": "Our approach balances risk and return with a focus on long-term performance. We deliver consistent returns in stocks, funds, and other financial assets through disciplined, professional management."
       },
       "aiSolution": {
         "title": "AI Solution for Business",
@@ -95,9 +95,9 @@
     "services": {
       "assets": {
         "title": "Asset Allocation",
-        "descriptionTitle": "We help you capture returns in markets we know well.",
-        "descriptionP1": "Our approach balances risk and return with a focus on long-term performance. We help you achieve solid results in stocks, funds, and other financial assets through disciplined, professional management. We operate in markets we master, where our experience translates into informed decisions and consistent results.",
-        "descriptionP2": "We believe that efficient asset allocation is the foundation for wealth building. We combine fundamental analysis and long-term vision to identify opportunities and protect our clients' capital.",
+        "descriptionTitle": "Custom solutions to protect your wealth with sustainable returns.",
+        "descriptionP1": "Our approach balances risk and return with a focus on long-term performance. We deliver consistent returns in stocks, funds, and other financial assets through disciplined, professional management. We operate in markets we master, where our experience leads to informed decisions and sustainable results.",
+        "descriptionP2": "We believe that efficient asset allocation is the foundation of wealth building. We combine fundamental analysis and long-term vision to identify opportunities and preserve our clients' capital.",
         "cardGridTitle": "Why invest in securities?",
         "cards": {
           "1": { "title": "Tax Advantages", "description": "Tax planning can transform your investments. Dividends from stocks are tax-free for individuals in Brazil; LCIs and LCAs offer exemption with FGC protection; and PGBL allows deduction of up to 12% of income on your tax return. We diversify across vehicles with different tax treatments to optimize your net gains." },
@@ -127,7 +127,7 @@
         "cardGridTitle": "Who should seek Wealth Protection?",
         "cards": {
           "1": { "title": "Entrepreneurs & Tax Advantages", "description": "PGBL, VGBL, offshore structures, and tax planning can significantly reduce tax burden. We help choose the vehicles suited to your profile and goals." },
-          "2": { "title": "Protection against Legal Risks", "description": "Labor, family, and tax risks can compromise wealth. We are experts in the options available in Brazil to shield assets: holdings, patrimonial separation, pension, and adequate structures." },
+          "2": { "title": "Protection against Legal Risks", "description": "Labor, family, and tax risks can compromise wealth. We are experts in the options available in Brazil for asset protection: holdings, patrimonial separation, pension, and adequate structures." },
           "3": { "title": "Holding Consolidation", "description": "We are holding specialists. Consolidating assets in adequate structures brings governance, planned succession, and tax efficiency. We support in incorporation, restructuring, and management." },
           "4": { "title": "Off-Shore", "description": "International structures can offer currency diversification, protection, and tax optimization. We advise on choosing jurisdictions and vehicles suited to your profile and goals." }
         }
@@ -142,7 +142,7 @@
           "1": { "title": "Identify Opportunities", "description": "We map over 2,000 auctioneers daily across Brazil. We have filtered opportunities in the best regions, with safety and return potential criteria. The best chances go through our curation." },
           "2": { "title": "Legal Analysis", "description": "Our specialists analyze the entire judicial process involved in the auction and filter only safe opportunities. We verify registration, notice, borrower documentation, and possible liens or pendencies that may affect the property." },
           "3": { "title": "Financial Viability", "description": "We evaluate each opportunity considering short-stay Airbnb potential, rental, or sale. We track all KPIs to bring the best return on investment for our clients." },
-          "4": { "title": "End-to-End Process Support", "description": "We accompany the client from start to finish: from opportunity to sale, rental, or use of the property. We never let go of your hand. We stand by our numbers and projections with transparency and commitment." }
+          "4": { "title": "End-to-End Process Support", "description": "We accompany the client from start to finish: from opportunity to sale, rental, or use of the property. We support you at every step. We stand by our numbers and projections with transparency and commitment." }
         }
       },
       "aiSolution": {

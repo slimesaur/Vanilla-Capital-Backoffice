@@ -127,7 +127,8 @@ Company block (logo, description, CTA) stays as top row or first column.
 ### 3.1 Asset Allocation
 
 - **Slug:** `asset-allocation`
-- **Description Title:** "We help you capture returns in markets we know well."
+- **Description Title (PT):** "Soluções personalizadas para proteger seu patrimônio com rentabilidade."
+- **Description Title (EN):** "Custom solutions to protect your wealth with sustainable returns."
 - **Card Grid Title:** "Por que investir em ativos mobiliários?"
 - **Cards:** Vantagem Tributária | Performance e Rentabilidade | Gerenciamento de Risco | Mitigação do conflito de interesses
 
