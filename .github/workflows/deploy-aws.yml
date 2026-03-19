@@ -45,7 +45,7 @@ jobs:
           script: |
             set -e
             cd /home/ubuntu/vanilla-backoffice || exit 1
-            git pull
+            git fetch origin main && git reset --hard origin/main
             npm install
             npx prisma generate
             npx prisma db push
