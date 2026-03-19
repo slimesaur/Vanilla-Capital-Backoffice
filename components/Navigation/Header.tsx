@@ -29,8 +29,10 @@ export default function Header() {
   const mobilePortfolioRef = useRef<HTMLDivElement>(null);
 
   // Show header when scrolling up, hide when scrolling down (Quartzo-style)
+  // Keep header visible when portfolio dropdown is open so user can click links
   useEffect(() => {
     const handleScroll = () => {
+      if (isPortfolioOpen) return; // Don't hide while dropdown is open
       const y = window.scrollY;
       if (y < SCROLL_THRESHOLD) {
         setHeaderVisible(true);
@@ -43,7 +45,7 @@ export default function Header() {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isPortfolioOpen]);
 
   useEffect(() => {
     fetch('/api/auth/session')
