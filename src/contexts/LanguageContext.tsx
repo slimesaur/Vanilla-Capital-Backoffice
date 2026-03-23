@@ -23,17 +23,31 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const STORAGE_KEY = 'vanilla-locale'
 
+function readStoredLocale(): Locale {
+  if (typeof window === 'undefined') return 'pt'
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY) as Locale | null
+    if (saved === 'en' || saved === 'pt') return saved
+  } catch {
+    /* storage blocked */
+  }
+  return 'pt'
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(STORAGE_KEY) as Locale | null
-      if (saved === 'en' || saved === 'pt') return saved
-    }
-    return 'pt'
-  })
+  // Match SSR default; sync from storage after mount to avoid server/client state mismatch on hydrate.
+  const [locale, setLocaleState] = useState<Locale>('pt')
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, locale)
+    setLocaleState(readStoredLocale())
+  }, [])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, locale)
+    } catch {
+      /* ignore */
+    }
     document.documentElement.lang = locale
   }, [locale])
 

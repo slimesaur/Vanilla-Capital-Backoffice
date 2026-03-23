@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import ContactPageClient from './ContactPageClient';
 import { getCompanySettings } from '@/lib/settings';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params,
 }: {
@@ -26,9 +28,5 @@ export default async function ContactPage({
   setRequestLocale(locale);
   const settings = await getCompanySettings();
 
-  return (
-    <div className="pt-16">
-      <ContactPageClient settings={settings} />
-    </div>
-  );
+  return <ContactPageClient settings={settings} />;
 }

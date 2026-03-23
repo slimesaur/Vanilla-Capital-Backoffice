@@ -2,6 +2,8 @@ import FormLayout from '@/components/FormLayout'
 import RegistrationFormFill from '@/views/RegistrationFormFill'
 import { getCompanySettings } from '@/lib/settings'
 
+export const dynamic = 'force-dynamic'
+
 interface Props {
   params: Promise<{ formType: string }>
 }

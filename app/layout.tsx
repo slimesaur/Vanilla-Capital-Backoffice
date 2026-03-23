@@ -4,7 +4,7 @@ import Providers from './providers'
 import './globals.css'
 
 const interTight = Inter_Tight({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-inter-tight',
 })
 
@@ -43,6 +43,14 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_BLOCKING_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="font-sans">
         <Providers>{children}</Providers>

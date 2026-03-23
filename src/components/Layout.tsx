@@ -47,15 +47,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const sidebarContent = (
     <>
       <div className="p-6 border-b border-[var(--border-color)]">
-        {mounted ? (
-          <img
-            src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
-            alt="Vanilla Capital"
-            className="h-20 w-auto object-contain"
-          />
-        ) : (
-          <div className="h-20" />
-        )}
+        <img
+          src={
+            mounted && theme === 'dark'
+              ? '/logos/LOGO DARK VERSION.svg'
+              : '/logos/LOGO LIGHT VERSION.svg'
+          }
+          alt="Vanilla Capital"
+          className="h-20 w-auto object-contain"
+        />
       </div>
       <nav className="flex-1 p-4 overflow-y-auto">
         <ul className="space-y-1">
@@ -134,15 +134,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        {mounted ? (
-          <img
-            src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
-            alt="Vanilla Capital"
-            className="h-8 w-auto object-contain"
-          />
-        ) : (
-          <div className="h-8" />
-        )}
+        <img
+          src={
+            mounted && theme === 'dark'
+              ? '/logos/LOGO DARK VERSION.svg'
+              : '/logos/LOGO LIGHT VERSION.svg'
+          }
+          alt="Vanilla Capital"
+          className="h-8 w-auto object-contain"
+        />
         <div className="w-10" />
       </header>
 

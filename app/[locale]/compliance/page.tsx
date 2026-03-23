@@ -24,9 +24,5 @@ export default async function CompliancePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return (
-    <div className="pt-16">
-      <ComplianceClient />
-    </div>
-  );
+  return <ComplianceClient />;
 }

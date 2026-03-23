@@ -185,20 +185,26 @@
     "subtitle": "A team of specialists dedicated to building our clients' future",
     "manifesto": {
       "label": "Manifesto",
-      "p1": "When essence is defined,",
-      "p2": "clarity emerges naturally.",
-      "p3": "And it is from this combination that progress happens.",
-      "p4": "with consistency, focus and precision.",
-      "p5": "Because everything that grows needs foundation.",
-      "p6": "And everything that advances needs direction.",
-      "closing1": "Essence as foundation.",
-      "closing2": "Clarity as guide."
+      "p1": "Nothing solid is born from excess.",
+      "p2": "It is born from the foundation.",
+      "p3": "Before movement, there is essence.",
+      "p4": "Before expansion, there is structure.",
+      "p5": "It is what sustains decisions.",
+      "p6": "It is what organizes paths.",
+      "p7": "It is what maintains coherence even in complex scenarios.",
+      "p8": "Clarity is not oversimplifying.",
+      "p9": "It is eliminating noise.",
+      "p10": "It is defining direction with awareness and intention."
     },
     "team": {
       "title": "Our Team",
       "subtitle": "Experienced professionals committed to our clients' success",
+      "guilhermeRole": "Partner & Director of Compliance",
       "defaultDescription": "Software Engineer, specialist in regulatory compliance, focused on wealth protection and CVM compliance.",
-      "defaultDescription2": "Partner and specialist in wealth management and investment consultancy.",
+      "fabricioRole": "Partner and Director of Consulting",
+      "fabricioDescription": "Investment consultant and wealth management specialist. ANBIMA-certified as Investment Manager (CGA) and Investment Specialist (CEA).",
+      "tapToExpand": "Tap to show bio",
+      "tapToCollapse": "Tap to return to photo",
       "placeholder": {
         "name": "Add team member",
         "role": "Position",
@@ -215,7 +221,9 @@
       "phone": "Phone",
       "email": "Email",
       "address": "Address",
-      "whatsapp": "Contact us via WhatsApp"
+      "whatsappLabel": "WhatsApp",
+      "whatsapp": "Contact us via WhatsApp",
+      "mapIframeTitle": "Vanilla Capital location"
     },
     "form": {
       "title": "Send your Message",
@@ -257,6 +265,7 @@
       "description": "Reference form with information about the company, services offered and contact details."
     },
     "info": {
+      "label": "Regulatory",
       "title": "Important Information",
       "description": "All documents are in compliance with CVM regulations and are regularly updated. For more information, please contact us."
     }

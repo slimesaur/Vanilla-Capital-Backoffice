@@ -4,6 +4,8 @@ import Hero from '@/landing/components/sections/Hero';
 import StrategicPartners from '@/landing/components/sections/StrategicPartners';
 import Services from '@/landing/components/sections/Services';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params,
 }: {

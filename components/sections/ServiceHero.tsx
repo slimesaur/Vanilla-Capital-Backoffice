@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { publicServiceImagePath } from '@/lib/utils';
 
 const ASPECT_RATIO = 21 / 9; // Smaller than home (1409/793 ~1.78)
 const BRAND_BLUE = 'rgb(26, 36, 51)'; // #1A2433
@@ -44,14 +45,14 @@ export default function ServiceHero({ title, image }: ServiceHeroProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden md:-mt-20"
       style={{ aspectRatio: `${ASPECT_RATIO}` }}
       aria-label={title}
     >
       <div className="absolute inset-0 z-0 bg-primary-900">
         {!imgError ? (
           <Image
-            src={`/services images/${image}`}
+            src={publicServiceImagePath(image)}
             alt=""
             fill
             className="object-cover object-center"

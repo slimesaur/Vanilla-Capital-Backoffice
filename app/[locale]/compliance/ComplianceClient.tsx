@@ -1,9 +1,12 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { motion } from 'framer-motion';
-import { FileText, Download } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import BrandIcon from '@/landing/components/ui/BrandIcon';
+import ServiceHero from '@/landing/components/sections/ServiceHero';
+
+const COMPLIANCE_HERO_IMAGE = 'WEALTH PROTECTION.jpg';
 
 const documents = [
   {
@@ -11,26 +14,30 @@ const documents = [
     backofficeKey: 'compliance-manual',
     titleKey: 'compliance.title',
     descriptionKey: 'compliance.description',
+    brandIcon: '07',
   },
   {
     key: 'ethics',
     backofficeKey: 'ethics-code',
     titleKey: 'ethics.title',
     descriptionKey: 'ethics.description',
+    brandIcon: '13',
   },
   {
     key: 'trading',
     backofficeKey: 'investment-policies',
     titleKey: 'trading.title',
     descriptionKey: 'trading.description',
+    brandIcon: '08',
   },
   {
     key: 'reference',
     backofficeKey: 'reference-form',
     titleKey: 'reference.title',
     descriptionKey: 'reference.description',
+    brandIcon: '12',
   },
-];
+] as const;
 
 export default function ComplianceClient() {
   const t = useTranslations('Compliance');
@@ -42,7 +49,9 @@ export default function ComplianceClient() {
       .then((data) => {
         if (data.documents) {
           const urls: Record<string, string> = {};
-          for (const [key, val] of Object.entries(data.documents as Record<string, { url: string }>)) {
+          for (const [key, val] of Object.entries(
+            data.documents as Record<string, { url: string }>
+          )) {
             urls[key] = val.url;
           }
           setDocUrls(urls);
@@ -52,74 +61,71 @@ export default function ComplianceClient() {
   }, []);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-secondary-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-ink mb-4 font-title">
-            {t('title')}
-          </h1>
-          <p className="text-lg text-secondary-600 max-w-3xl mx-auto font-subtitle">
+    <>
+      <ServiceHero title={t('title')} image={COMPLIANCE_HERO_IMAGE} />
+
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-secondary-600 font-avenir font-thin leading-relaxed text-base md:text-lg max-w-3xl">
             {t('subtitle')}
           </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {documents.map((doc, index) => (
-            <motion.div
-              key={doc.key}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <div className="bg-white rounded-none clip-cut-corners-all p-8 shadow-lg hover:shadow-xl transition-shadow border border-secondary-100 h-full flex flex-col">
-                <div className="bg-accent-100 w-16 h-16 rounded-none flex items-center justify-center mb-6">
-                  <FileText className="h-8 w-8 text-accent-600" />
-                </div>
-                <h2 className="text-2xl font-semibold text-ink mb-4 font-title">
-                  {t(doc.titleKey)}
-                </h2>
-                <p className="text-secondary-600 mb-6 flex-grow">
-                  {t(doc.descriptionKey)}
-                </p>
-                {docUrls[doc.backofficeKey] ? (
-                  <a
-                    href={docUrls[doc.backofficeKey]}
-                    download
-                    className="pressable clip-cut-corners inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-none hover:bg-primary-800 transition-colors"
-                  >
-                    <Download className="h-5 w-5 mr-2" />
-                    {t('download')}
-                  </a>
-                ) : (
-                  <span className="clip-cut-corners inline-flex items-center justify-center px-6 py-3 bg-secondary-200 text-secondary-500 font-semibold rounded-none cursor-not-allowed">
-                    <Download className="h-5 w-5 mr-2" />
-                    {t('download')}
-                  </span>
-                )}
-              </div>
-            </motion.div>
-          ))}
         </div>
+      </section>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 bg-secondary-50 rounded-none clip-cut-corners-all p-8"
-        >
-          <h3 className="text-xl font-semibold text-ink mb-4 font-title">
-            {t('info.title')}
-          </h3>
-          <p className="text-secondary-600 leading-relaxed">
-            {t('info.description')}
-          </p>
-        </motion.div>
-      </div>
-    </section>
+      <section className="py-12 md:py-16 bg-gradient-to-b from-secondary-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {documents.map((doc) => (
+              <div key={doc.key}>
+                <div className="bg-primary-600 rounded-none clip-cut-corners-all p-8 lg:p-10 shadow-lg border border-primary-500/30 h-full flex flex-col">
+                  <div className="mb-7">
+                    <BrandIcon
+                      name={doc.brandIcon}
+                      size={48}
+                      variant="light"
+                      className="flex-shrink-0"
+                    />
+                  </div>
+                  <h2 className="text-xl font-avenir font-thin text-accent-400 mb-6 min-h-[2.8em] leading-snug">
+                    {t(doc.titleKey)}
+                  </h2>
+                  <p className="text-sm text-secondary-100 font-avenir font-thin leading-relaxed flex-grow text-justify mb-8">
+                    {t(doc.descriptionKey)}
+                  </p>
+                  {docUrls[doc.backofficeKey] ? (
+                    <a
+                      href={docUrls[doc.backofficeKey]}
+                      download
+                      className="pressable clip-cut-corners inline-flex items-center justify-center px-6 py-3 bg-accent-500 hover:bg-accent-400 text-white font-avenir font-medium rounded-none transition-colors mt-auto"
+                    >
+                      <Download className="h-5 w-5 mr-2 shrink-0" />
+                      {t('download')}
+                    </a>
+                  ) : (
+                    <span className="clip-cut-corners inline-flex items-center justify-center px-6 py-3 bg-secondary-700/40 text-secondary-on-dark-muted font-avenir font-medium rounded-none cursor-not-allowed mt-auto border border-primary-500/20">
+                      <Download className="h-5 w-5 mr-2 shrink-0 opacity-60" />
+                      {t('download')}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 md:mt-16 bg-secondary-50 rounded-none clip-cut-corners-all p-8 lg:p-10 border border-secondary-200">
+            <p className="text-sm font-avenir font-thin text-secondary-500 mb-3 tracking-wide uppercase">
+              {t('info.label')}
+            </p>
+            <div className="h-px w-full max-w-md bg-secondary-300 mb-8" aria-hidden="true" />
+            <h3 className="font-avenir font-bold text-xl md:text-2xl text-ink mb-4">
+              {t('info.title')}
+            </h3>
+            <p className="text-secondary-600 font-avenir font-thin leading-relaxed text-base">
+              {t('info.description')}
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

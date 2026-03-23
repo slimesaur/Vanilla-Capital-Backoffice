@@ -37,8 +37,8 @@ ssh $SSH_OPTS "$USER@$HOST" "
   set -e
   cd $REMOTE_DIR || { echo 'Error: Directory $REMOTE_DIR not found. Run initial setup from AWS_DEPLOY.md first.'; exit 1; }
   
-  echo '>>> git pull'
-  git pull
+  echo '>>> git fetch and reset to main'
+  git fetch origin main && git reset --hard origin/main
   
   echo '>>> npm install'
   npm install

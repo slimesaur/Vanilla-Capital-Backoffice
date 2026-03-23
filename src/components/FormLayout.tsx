@@ -99,15 +99,15 @@ export default function FormLayout({ children, settings }: FormLayoutProps) {
   const sidebarContent = (
     <>
       <div className="p-6 border-b border-[var(--border-color)]">
-        {mounted ? (
-          <img
-            src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
-            alt="Vanilla Capital"
-            className="h-20 w-auto object-contain"
-          />
-        ) : (
-          <div className="h-20" />
-        )}
+        <img
+          src={
+            mounted && theme === 'dark'
+              ? '/logos/LOGO DARK VERSION.svg'
+              : '/logos/LOGO LIGHT VERSION.svg'
+          }
+          alt="Vanilla Capital"
+          className="h-20 w-auto object-contain"
+        />
       </div>
       <div className="p-4 border-b border-[var(--border-color)] space-y-1">
         <ContactRow type="phone" href={`tel:${phone.replace(/\D/g, '')}`}>{phone}</ContactRow>
@@ -155,15 +155,15 @@ export default function FormLayout({ children, settings }: FormLayoutProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        {mounted ? (
-          <img
-            src={theme === 'dark' ? '/logos/LOGO DARK VERSION.svg' : '/logos/LOGO LIGHT VERSION.svg'}
-            alt="Vanilla Capital"
-            className="h-8 w-auto object-contain"
-          />
-        ) : (
-          <div className="h-8" />
-        )}
+        <img
+          src={
+            mounted && theme === 'dark'
+              ? '/logos/LOGO DARK VERSION.svg'
+              : '/logos/LOGO LIGHT VERSION.svg'
+          }
+          alt="Vanilla Capital"
+          className="h-8 w-auto object-contain"
+        />
         <div className="w-10" />
       </header>
 

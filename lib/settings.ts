@@ -23,11 +23,32 @@ const DEFAULTS: CompanySettingsData = {
   teamMembers: [],
 }
 
+const SETTINGS_QUERY_MS = 4000
+
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const id = setTimeout(() => reject(new Error('settings-query-timeout')), ms)
+    promise.then(
+      (v) => {
+        clearTimeout(id)
+        resolve(v)
+      },
+      (e) => {
+        clearTimeout(id)
+        reject(e)
+      }
+    )
+  })
+}
+
 export async function getCompanySettings(): Promise<CompanySettingsData> {
   try {
-    const settings = await prisma.companySettings.findFirst({
-      include: { teamMembers: { orderBy: { order: 'asc' } } },
-    })
+    const settings = await withTimeout(
+      prisma.companySettings.findFirst({
+        include: { teamMembers: { orderBy: { order: 'asc' } } },
+      }),
+      SETTINGS_QUERY_MS
+    )
 
     if (!settings) return DEFAULTS
 

@@ -57,6 +57,10 @@ export function middleware(request: NextRequest) {
     if (isPublicApi(pathname)) {
       return NextResponse.next()
     }
+    // Marketing site: list compliance PDF URLs (read-only). POST upload stays behind session below.
+    if (pathname === '/api/compliance/documents' && request.method === 'GET') {
+      return NextResponse.next()
+    }
     const session = request.cookies.get('vanilla-session')
     if (!session?.value) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -92,6 +96,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Match all pathnames except api, _next, _vercel, and static files
+  // Match all pathnames except api, _next, _vercel, and static files (explicit `/` + pattern — stable with our auth + intl stack)
   matcher: ['/', '/((?!api|_next|_vercel|.*\\..*).*)'],
 }

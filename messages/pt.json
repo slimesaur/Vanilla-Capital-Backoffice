@@ -185,20 +185,26 @@
     "subtitle": "Uma equipe de especialistas dedicados a construir o futuro dos nossos clientes",
     "manifesto": {
       "label": "Manifesto",
-      "p1": "Quando a essência está definida,",
-      "p2": "a clareza surge naturalmente.",
-      "p3": "E é dessa combinação que o avanço acontece.",
-      "p4": "com consistência, foco e precisão.",
-      "p5": "Porque tudo o que cresce precisa de fundamento.",
-      "p6": "E tudo o que avança precisa de direção.",
-      "closing1": "Essência como base.",
-      "closing2": "Clareza como guia."
+      "p1": "Nada sólido nasce do excesso.",
+      "p2": "Nasce da base.",
+      "p3": "Antes do movimento, existe essência.",
+      "p4": "Antes da expansão, existe estrutura.",
+      "p5": "É ela que sustenta decisões.",
+      "p6": "É ela que organiza caminhos.",
+      "p7": "É ela que mantém coerência mesmo em cenários complexos.",
+      "p8": "Clareza não é simplificar demais.",
+      "p9": "É eliminar o ruído.",
+      "p10": "É definir direção com consciência e intenção."
     },
     "team": {
       "title": "Nossa Equipe",
       "subtitle": "Profissionais experientes comprometidos com o sucesso dos nossos clientes",
+      "guilhermeRole": "Sócio e Diretor de Compliance",
       "defaultDescription": "Software Engineer, especialista em compliance regulatório, com foco em proteção patrimonial e conformidade com a CVM.",
-      "defaultDescription2": "Sócio e especialista em gestão patrimonial e consultoria de investimentos.",
+      "fabricioRole": "Sócio e Diretor de Consultoria",
+      "fabricioDescription": "Consultor de Investimentos e especialista em gestão patrimonial. Certificado pela Anbima como Gestor de Investimentos (CGA) e Especialista de Investimentos (CEA).",
+      "tapToExpand": "Toque para ver a descrição",
+      "tapToCollapse": "Toque para voltar à foto",
       "placeholder": {
         "name": "Adicione membro da equipe",
         "role": "Cargo",
@@ -215,7 +221,9 @@
       "phone": "Telefone",
       "email": "E-mail",
       "address": "Endereço",
-      "whatsapp": "Fale conosco via WhatsApp"
+      "whatsappLabel": "WhatsApp",
+      "whatsapp": "Fale conosco via WhatsApp",
+      "mapIframeTitle": "Localização da Vanilla Capital"
     },
     "form": {
       "title": "Envie sua Mensagem",
@@ -257,6 +265,7 @@
       "description": "Formulário de referência com informações sobre a empresa, serviços oferecidos e dados de contato."
     },
     "info": {
+      "label": "Regulatório",
       "title": "Informações Importantes",
       "description": "Todos os documentos estão em conformidade com a regulamentação CVM e são atualizados regularmente. Para mais informações, entre em contato conosco."
     }

@@ -3,11 +3,9 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n';
 import Header from '@/landing/components/Navigation/Header';
-import Footer from '@/landing/components/Navigation/Footer';
-import { getCompanySettings } from '@/lib/settings';
+import FooterLoader from '@/landing/components/Navigation/FooterLoader';
 
-// Always fetch fresh settings so backoffice changes appear on landing pages (About, Contact, Footer)
-export const dynamic = 'force-dynamic';
+// Fresh settings: footer uses `noStore()`; pages that read settings use `dynamic = 'force-dynamic'`.
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -27,7 +25,6 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
-  const settings = await getCompanySettings();
 
   return (
     <NextIntlClientProvider messages={messages}>
@@ -40,7 +37,8 @@ export default async function LocaleLayout({
         </a>
         <Header />
         <main id="main" className="flex-1 pt-20">{children}</main>
-        <Footer settings={settings} />
+        {/* Prisma-backed footer streams separately so Chrome/Arc get main markup without waiting on DB */}
+        <FooterLoader />
       </div>
     </NextIntlClientProvider>
   );

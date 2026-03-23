@@ -13,26 +13,41 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 function getInitialTheme(): Theme {
-  if (typeof window !== 'undefined') {
+  if (typeof window === 'undefined') return 'light'
+  try {
     const saved = localStorage.getItem('vanilla-theme') as Theme | null
-    if (saved) return saved
+    if (saved === 'dark' || saved === 'light') return saved
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  } catch {
+    // Arc / private mode / storage disabled — must not crash the tree
+    try {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    } catch {
+      return 'light'
+    }
   }
-  return 'light'
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme)
+  // Fixed 'light' for SSR + first client paint so server HTML matches hydrate (avoids blank screen).
+  // Real preference is applied in useEffect after mount (see blocking script in root layout for html class).
+  const [theme, setTheme] = useState<Theme>('light')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setTheme(getInitialTheme())
     setMounted(true)
   }, [])
 
   useEffect(() => {
+    if (!mounted) return
     document.documentElement.classList.toggle('dark', theme === 'dark')
-    localStorage.setItem('vanilla-theme', theme)
-  }, [theme])
+    try {
+      localStorage.setItem('vanilla-theme', theme)
+    } catch {
+      /* ignore */
+    }
+  }, [theme, mounted])
 
   const toggleTheme = () => setTheme((t) => (t === 'light' ? 'dark' : 'light'))
 

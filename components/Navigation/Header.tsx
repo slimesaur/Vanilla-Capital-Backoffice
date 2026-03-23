@@ -28,6 +28,13 @@ export default function Header() {
   const portfolioRef = useRef<HTMLDivElement>(null);
   const mobilePortfolioRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (!headerVisible) {
+      setIsMenuOpen(false);
+      setIsMobileSignInOpen(false);
+    }
+  }, [headerVisible]);
+
   // Show header when scrolling up, hide when scrolling down (Quartzo-style)
   // Keep header visible when portfolio dropdown is open so user can click links
   useEffect(() => {
@@ -102,17 +109,18 @@ export default function Header() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 bg-[#1A2433] backdrop-blur-sm shadow-sm font-avenir font-thin transition-transform duration-300 ease-out"
+      className="fixed top-0 left-0 right-0 z-50 h-20 overflow-visible bg-[#1A2433] backdrop-blur-sm shadow-sm font-avenir font-thin transition-transform duration-300 ease-out"
       style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}
     >
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-20 items-center justify-between">
-          <div className="flex items-center pr-6">
+      {/* relative: mobile drawer uses absolute top-full (out of flow) so h-20 stays fixed; moves with transform like the bar */}
+      <nav className="mx-auto flex h-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-full min-h-0 w-full items-center justify-between">
+          <div className="flex min-w-0 max-w-[calc(100vw-7.5rem)] flex-1 items-center pr-3 sm:max-w-[calc(100vw-9rem)] lg:max-w-none lg:flex-none lg:pr-6">
             <LandingLogo size="header" />
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
+          {/* Desktop nav from lg (1024px) — sidebar-narrow layouts still get links; tighter gaps lg–xl to fit wide logo */}
+          <div className="hidden lg:flex lg:items-center lg:space-x-3 xl:space-x-6 2xl:space-x-8">
             {navigation.slice(0, 1).map((item) => (
               <Link
                 key={item.name}
@@ -199,8 +207,7 @@ export default function Header() {
             <LanguageSwitcher />
           </div>
 
-          {/* Mobile menu button */}
-          <div className="flex items-center space-x-4 md:hidden">
+          <div className="flex lg:hidden flex-shrink-0 items-center space-x-4">
             {isLoggedIn && (
               <Link
                 href="/backoffice"
@@ -225,26 +232,27 @@ export default function Header() {
             </button>
           </div>
         </div>
+      </nav>
 
-        {/* Mobile Navigation - smooth drop animation per UX best practices (300–400ms, ease-out) */}
-        <div
-          id="mobile-nav-menu"
-          className={cn(
-            'md:hidden overflow-hidden',
-            isMenuOpen ? 'max-h-[70vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
-          )}
-          style={{
-            transition: 'max-height .7s ease, opacity .7s ease',
-          }}
-        >
-          <div className="bg-[#1A2433]">
+      <div
+        id="mobile-nav-menu"
+        className={cn(
+          'absolute left-0 right-0 top-full z-40 bg-[#1A2433] shadow-lg transition-[max-height,opacity] duration-300 ease-out lg:hidden',
+          isMenuOpen
+            ? 'max-h-[70vh] overflow-y-auto border-b border-white/10 opacity-100 sm:max-h-[min(70vh,calc(100dvh-5rem))]'
+            : 'max-h-0 overflow-hidden border-b-0 opacity-0 pointer-events-none'
+        )}
+      >
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="space-y-1 px-2 pb-3 pt-2 border-t border-white/10">
               <Link
                 href={`/${locale}`}
                 onClick={() => setIsMenuOpen(false)}
                 className={cn(
-'block rounded-none px-3 py-2 text-base font-medium',
-                pathname === `/${locale}` ? 'bg-primary-400/20 text-secondary-100' : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
+                  'block rounded-none px-3 py-2 text-base font-medium',
+                  pathname === `/${locale}`
+                    ? 'bg-primary-400/20 text-secondary-100'
+                    : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
                 )}
               >
                 {t('home')}
@@ -255,7 +263,9 @@ export default function Header() {
                   onClick={() => setIsPortfolioOpen((prev) => !prev)}
                   className={cn(
                     'flex w-full items-center justify-between rounded-none px-3 py-2 text-base font-medium',
-                    isPortfolioActive ? 'bg-primary-400/20 text-secondary-100' : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
+                    isPortfolioActive
+                      ? 'bg-primary-400/20 text-secondary-100'
+                      : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
                   )}
                 >
                   {t('portfolio')}
@@ -267,10 +277,10 @@ export default function Header() {
                       key={service.key}
                       href={`/${locale}/portfolio/${service.slug}`}
                       onClick={() => {
-                        setIsMenuOpen(false)
-                        setIsPortfolioOpen(false)
+                        setIsMenuOpen(false);
+                        setIsPortfolioOpen(false);
                       }}
-                      className="block rounded-none px-5 py-3 text-sm font-medium text-secondary-200 hover:bg-white/5 hover:text-secondary-100 touch-manipulation min-h-[44px] flex items-center"
+                      className="flex min-h-[44px] touch-manipulation items-center rounded-none px-5 py-3 text-sm font-medium text-secondary-200 hover:bg-white/5 hover:text-secondary-100"
                     >
                       {tServices(`${service.key}.title`)}
                     </Link>
@@ -297,15 +307,16 @@ export default function Header() {
                 <Link
                   href="/backoffice"
                   onClick={() => setIsMenuOpen(false)}
-                  className="pressable clip-cut-corners block rounded-none px-3 py-2 text-base font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors text-center mt-8"
+                  className="pressable clip-cut-corners mt-8 block rounded-none bg-accent-500 px-3 py-2 text-center text-base font-medium text-white transition-colors hover:bg-accent-400"
                 >
                   {t('backoffice')}
                 </Link>
               ) : (
                 <div className="mt-8">
                   <button
+                    type="button"
                     onClick={() => setIsMobileSignInOpen((prev) => !prev)}
-                    className="pressable clip-cut-corners flex items-center justify-start gap-2 rounded-none px-3 py-2 text-sm font-medium bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+                    className="pressable clip-cut-corners flex items-center justify-start gap-2 rounded-none bg-accent-500 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-400"
                   >
                     {t('login')}
                     {isMobileSignInOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -314,7 +325,7 @@ export default function Header() {
                   <div
                     className={cn(
                       'overflow-hidden transition-all duration-200 ease-in-out',
-                      isMobileSignInOpen ? 'max-h-80 opacity-100 mt-3' : 'max-h-0 opacity-0'
+                      isMobileSignInOpen ? 'mt-3 max-h-80 opacity-100' : 'max-h-0 opacity-0'
                     )}
                   >
                     <div className="rounded-none border border-white/10 bg-white/5 p-4">
@@ -322,8 +333,8 @@ export default function Header() {
                         variant="dropdown"
                         labels={signInLabels}
                         onSuccess={() => {
-                          setIsMenuOpen(false)
-                          setIsMobileSignInOpen(false)
+                          setIsMenuOpen(false);
+                          setIsMobileSignInOpen(false);
                         }}
                       />
                     </div>
@@ -332,8 +343,7 @@ export default function Header() {
               )}
             </div>
           </div>
-        </div>
-      </nav>
+      </div>
     </header>
   );
 }

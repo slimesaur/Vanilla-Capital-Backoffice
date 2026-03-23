@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { services } from '@/lib/servicesData';
+import { publicServiceImagePath } from '@/lib/utils';
 
 const ASPECT_RATIO = 16 / 9;
 
@@ -72,7 +73,7 @@ export default function Services() {
           >
             {showImage ? (
               <Image
-                src={`/services images/${activeService.image}`}
+                src={publicServiceImagePath(activeService.image)}
                 alt=""
                 fill
                 className="object-cover object-center"

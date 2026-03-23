@@ -3,11 +3,7 @@
 @import '@fontsource/inter-tight/500.css';
 @import '@fontsource/inter-tight/600.css';
 
-/* Cormorant Garamond for landing page subtitles */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
-
-/* Montserrat for manifesto body text */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&display=swap');
+/* Google fonts load via <link> in app/layout.tsx so they do not block parsing this file (Tailwind) in Chrome */
 
 @tailwind base;
 @tailwind components;

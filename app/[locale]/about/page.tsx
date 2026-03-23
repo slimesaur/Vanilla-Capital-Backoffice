@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import AboutClient from './AboutClient';
 import { getCompanySettings } from '@/lib/settings';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params,
 }: {
@@ -27,8 +29,6 @@ export default async function AboutPage({
   const settings = await getCompanySettings();
 
   return (
-    <div className="pt-16">
-      <AboutClient settings={settings} />
-    </div>
+    <AboutClient settings={settings} />
   );
 }

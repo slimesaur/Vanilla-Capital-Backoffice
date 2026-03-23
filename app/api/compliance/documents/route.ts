@@ -15,8 +15,9 @@ export async function GET() {
       map[doc.docKey] = { filename: doc.filename, url: doc.path }
     }
     return NextResponse.json({ documents: map })
-  } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  } catch {
+    // Public marketing route: never 500 when DB is unavailable (empty map = disabled downloads).
+    return NextResponse.json({ documents: {} })
   }
 }
 

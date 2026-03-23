@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -15,16 +15,16 @@ const DEFAULT_TEAM_MEMBERS = [
   {
     id: 'default-1',
     name: 'Guilherme R Silva',
-    role: 'Partner & Diretor de Compliance',
+    role: '',
     description: '',
     image: '/images/team/team-member-1.png',
   },
   {
     id: 'default-2',
     name: 'Fabricio A S Queiroz',
-    role: 'Partner',
+    role: '',
     description: '',
-    image: null,
+    image: '/images/team/fabricio.png',
   },
 ] as const;
 
@@ -46,12 +46,33 @@ export default function AboutClient({ settings }: AboutClientProps) {
           image: m.photo || null,
         }))
       : [
-          { ...DEFAULT_TEAM_MEMBERS[0], description: t('team.defaultDescription') },
-          { ...DEFAULT_TEAM_MEMBERS[1], description: t('team.defaultDescription2') },
+          {
+            ...DEFAULT_TEAM_MEMBERS[0],
+            role: t('team.guilhermeRole'),
+            description: t('team.defaultDescription'),
+          },
+          {
+            ...DEFAULT_TEAM_MEMBERS[1],
+            role: t('team.fabricioRole'),
+            description: t('team.fabricioDescription'),
+          },
         ];
 
   const teamMembers = fromSettings;
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [mobileExpandedId, setMobileExpandedId] = useState<string | null>(null);
+  const [isNarrowViewport, setIsNarrowViewport] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const update = () => {
+      const narrow = mq.matches;
+      setIsNarrowViewport(narrow);
+      if (!narrow) setMobileExpandedId(null);
+    };
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
 
   return (
     <>
@@ -72,7 +93,7 @@ export default function AboutClient({ settings }: AboutClientProps) {
                 {t('manifesto.label')}
               </p>
               <div className="h-px w-full max-w-md bg-secondary-300 mb-10" aria-hidden="true" />
-              <div className="space-y-6 text-secondary-600 font-montserrat font-thin leading-[1.8] text-lg tracking-[0.02em]">
+              <div className="space-y-6 text-secondary-600 font-montserrat font-thin leading-[1.8] text-lg tracking-[0.02em] text-left">
                 <p>
                   {t('manifesto.p1')}
                   <br />
@@ -87,11 +108,15 @@ export default function AboutClient({ settings }: AboutClientProps) {
                   {t('manifesto.p5')}
                   <br />
                   {t('manifesto.p6')}
+                  <br />
+                  {t('manifesto.p7')}
                 </p>
-                <p className="font-montserrat font-thin text-xl pt-2 tracking-[0.02em]">
-                  <span className="text-secondary-600/50">{t('manifesto.closing1')}</span>
-                  {' '}
-                  <span className="text-ink">{t('manifesto.closing2')}</span>
+                <p>
+                  {t('manifesto.p8')}
+                  <br />
+                  {t('manifesto.p9')}
+                  <br />
+                  {t('manifesto.p10')}
                 </p>
               </div>
             </motion.div>
@@ -139,7 +164,7 @@ export default function AboutClient({ settings }: AboutClientProps) {
               tabIndex={0}
             >
               {teamMembers.map((member, index) => {
-                const isExpanded = expandedId === member.id;
+                const mobileOpen = isNarrowViewport && mobileExpandedId === member.id;
                 return (
                   <motion.div
                     key={member.id}
@@ -150,9 +175,22 @@ export default function AboutClient({ settings }: AboutClientProps) {
                     className="w-52 flex-shrink-0 md:flex-shrink md:w-auto mx-auto flex flex-col items-center snap-center"
                   >
                     <div
-                      className="relative w-52 flex flex-col items-center text-left cursor-pointer group"
-                      onMouseEnter={() => setExpandedId(member.id)}
-                      onMouseLeave={() => setExpandedId(null)}
+                      role={isNarrowViewport ? 'button' : undefined}
+                      tabIndex={isNarrowViewport ? 0 : undefined}
+                      aria-expanded={isNarrowViewport ? mobileOpen : undefined}
+                      aria-label={isNarrowViewport ? `${member.name}. ${mobileOpen ? t('team.tapToCollapse') : t('team.tapToExpand')}` : undefined}
+                      onClick={() => {
+                        if (!isNarrowViewport) return;
+                        setMobileExpandedId((prev) => (prev === member.id ? null : member.id));
+                      }}
+                      onKeyDown={(e) => {
+                        if (!isNarrowViewport) return;
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setMobileExpandedId((prev) => (prev === member.id ? null : member.id));
+                        }
+                      }}
+                      className="relative w-52 flex flex-col items-center text-left group max-md:cursor-pointer md:cursor-default outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 focus-visible:ring-offset-secondary-50"
                     >
                       <div className="relative w-52 h-72 overflow-hidden rounded-none clip-cut-corners-four shadow-lg border border-primary-500/30 bg-primary-600">
                         {member.image ? (
@@ -167,22 +205,18 @@ export default function AboutClient({ settings }: AboutClientProps) {
                             <User className="w-20 h-20 text-accent-500/50" />
                           </div>
                         )}
-                        {isExpanded && (
-                          <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.2 }}
-                            className="absolute inset-0 z-10 flex flex-col justify-center p-4"
-                            style={{ backgroundColor: 'rgba(26, 36, 51, 0.85)' }}
-                          >
-                            <h4 className="font-avenir font-bold text-accent-400 text-sm mb-2">
-                              {member.role || ''}
-                            </h4>
-                            <p className="font-avenir font-thin text-xs text-secondary-on-dark leading-relaxed">
-                              {member.description || ''}
-                            </p>
-                          </motion.div>
-                        )}
+                        <div
+                          className={`absolute inset-0 z-10 flex flex-col justify-center p-4 bg-[rgba(26,36,51,0.85)] transition-opacity duration-300 ease-out opacity-0 pointer-events-none md:group-hover:opacity-100 md:group-hover:pointer-events-auto ${
+                            mobileOpen ? 'max-md:opacity-100 max-md:pointer-events-auto' : ''
+                          }`}
+                        >
+                          <h4 className="font-avenir font-bold text-accent-400 text-sm mb-2">
+                            {member.role || ''}
+                          </h4>
+                          <p className="font-avenir font-thin text-xs text-secondary-on-dark leading-relaxed">
+                            {member.description || ''}
+                          </p>
+                        </div>
                       </div>
                       <div className="relative -mt-8 w-[calc(100%+24px)] px-4 py-3 bg-primary-600 border border-primary-500/30 rounded-none clip-v-cut-sides flex items-center justify-center min-h-[3.5rem]">
                         <h3 className="font-avenir font-thin text-base text-accent-400 text-center tracking-widest">

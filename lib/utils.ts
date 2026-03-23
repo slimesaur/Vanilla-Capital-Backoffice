@@ -27,3 +27,8 @@ export function getWhatsAppLink(phone: string, message?: string): string {
   const text = message ? encodeURIComponent(message) : ''
   return `https://wa.me/${formatted}${text ? `?text=${text}` : ''}`
 }
+
+/** `public/services images/` — space in folder name; encode for next/image and strict browsers */
+export function publicServiceImagePath(filename: string): string {
+  return encodeURI(`/services images/${filename}`)
+}
