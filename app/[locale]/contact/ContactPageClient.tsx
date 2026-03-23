@@ -82,21 +82,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
     <>
       <ServiceHero title={t('title')} image={CONTACT_HERO_IMAGE} />
 
-      <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-secondary-600 font-avenir font-thin leading-relaxed text-base md:text-lg max-w-3xl"
-          >
-            {t('subtitle')}
-          </motion.p>
-        </div>
-      </section>
-
-      <section className="py-12 md:py-20 bg-gradient-to-b from-secondary-50 to-white">
+      <section className="pt-8 md:pt-10 pb-12 md:pb-16 bg-gradient-to-b from-secondary-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             <motion.div

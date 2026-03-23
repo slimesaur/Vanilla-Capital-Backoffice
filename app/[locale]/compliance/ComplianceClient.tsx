@@ -64,15 +64,7 @@ export default function ComplianceClient() {
     <>
       <ServiceHero title={t('title')} image={COMPLIANCE_HERO_IMAGE} />
 
-      <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-secondary-600 font-avenir font-thin leading-relaxed text-base md:text-lg max-w-3xl">
-            {t('subtitle')}
-          </p>
-        </div>
-      </section>
-
-      <section className="py-12 md:py-16 bg-gradient-to-b from-secondary-50 to-white">
+      <section className="pt-8 md:pt-10 pb-12 md:pb-16 bg-gradient-to-b from-secondary-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {documents.map((doc) => (
@@ -112,7 +104,7 @@ export default function ComplianceClient() {
             ))}
           </div>
 
-          <div className="mt-12 md:mt-16 bg-secondary-50 rounded-none clip-cut-corners-all p-8 lg:p-10 border border-secondary-200">
+          <div className="mt-10 md:mt-12 bg-secondary-50 rounded-none clip-cut-corners-all p-8 lg:p-10 border border-secondary-200">
             <p className="text-sm font-avenir font-thin text-secondary-500 mb-3 tracking-wide uppercase">
               {t('info.label')}
             </p>
