@@ -194,7 +194,14 @@
       "p7": "It is what maintains coherence even in complex scenarios.",
       "p8": "Clarity is not oversimplifying.",
       "p9": "It is eliminating noise.",
-      "p10": "It is defining direction with awareness and intention."
+      "p10": "It is defining direction with awareness and intention.",
+      "p11": "When essence is defined,",
+      "p12": "clarity emerges naturally.",
+      "p13": "And it is from that combination that progress happens.",
+      "p14": "with consistency, focus, and precision.",
+      "p15": "Because everything that grows needs a foundation.",
+      "p16": "And everything that moves forward needs direction.",
+      "closing": "Vanilla Capital. Essence as foundation. Clarity as guide."
     },
     "team": {
       "title": "Our Team",
@@ -213,8 +220,10 @@
     }
   },
   "Contact": {
+    "metadata": {
+      "description": "Contact Vanilla Capital for investment consultancy: phone, email, WhatsApp, message form, and our office in Curitiba."
+    },
     "title": "Get in Touch",
-    "subtitle": "We are ready to help you achieve your financial goals",
     "whatsappMessage": "Hello, I would like to know more about Vanilla Capital services.",
     "info": {
       "title": "Contact Information",
@@ -237,7 +246,7 @@
       "error": "Something went wrong. Please try again or contact us via WhatsApp.",
       "privacy": "By submitting, you agree that Vanilla Capital may use your data to respond to your inquiry. We do not share your information with third parties. See our privacy policy for details.",
       "nextSteps": "What happens next",
-      "nextStepsDescription": "We will respond within 24 business hours. You can also reach us directly via WhatsApp for faster assistance."
+      "nextStepsDescription": "We'll respond within the next few minutes. You can also reach us directly via WhatsApp for faster assistance."
     }
   },
   "Compliance": {

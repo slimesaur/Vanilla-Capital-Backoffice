@@ -52,7 +52,7 @@ export default function ServicePageClient({
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="pressable clip-cut-corners inline-flex px-6 py-3 text-sm font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-none transition-colors"
+              className="pressable inline-flex px-6 py-3 text-sm font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-none transition-colors"
             >
               {t('cta')}
             </a>

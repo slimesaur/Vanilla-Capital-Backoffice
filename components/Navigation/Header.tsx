@@ -194,7 +194,7 @@ export default function Header() {
             {isLoggedIn ? (
               <Link
                 href="/backoffice"
-                className="pressable clip-cut-corners text-sm font-medium px-4 py-2 rounded-none bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+                className="pressable text-sm font-medium px-4 py-2 rounded-none bg-accent-500 text-white hover:bg-accent-400 transition-colors"
               >
                 {t('backoffice')}
               </Link>
@@ -211,7 +211,7 @@ export default function Header() {
             {isLoggedIn && (
               <Link
                 href="/backoffice"
-                className="pressable clip-cut-corners text-sm font-medium px-3 py-1.5 rounded-none bg-accent-500 text-white hover:bg-accent-400 transition-colors"
+                className="pressable text-sm font-medium px-3 py-1.5 rounded-none bg-accent-500 text-white hover:bg-accent-400 transition-colors"
               >
                 {t('backoffice')}
               </Link>
@@ -307,7 +307,7 @@ export default function Header() {
                 <Link
                   href="/backoffice"
                   onClick={() => setIsMenuOpen(false)}
-                  className="pressable clip-cut-corners mt-8 block rounded-none bg-accent-500 px-3 py-2 text-center text-base font-medium text-white transition-colors hover:bg-accent-400"
+                  className="pressable mt-8 block rounded-none bg-accent-500 px-3 py-2 text-center text-base font-medium text-white transition-colors hover:bg-accent-400"
                 >
                   {t('backoffice')}
                 </Link>
@@ -316,7 +316,7 @@ export default function Header() {
                   <button
                     type="button"
                     onClick={() => setIsMobileSignInOpen((prev) => !prev)}
-                    className="pressable clip-cut-corners flex items-center justify-start gap-2 rounded-none bg-accent-500 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-400"
+                    className="pressable flex items-center justify-start gap-2 rounded-none bg-accent-500 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-400"
                   >
                     {t('login')}
                     {isMobileSignInOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}

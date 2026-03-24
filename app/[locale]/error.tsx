@@ -38,7 +38,7 @@ export default function LocaleError({
       <button
         type="button"
         onClick={() => reset()}
-        className="clip-cut-corners bg-accent-500 px-6 py-2 text-sm font-medium text-white hover:bg-accent-400"
+        className="bg-accent-500 px-6 py-2 text-sm font-medium text-white hover:bg-accent-400 rounded-none"
       >
         {copy.cta}
       </button>

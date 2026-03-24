@@ -78,21 +78,36 @@ export default function AboutClient({ settings }: AboutClientProps) {
     <>
       <ServiceHero title={t('title')} image={ABOUT_HERO_IMAGE} />
 
-      {/* Brand Manifesto */}
+      {/* Brand Manifesto — full-width horizontal image above text */}
       <section className="py-20 bg-secondary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-0 items-stretch min-h-[28rem]">
+          <div className="flex flex-col gap-10 lg:gap-12">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="flex flex-col justify-center pr-8 lg:pr-16 py-12 lg:py-0 order-2 lg:order-1"
+              className="relative w-full overflow-hidden aspect-[21/9] min-h-[11rem] sm:min-h-[13rem] md:min-h-[15rem]"
             >
-              <p className="text-sm font-avenir font-thin text-secondary-500 mb-3 tracking-wide uppercase">
+              <Image
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"
+                alt=""
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                priority
+              />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.05 }}
+              className="flex flex-col"
+            >
+              <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-8">
                 {t('manifesto.label')}
-              </p>
-              <div className="h-px w-full max-w-md bg-secondary-300 mb-10" aria-hidden="true" />
+              </h2>
               <div className="space-y-6 text-secondary-600 font-montserrat font-thin leading-[1.8] text-lg tracking-[0.02em] text-left">
                 <p>
                   {t('manifesto.p1')}
@@ -118,23 +133,25 @@ export default function AboutClient({ settings }: AboutClientProps) {
                   <br />
                   {t('manifesto.p10')}
                 </p>
+                <p>
+                  {t('manifesto.p11')}
+                  <br />
+                  {t('manifesto.p12')}
+                </p>
+                <p>
+                  {t('manifesto.p13')}
+                  <br />
+                  {t('manifesto.p14')}
+                </p>
+                <p>
+                  {t('manifesto.p15')}
+                  <br />
+                  {t('manifesto.p16')}
+                </p>
+                <p className="font-avenir font-thin text-primary text-lg uppercase leading-snug tracking-[0.15em] text-left pt-2">
+                  {t('manifesto.closing')}
+                </p>
               </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative h-64 lg:h-auto lg:min-h-[28rem] overflow-hidden order-1 lg:order-2"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"
-                alt=""
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                priority
-              />
             </motion.div>
           </div>
         </div>
@@ -255,7 +272,7 @@ export default function AboutClient({ settings }: AboutClientProps) {
             </p>
             <Link
               href={`/${locale}/contact`}
-              className="pressable clip-cut-corners inline-flex items-center px-8 py-3 text-base font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-none transition-colors"
+              className="pressable inline-flex items-center px-8 py-3 text-base font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-none transition-colors"
             >
               {t('ctaButton')}
             </Link>

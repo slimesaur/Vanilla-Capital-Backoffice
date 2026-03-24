@@ -144,7 +144,7 @@ export default function SignInForm({ variant = 'page', labels, onSuccess }: Sign
         type="submit"
         disabled={loading}
         className={cn(
-          'w-full rounded-none clip-cut-corners font-medium transition disabled:opacity-50',
+          'w-full rounded-none font-medium transition disabled:opacity-50',
           isDropdown
             ? 'px-3 py-2 text-sm bg-accent-500 text-white hover:bg-accent-400'
             : 'px-4 py-2.5 bg-vanilla-secondary text-vanilla-main font-interTight hover:opacity-90'

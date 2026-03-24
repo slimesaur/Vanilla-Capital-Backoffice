@@ -38,6 +38,10 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
     ),
   };
 
+  const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
+    contactInfo.address
+  )}&output=embed`;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -82,7 +86,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
     <>
       <ServiceHero title={t('title')} image={CONTACT_HERO_IMAGE} />
 
-      <section className="pt-8 md:pt-10 pb-12 md:pb-16 bg-gradient-to-b from-secondary-50 to-white">
+      <section className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gradient-to-b from-secondary-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             <motion.div
@@ -157,7 +161,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
 
               <div className="mt-8 overflow-hidden clip-cut-corners-all border border-primary-500/20 shadow-lg">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.5!2d-49.3!3d-25.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce8b8b8b8b8b%3A0x8b8b8b8b8b8b8b8b!2sRua%20Paulo%20Set%C3%BAbal%2C%205081%20-%20Boqueir%C3%A3o%2C%20Curitiba%20-%20PR%2C%2081750-190!5e0!3m2!1spt-BR!2sbr!4v1234567890"
+                  src={mapEmbedSrc}
                   width="100%"
                   height="300"
                   style={{ border: 0 }}

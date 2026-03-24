@@ -56,7 +56,7 @@ export default function Footer({ settings }: FooterProps) {
               href={contactInfo.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="pressable clip-cut-corners inline-block mt-2 px-4 py-2 text-sm font-medium rounded-none bg-accent-500 hover:bg-accent-400 text-[#1A2433] transition-colors"
+              className="pressable inline-block mt-2 px-4 py-2 text-sm font-medium rounded-none bg-accent-500 hover:bg-accent-400 text-[#1A2433] transition-colors"
             >
               {t('startSuitability')}
             </a>

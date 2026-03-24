@@ -48,7 +48,7 @@ export default function Services() {
       aria-label={t('title')}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-8 md:mb-10">
+        <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-10 md:mb-14">
           {t('title')}
         </h2>
         {/* Framed carousel container - Quartzo-style */}
@@ -137,7 +137,7 @@ export default function Services() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href={`/${locale}/portfolio/${activeService.slug}`}
-                className="pressable clip-cut-corners inline-flex items-center px-5 py-2 text-sm bg-accent-500 hover:bg-accent-400 text-secondary-50 font-avenir font-thin rounded-none transition-colors duration-300"
+                className="pressable inline-flex items-center px-5 py-2 text-sm bg-accent-500 hover:bg-accent-400 text-secondary-50 font-avenir font-thin rounded-none transition-colors duration-300"
               >
                 {t('learnMore')}
               </Link>
