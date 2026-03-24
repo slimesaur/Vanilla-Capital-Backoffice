@@ -26,7 +26,7 @@ export default function ServiceCardGrid({
   return (
     <section className="py-12 md:py-16 bg-gradient-to-b from-secondary-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-8 md:mb-12">
+        <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-10 md:mb-14">
           {cardGridTitle}
         </h2>
 
@@ -36,7 +36,7 @@ export default function ServiceCardGrid({
               key={index}
               className="bg-primary-600 rounded-none clip-cut-corners-all p-8 lg:p-10 shadow-lg border border-primary-500/30 flex flex-col"
             >
-              <div className="mb-7">
+              <div className="mb-8">
                 <BrandIcon
                   name={icons[index] ?? '08'}
                   size={48}
@@ -44,7 +44,7 @@ export default function ServiceCardGrid({
                   className="flex-shrink-0"
                 />
               </div>
-              <h3 className="text-xl font-avenir font-thin text-accent-400 mb-6 line-clamp-2 min-h-[2.8em]">
+              <h3 className="text-xl font-avenir font-bold text-accent-400 mb-8 line-clamp-2 min-h-[2.8em]">
                 {card.title}
               </h3>
               <p className="text-sm text-secondary-100 font-avenir font-thin leading-relaxed flex-grow text-justify">

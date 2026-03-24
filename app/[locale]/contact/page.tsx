@@ -12,10 +12,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Contact' });
+  const tMeta = await getTranslations({ locale, namespace: 'Contact.metadata' });
 
   return {
     title: `${t('title')} - Vanilla Capital`,
-    description: t('subtitle'),
+    description: tMeta('description'),
   };
 }
 

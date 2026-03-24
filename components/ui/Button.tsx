@@ -21,7 +21,7 @@ export default function Button({
   return (
     <button
       className={cn(
-        'px-6 py-3 rounded-none clip-cut-corners font-semibold transition-[transform_0.1s_ease,color_0.2s,background-color_0.2s,border-color_0.2s] active:scale-[0.97]',
+        'px-6 py-3 rounded-none font-semibold transition-[transform_0.1s_ease,color_0.2s,background-color_0.2s,border-color_0.2s] active:scale-[0.97]',
         variants[variant],
         className
       )}

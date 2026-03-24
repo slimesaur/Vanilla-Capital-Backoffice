@@ -64,47 +64,9 @@ export default function ComplianceClient() {
     <>
       <ServiceHero title={t('title')} image={COMPLIANCE_HERO_IMAGE} />
 
-      <section className="pt-8 md:pt-10 pb-12 md:pb-16 bg-gradient-to-b from-secondary-50 to-white">
+      <section className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gradient-to-b from-secondary-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            {documents.map((doc) => (
-              <div key={doc.key}>
-                <div className="bg-primary-600 rounded-none clip-cut-corners-all p-8 lg:p-10 shadow-lg border border-primary-500/30 h-full flex flex-col">
-                  <div className="mb-7">
-                    <BrandIcon
-                      name={doc.brandIcon}
-                      size={48}
-                      variant="light"
-                      className="flex-shrink-0"
-                    />
-                  </div>
-                  <h2 className="text-xl font-avenir font-thin text-accent-400 mb-6 min-h-[2.8em] leading-snug">
-                    {t(doc.titleKey)}
-                  </h2>
-                  <p className="text-sm text-secondary-100 font-avenir font-thin leading-relaxed flex-grow text-justify mb-8">
-                    {t(doc.descriptionKey)}
-                  </p>
-                  {docUrls[doc.backofficeKey] ? (
-                    <a
-                      href={docUrls[doc.backofficeKey]}
-                      download
-                      className="pressable clip-cut-corners inline-flex items-center justify-center px-6 py-3 bg-accent-500 hover:bg-accent-400 text-white font-avenir font-medium rounded-none transition-colors mt-auto"
-                    >
-                      <Download className="h-5 w-5 mr-2 shrink-0" />
-                      {t('download')}
-                    </a>
-                  ) : (
-                    <span className="clip-cut-corners inline-flex items-center justify-center px-6 py-3 bg-secondary-700/40 text-secondary-on-dark-muted font-avenir font-medium rounded-none cursor-not-allowed mt-auto border border-primary-500/20">
-                      <Download className="h-5 w-5 mr-2 shrink-0 opacity-60" />
-                      {t('download')}
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 md:mt-12 bg-secondary-50 rounded-none clip-cut-corners-all p-8 lg:p-10 border border-secondary-200">
+          <div className="mb-10 md:mb-12 bg-secondary-50 rounded-none clip-cut-corners-all p-8 lg:p-10 border border-secondary-200">
             <p className="text-sm font-avenir font-thin text-secondary-500 mb-3 tracking-wide uppercase">
               {t('info.label')}
             </p>
@@ -115,6 +77,44 @@ export default function ComplianceClient() {
             <p className="text-secondary-600 font-avenir font-thin leading-relaxed text-base">
               {t('info.description')}
             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {documents.map((doc) => (
+              <div key={doc.key}>
+                <div className="bg-primary-600 rounded-none clip-cut-corners-all p-8 lg:p-10 shadow-lg border border-primary-500/30 h-full flex flex-col">
+                  <div className="mb-8">
+                    <BrandIcon
+                      name={doc.brandIcon}
+                      size={48}
+                      variant="light"
+                      className="flex-shrink-0"
+                    />
+                  </div>
+                  <h2 className="text-xl font-avenir font-bold text-accent-400 mb-8 min-h-[2.8em] leading-snug">
+                    {t(doc.titleKey)}
+                  </h2>
+                  <p className="text-sm text-secondary-100 font-avenir font-thin leading-relaxed flex-grow text-justify mb-8">
+                    {t(doc.descriptionKey)}
+                  </p>
+                  {docUrls[doc.backofficeKey] ? (
+                    <a
+                      href={docUrls[doc.backofficeKey]}
+                      download
+                      className="pressable inline-flex items-center justify-center px-6 py-3 bg-accent-500 hover:bg-accent-400 text-white font-avenir font-medium rounded-none transition-colors mt-auto"
+                    >
+                      <Download className="h-5 w-5 mr-2 shrink-0" />
+                      {t('download')}
+                    </a>
+                  ) : (
+                    <span className="inline-flex items-center justify-center px-6 py-3 bg-secondary-700/40 text-secondary-on-dark-muted font-avenir font-medium rounded-none cursor-not-allowed mt-auto border border-primary-500/20">
+                      <Download className="h-5 w-5 mr-2 shrink-0 opacity-60" />
+                      {t('download')}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

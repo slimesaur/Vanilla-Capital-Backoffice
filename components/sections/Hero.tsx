@@ -47,7 +47,7 @@ export default async function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Contact us via WhatsApp"
-            className="pressable clip-cut-corners inline-block px-6 py-3 text-base font-avenir font-thin rounded-none bg-accent-500 text-secondary-50 hover:bg-accent-400 transition-colors duration-200"
+            className="pressable inline-block px-6 py-3 text-base font-avenir font-thin rounded-none bg-accent-500 text-secondary-50 hover:bg-accent-400 transition-colors duration-200"
           >
             {t('knowMore')}
           </a>

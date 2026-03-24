@@ -194,7 +194,14 @@
       "p7": "É ela que mantém coerência mesmo em cenários complexos.",
       "p8": "Clareza não é simplificar demais.",
       "p9": "É eliminar o ruído.",
-      "p10": "É definir direção com consciência e intenção."
+      "p10": "É definir direção com consciência e intenção.",
+      "p11": "Quando a essência está definida,",
+      "p12": "a clareza surge naturalmente.",
+      "p13": "E é dessa combinação que o avanço acontece.",
+      "p14": "com consistência, foco e precisão.",
+      "p15": "Porque tudo o que cresce precisa de fundamento.",
+      "p16": "E tudo o que avança precisa de direção.",
+      "closing": "Vanilla Capital. Essência como base. Clareza como guia."
     },
     "team": {
       "title": "Nossa Equipe",
@@ -213,8 +220,10 @@
     }
   },
   "Contact": {
+    "metadata": {
+      "description": "Fale com a Vanilla Capital: telefone, e-mail, WhatsApp, formulário e endereço em Curitiba. Consultoria de investimentos e serviços financeiros."
+    },
     "title": "Entre em Contato",
-    "subtitle": "Estamos prontos para ajudar você a alcançar seus objetivos financeiros",
     "whatsappMessage": "Olá, gostaria de saber mais sobre os serviços da Vanilla Capital.",
     "info": {
       "title": "Informações de Contato",
@@ -237,7 +246,7 @@
       "error": "Algo deu errado. Tente novamente ou entre em contato via WhatsApp.",
       "privacy": "Ao enviar, você concorda que a Vanilla Capital pode usar seus dados para responder à sua solicitação. Não compartilhamos suas informações com terceiros. Consulte nossa política de privacidade.",
       "nextSteps": "O que acontece em seguida",
-      "nextStepsDescription": "Responderemos em até 24 horas úteis. Você também pode nos contatar diretamente via WhatsApp para atendimento mais rápido."
+      "nextStepsDescription": "Responderemos nos próximos minutos. Você também pode nos contatar diretamente via WhatsApp para atendimento mais rápido."
     }
   },
   "Compliance": {
