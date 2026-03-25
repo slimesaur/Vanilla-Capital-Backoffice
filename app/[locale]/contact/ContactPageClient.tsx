@@ -28,14 +28,13 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const rawPhone = settings?.phone || '+5541988195090';
+  const rawWhatsApp = settings?.whatsapp || rawPhone;
   const contactInfo = {
     phone: formatPhoneDisplay(rawPhone),
     email: settings?.email || 'atendimento@vanillacapital.com.br',
     address: settings?.address || 'Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR',
-    whatsapp: getWhatsAppLink(
-      settings?.whatsapp || rawPhone,
-      t('whatsappMessage'),
-    ),
+    whatsapp: getWhatsAppLink(rawWhatsApp, t('whatsappMessage')),
+    whatsappDisplay: formatPhoneDisplay(rawWhatsApp),
   };
 
   const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
@@ -152,8 +151,9 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-avenir font-thin text-secondary-600 hover:text-accent-600 transition-colors"
+                      aria-label={`${t('info.whatsappLabel')}: ${contactInfo.whatsappDisplay}`}
                     >
-                      {t('info.whatsapp')}
+                      {contactInfo.whatsappDisplay}
                     </a>
                   </div>
                 </div>

@@ -115,12 +115,12 @@ export default function Header() {
       {/* relative: mobile drawer uses absolute top-full (out of flow) so h-20 stays fixed; moves with transform like the bar */}
       <nav className="mx-auto flex h-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-full min-h-0 w-full items-center justify-between">
-          <div className="flex min-w-0 max-w-[calc(100vw-7.5rem)] flex-1 items-center pr-3 sm:max-w-[calc(100vw-9rem)] lg:max-w-none lg:flex-none lg:pr-6">
+          <div className="flex min-w-0 max-w-[calc(100vw-7.5rem)] flex-1 items-center pr-3 sm:max-w-[calc(100vw-9rem)] lg:max-w-none lg:flex-none lg:pr-7 xl:pr-8">
             <LandingLogo size="header" />
           </div>
 
-          {/* Desktop nav from lg (1024px) — sidebar-narrow layouts still get links; tighter gaps lg–xl to fit wide logo */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-3 xl:space-x-6 2xl:space-x-8">
+          {/* Desktop nav from lg (1024px) — extra pr on logo + space-x keeps links readable without crowding the mark */}
+          <div className="hidden lg:flex lg:items-center lg:space-x-5 xl:space-x-7 2xl:space-x-10">
             {navigation.slice(0, 1).map((item) => (
               <Link
                 key={item.name}
