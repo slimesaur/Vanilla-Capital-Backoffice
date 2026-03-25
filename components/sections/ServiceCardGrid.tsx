@@ -16,6 +16,9 @@ interface ServiceCardGridProps {
   cards: Card[];
 }
 
+/**
+ * Portfolio “why invest” grid — secondary-100 cards (same cream as deliverables section) on navy band.
+ */
 export default function ServiceCardGrid({
   serviceKey,
   cardGridTitle,
@@ -24,33 +27,33 @@ export default function ServiceCardGrid({
   const icons = CARD_ICONS[serviceKey] ?? ['08', '08', '08', '08'];
 
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-b from-secondary-50 to-white">
+    <section className="py-12 md:py-16 bg-gradient-to-b from-primary-900 to-primary-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-10 md:mb-14">
+        <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-400 mb-10 md:mb-14">
           {cardGridTitle}
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {cards.map((card, index) => (
-            <div
+            <article
               key={index}
-              className="bg-primary-600 rounded-none clip-cut-corners-all p-8 lg:p-10 shadow-lg border border-primary-500/30 flex flex-col"
+              className="flex flex-col bg-secondary-100 border border-secondary-200 border-l-4 border-l-accent-400 rounded-none shadow-md p-6 lg:p-8"
             >
-              <div className="mb-8">
+              <div className="mb-4 shrink-0">
                 <BrandIcon
                   name={icons[index] ?? '08'}
-                  size={48}
-                  variant="light"
+                  size={40}
+                  variant="dark"
                   className="flex-shrink-0"
                 />
               </div>
-              <h3 className="text-xl font-avenir font-bold text-accent-400 mb-8 line-clamp-2 min-h-[2.8em]">
+              <h3 className="text-lg md:text-xl font-avenir font-bold text-accent-500 mb-3 line-clamp-3">
                 {card.title}
               </h3>
-              <p className="text-sm text-secondary-100 font-avenir font-thin leading-relaxed flex-grow text-justify">
+              <p className="text-sm text-ink/90 font-avenir font-thin leading-relaxed flex-grow text-left text-pretty">
                 {card.description}
               </p>
-            </div>
+            </article>
           ))}
         </div>
       </div>

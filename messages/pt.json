@@ -134,14 +134,64 @@
       "assets": {
         "title": "Alocação de Ativos",
         "descriptionTitle": "Soluções personalizadas para proteger seu patrimônio com rentabilidade.",
-        "descriptionP1": "Nossa abordagem equilibra risco e retorno com foco em desempenho de longo prazo. Conquistamos rentabilidade consistente em ações, fundos e demais ativos financeiros por meio de gestão disciplinada e profissional. Atuamos em mercados que dominamos, onde nossa experiência gera decisões informadas e resultados sustentáveis.",
-        "descriptionP2": "Acreditamos que a alocação eficiente de ativos é a base da construção patrimonial. Combinamos análise fundamental e visão de longo prazo para identificar oportunidades e preservar o capital dos nossos clientes.",
+        "descriptionP1": "Nossa abordagem equilibra risco e retorno com foco em desempenho de longo prazo. Conquistamos rentabilidade consistente por meio de gestão disciplinada e experiente.",
+        "descriptionP2": "Atuamos em mercados que dominamos, onde nossa experiência gera decisões informadas e resultados sustentáveis.",
         "cardGridTitle": "Por que investir em ativos mobiliários?",
         "cards": {
-          "1": { "title": "Vantagem Tributária", "description": "O planejamento fiscal pode transformar seus investimentos. Dividendos de ações são isentos de IR para pessoas físicas no Brasil; o PGBL permite dedução de até 12% da renda na declaração. Diversificamos entre veículos com diferentes tratamentos tributários para otimizar seus ganhos líquidos." },
-          "2": { "title": "Performance e Rentabilidade", "description": "Nossos resultados são sólidos e consistentemente acima do benchmark CDI. Trabalhamos com disciplina e metodologia comprovada para entregar rentabilidade." },
+          "1": { "title": "Vantagem Tributária", "description": "O planejamento fiscal pode transformar seus investimentos. Diversificamos entre veículos com diferentes tratamentos tributários para otimizar seus ganhos líquidos." },
+          "2": { "title": "Performance e Rentabilidade", "description": "Nossos resultados são sólidos e consistentemente acima dos benchmarks de mercado e empresas de assessoria. Trabalhamos com disciplina e metodologia comprovada para entregar rentabilidade." },
           "3": { "title": "Gerenciamento de Risco", "description": "O que mais importa para nós é a proteção do cliente: priorizamos gestão de risco em todas as decisões de alocação." },
           "4": { "title": "Mitigação de Conflitos", "description": "Trabalhamos em modelo fee-based, alinhando nossos interesses aos seus. Transparência total em taxas e estrutura. Seu sucesso é nossa métrica." }
+        },
+        "deliverables": {
+          "title": "O que vou receber como serviço?",
+          "slides": {
+            "1": {
+              "title": "Retorno sobre o investimento",
+              "description": "A maior rentabilidade com viés de segurança, diversificação e gestão ativa que se adapta aos movimentos do mercado.",
+              "imageAlt": "Retorno sobre o investimento — entregável"
+            },
+            "2": {
+              "title": "Diversificação internacional",
+              "description": "Acesso e diversificação em ativos em bolsas globais, proteção patrimonial com exposição cambial e potencial de retorno.",
+              "imageAlt": "Diversificação internacional — entregável"
+            },
+            "3": {
+              "title": "Gestão patrimonial",
+              "description": "Equipe jurídica e financeira que apoia a organização do planejamento tributário, fiscal, sucessório e financeiro.",
+              "imageAlt": "Gestão patrimonial — entregável"
+            },
+            "4": {
+              "title": "Proteção patrimonial",
+              "description": "Seu patrimônio protegido contra eventos macroeconômicos, políticos e judiciais.",
+              "imageAlt": "Proteção patrimonial — entregável"
+            },
+            "5": {
+              "title": "Consolidação e transparência",
+              "description": "Relatórios consolidados com transparência dos retornos, onde quer que seus ativos estejam. Decisões melhores, orientadas por dados.",
+              "imageAlt": "Consolidação e transparência — entregável"
+            },
+            "6": {
+              "title": "Investimentos alternativos",
+              "description": "Diversificação e retorno na economia real: leilões de imóveis abaixo do mercado e antecipação de recebíveis com garantia.",
+              "imageAlt": "Investimentos alternativos — entregável"
+            },
+            "7": {
+              "title": "Concierge",
+              "description": "Um sócio da Vanilla Capital sempre à disposição para personalizar sua carteira e suas demandas do dia a dia. Liberdade e tempo para focar no que importa.",
+              "imageAlt": "Concierge — entregável"
+            },
+            "8": {
+              "title": "Mesa Banking",
+              "description": "Soluções e suporte em estratégias de produtos e serviços bancários: crédito, cartões, consórcios e outros.",
+              "imageAlt": "Mesa Banking — entregável"
+            },
+            "9": {
+              "title": "Hub de conexões",
+              "description": "Conectamos clientes e parceiros para fazer negócios, com sinergias alinhadas aos seus objetivos.",
+              "imageAlt": "Hub de conexões — entregável"
+            }
+          }
         }
       },
       "aiSolution": {

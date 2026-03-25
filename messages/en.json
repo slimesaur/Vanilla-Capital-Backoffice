@@ -96,14 +96,64 @@
       "assets": {
         "title": "Asset Allocation",
         "descriptionTitle": "Custom solutions to protect your wealth with sustainable returns.",
-        "descriptionP1": "Our approach balances risk and return with a focus on long-term performance. We deliver consistent returns in stocks, funds, and other financial assets through disciplined, professional management. We operate in markets we master, where our experience leads to informed decisions and sustainable results.",
-        "descriptionP2": "We believe that efficient asset allocation is the foundation of wealth building. We combine fundamental analysis and long-term vision to identify opportunities and preserve our clients' capital.",
+        "descriptionP1": "Our approach balances risk and return with a long-term performance focus. We deliver consistent returns through disciplined, experienced management.",
+        "descriptionP2": "We focus on markets we know deeply, where experience supports informed decisions and sustainable outcomes.",
         "cardGridTitle": "Why invest in securities?",
         "cards": {
-          "1": { "title": "Tax Advantages", "description": "Tax planning can transform your investments. Dividends from stocks are tax-free for individuals in Brazil; PGBL allows deduction of up to 12% of income on your tax return. We diversify across vehicles with different tax treatments to optimize your net gains." },
-          "2": { "title": "Performance and Returns", "description": "Our results are solid and consistently above the CDI benchmark. We work with discipline and proven methodology to deliver returns." },
+          "1": { "title": "Tax Advantages", "description": "Tax planning can reshape your investment outcomes. We diversify across vehicles with different tax treatments to improve your net results." },
+          "2": { "title": "Performance and Returns", "description": "Our results are solid and consistently above market and advisory benchmarks. We apply discipline and a proven methodology to deliver returns." },
           "3": { "title": "Risk Management", "description": "What matters most to us is client protection: we prioritize risk management in all allocation decisions." },
           "4": { "title": "Conflict of Interest Mitigation", "description": "We operate on a fee-based model, aligning our interests with yours. Total transparency on fees and structure. Your success is our metric." }
+        },
+        "deliverables": {
+          "title": "What will I receive as part of the service?",
+          "slides": {
+            "1": {
+              "title": "Return on Investment",
+              "description": "Stronger returns with a bias toward safety, diversification, and active management that adapts to market movements.",
+              "imageAlt": "Return on investment — deliverable"
+            },
+            "2": {
+              "title": "Overseas Diversification",
+              "description": "Access and diversification in global listed assets, with wealth protection through currency exposure and return potential.",
+              "imageAlt": "Overseas diversification — deliverable"
+            },
+            "3": {
+              "title": "Wealth Management",
+              "description": "Legal and financial specialists help you organize tax, fiscal, succession, and financial planning.",
+              "imageAlt": "Wealth management — deliverable"
+            },
+            "4": {
+              "title": "Wealth Protection",
+              "description": "Your wealth shielded from macroeconomic, political, and judicial risks.",
+              "imageAlt": "Wealth protection — deliverable"
+            },
+            "5": {
+              "title": "Portfolio Consolidation & Transparency",
+              "description": "Consolidated reporting with clear visibility of returns across custodians—so you can decide with data.",
+              "imageAlt": "Portfolio consolidation and transparency — deliverable"
+            },
+            "6": {
+              "title": "Alternative Investments",
+              "description": "Diversification and returns in the real economy: property auctions below market and secured receivables anticipation.",
+              "imageAlt": "Alternative investments — deliverable"
+            },
+            "7": {
+              "title": "Concierge",
+              "description": "A Vanilla Capital partner always available to tailor your portfolio and day-to-day needs—freedom and time to focus on what matters.",
+              "imageAlt": "Concierge — deliverable"
+            },
+            "8": {
+              "title": "Mesa Banking",
+              "description": "Solutions and support for banking products and services—credit, cards, consortiums, and more.",
+              "imageAlt": "Mesa Banking — deliverable"
+            },
+            "9": {
+              "title": "Networking",
+              "description": "We facilitate business by connecting clients and partners, with synergies aligned to your goals.",
+              "imageAlt": "Networking hub — deliverable"
+            }
+          }
         }
       },
       "retirement": {
