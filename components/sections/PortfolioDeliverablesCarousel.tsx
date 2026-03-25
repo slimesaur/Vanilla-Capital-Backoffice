@@ -8,7 +8,6 @@ import {
   useRef,
   useMemo,
 } from 'react';
-import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import {
   DELIVERABLE_SLIDE_ORDER,
@@ -135,17 +134,25 @@ export default function PortfolioDeliverablesCarousel() {
     if (!el) return;
 
     const measure = () => {
-      const w = el.getBoundingClientRect().width;
-      if (w < 16) return;
-      setViewportW(w);
-      const narrow = w < 640;
-      const tile = narrow
-        ? Math.max(168, (w - GAP_PX) / 1.28)
-        : Math.max(176, (w - 2 * GAP_PX) / 2.55);
-      setTileSize(tile);
+      try {
+        const w = el.getBoundingClientRect().width;
+        if (w < 16) return;
+        setViewportW(w);
+        const narrow = w < 640;
+        const tile = narrow
+          ? Math.max(168, (w - GAP_PX) / 1.28)
+          : Math.max(176, (w - 2 * GAP_PX) / 2.55);
+        setTileSize(tile);
+      } catch {
+        /* layout APIs can throw in rare embedded contexts */
+      }
     };
 
     measure();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', measure);
+      return () => window.removeEventListener('resize', measure);
+    }
     const ro = new ResizeObserver(measure);
     ro.observe(el);
     return () => ro.disconnect();
@@ -203,12 +210,12 @@ export default function PortfolioDeliverablesCarousel() {
             aria-live="polite"
             aria-atomic="true"
           >
-            <motion.div
-              className="flex h-full"
-              style={{ gap: GAP_PX }}
-              initial={false}
-              animate={{ x: -scrollOffset }}
-              transition={{ duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94] }}
+            <div
+              className="flex h-full transition-transform duration-[750ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] motion-reduce:transition-none motion-reduce:duration-0 will-change-transform"
+              style={{
+                gap: GAP_PX,
+                transform: `translate3d(${-scrollOffset}px, 0, 0)`,
+              }}
             >
               {slides.map((slideId) => (
                 <DeliverableTile
@@ -220,7 +227,7 @@ export default function PortfolioDeliverablesCarousel() {
                   size={tileSize}
                 />
               ))}
-            </motion.div>
+            </div>
           </div>
 
           <div

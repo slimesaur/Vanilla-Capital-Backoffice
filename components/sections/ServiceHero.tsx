@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 import { publicServiceImagePath } from '@/lib/utils';
 
 const ASPECT_RATIO = 21 / 9; // Smaller than home (1409/793 ~1.78)
@@ -15,6 +14,10 @@ interface ServiceHeroProps {
   image: string;
 }
 
+/**
+ * Native <img> instead of next/image: next/image + fill has caused full blank hydration failures
+ * in Chrome/Arc on service pages (LCP/optimizer edge cases with spaces in public path).
+ */
 export default function ServiceHero({ title, image }: ServiceHeroProps) {
   const [overlayOpacity, setOverlayOpacity] = useState(OPACITY_MIN);
   const [imgError, setImgError] = useState(false);
@@ -27,7 +30,6 @@ export default function ServiceHero({ title, image }: ServiceHeroProps) {
       const sectionBottom = rect.bottom;
       const windowHeight = window.innerHeight;
 
-      // As user scrolls down, increase opacity (from section top entering view to section leaving)
       if (sectionBottom > windowHeight) {
         const scrollProgress = 1 - (sectionBottom - windowHeight) / SCROLL_RANGE;
         const clamped = Math.max(0, Math.min(1, scrollProgress));
@@ -37,7 +39,7 @@ export default function ServiceHero({ title, image }: ServiceHeroProps) {
       }
     };
 
-    handleScroll(); // Initial
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -51,19 +53,17 @@ export default function ServiceHero({ title, image }: ServiceHeroProps) {
     >
       <div className="absolute inset-0 z-0 bg-primary-900">
         {!imgError ? (
-          <Image
+          <img
             src={publicServiceImagePath(image)}
             alt=""
-            fill
-            className="object-cover object-center"
-            sizes="100vw"
-            priority
+            className="absolute inset-0 h-full w-full object-cover object-center"
             onError={() => setImgError(true)}
+            fetchPriority="high"
+            decoding="async"
           />
         ) : null}
       </div>
 
-      {/* Blue overlay - opacity increases on scroll (25% → 75%) */}
       <div
         className="absolute inset-0 z-10 pointer-events-none"
         style={{
@@ -73,7 +73,6 @@ export default function ServiceHero({ title, image }: ServiceHeroProps) {
         aria-hidden
       />
 
-      {/* Title - AVENIR THIN, off-white, left-aligned, vertically centered */}
       <div className="absolute inset-0 z-20 flex items-center">
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
           <h1 className="font-avenir font-thin text-secondary-100 text-3xl sm:text-4xl md:text-5xl lg:text-6xl">

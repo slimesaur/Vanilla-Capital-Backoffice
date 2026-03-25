@@ -3,20 +3,16 @@
 import { useTranslations } from 'next-intl';
 import ServiceHero from '@/landing/components/sections/ServiceHero';
 import ServiceCardGrid from '@/landing/components/sections/ServiceCardGrid';
-import PortfolioDeliverablesCarousel from '@/landing/components/sections/PortfolioDeliverablesCarousel';
+import PortfolioAssetSections from '@/landing/components/sections/PortfolioAssetSections';
 import type { ServiceKey } from '@/lib/servicesData';
 import { services } from '@/lib/servicesData';
 import { getWhatsAppLink } from '@/landing/lib/utils';
 
 interface ServicePageClientProps {
   serviceKey: ServiceKey;
-  locale: string;
 }
 
-export default function ServicePageClient({
-  serviceKey,
-  locale,
-}: ServicePageClientProps) {
+export default function ServicePageClient({ serviceKey }: ServicePageClientProps) {
   const t = useTranslations('Portfolio');
   const tFooter = useTranslations('Footer');
   const service = services.find((s) => s.key === serviceKey);
@@ -66,7 +62,7 @@ export default function ServicePageClient({
         cards={cards}
       />
 
-      {serviceKey === 'assets' ? <PortfolioDeliverablesCarousel /> : null}
+      {serviceKey === 'assets' ? <PortfolioAssetSections /> : null}
     </div>
   );
 }

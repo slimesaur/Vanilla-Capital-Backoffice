@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { User } from 'lucide-react';
 import ServiceHero from '@/landing/components/sections/ServiceHero';
 import type { CompanySettingsData } from '@/lib/settings';
 
 const ABOUT_HERO_IMAGE = 'WEALTH PROTECTION.jpg';
+
+const MANIFESTO_IMG =
+  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80';
 
 const DEFAULT_TEAM_MEMBERS = [
   {
@@ -78,33 +79,20 @@ export default function AboutClient({ settings }: AboutClientProps) {
     <>
       <ServiceHero title={t('title')} image={ABOUT_HERO_IMAGE} />
 
-      {/* Brand Manifesto — full-width horizontal image above text */}
       <section className="py-20 bg-secondary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-10 lg:gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative w-full overflow-hidden aspect-[21/9] min-h-[11rem] sm:min-h-[13rem] md:min-h-[15rem]"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"
+            <div className="relative w-full overflow-hidden aspect-[21/9] min-h-[11rem] sm:min-h-[13rem] md:min-h-[15rem]">
+              <img
+                src={MANIFESTO_IMG}
                 alt=""
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 1280px) 100vw, 1280px"
-                priority
+                className="absolute inset-0 h-full w-full object-cover object-center"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.05 }}
-              className="flex flex-col"
-            >
+            </div>
+            <div className="flex flex-col">
               <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-8">
                 {t('manifesto.label')}
               </h2>
@@ -152,25 +140,18 @@ export default function AboutClient({ settings }: AboutClientProps) {
                   {t('manifesto.closing')}
                 </p>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-secondary-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-8 md:mb-12"
-          >
+          <div className="mb-8 md:mb-12">
             <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500">
               {t('team.title')}
             </h2>
-          </motion.div>
+          </div>
 
           {teamMembers.length > 0 ? (
             <div
@@ -180,42 +161,47 @@ export default function AboutClient({ settings }: AboutClientProps) {
               aria-label={t('team.title')}
               tabIndex={0}
             >
-              {teamMembers.map((member, index) => {
+              {teamMembers.map((member) => {
                 const mobileOpen = isNarrowViewport && mobileExpandedId === member.id;
                 return (
-                  <motion.div
+                  <div
                     key={member.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
                     className="w-52 flex-shrink-0 md:flex-shrink md:w-auto mx-auto flex flex-col items-center snap-center"
                   >
                     <div
                       role={isNarrowViewport ? 'button' : undefined}
                       tabIndex={isNarrowViewport ? 0 : undefined}
                       aria-expanded={isNarrowViewport ? mobileOpen : undefined}
-                      aria-label={isNarrowViewport ? `${member.name}. ${mobileOpen ? t('team.tapToCollapse') : t('team.tapToExpand')}` : undefined}
+                      aria-label={
+                        isNarrowViewport
+                          ? `${member.name}. ${mobileOpen ? t('team.tapToCollapse') : t('team.tapToExpand')}`
+                          : undefined
+                      }
                       onClick={() => {
                         if (!isNarrowViewport) return;
-                        setMobileExpandedId((prev) => (prev === member.id ? null : member.id));
+                        setMobileExpandedId((prev) =>
+                          prev === member.id ? null : member.id
+                        );
                       }}
                       onKeyDown={(e) => {
                         if (!isNarrowViewport) return;
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
-                          setMobileExpandedId((prev) => (prev === member.id ? null : member.id));
+                          setMobileExpandedId((prev) =>
+                            prev === member.id ? null : member.id
+                          );
                         }
                       }}
                       className="relative w-52 flex flex-col items-center text-left group max-md:cursor-pointer md:cursor-default outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 focus-visible:ring-offset-secondary-50"
                     >
                       <div className="relative w-52 h-72 overflow-hidden rounded-none clip-cut-corners-four shadow-lg border border-primary-500/30 bg-primary-600">
                         {member.image ? (
-                          <Image
+                          <img
                             src={member.image}
                             alt={member.name || ''}
-                            fill
-                            className="object-cover object-top"
+                            className="absolute inset-0 h-full w-full object-cover object-top"
+                            loading="lazy"
+                            decoding="async"
                           />
                         ) : (
                           <div className="absolute inset-0 bg-primary-700 flex items-center justify-center">
@@ -241,7 +227,7 @@ export default function AboutClient({ settings }: AboutClientProps) {
                         </h3>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
@@ -255,28 +241,20 @@ export default function AboutClient({ settings }: AboutClientProps) {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-20 bg-gradient-to-b from-white to-secondary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-4">
+            {t('ctaTitle')}
+          </h2>
+          <p className="text-lg text-secondary-600 max-w-2xl mb-8 font-avenir">
+            {t('ctaSubtitle')}
+          </p>
+          <Link
+            href={`/${locale}/contact`}
+            className="pressable inline-flex items-center px-8 py-3 text-base font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-none transition-colors"
           >
-            <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-4">
-              {t('ctaTitle')}
-            </h2>
-            <p className="text-lg text-secondary-600 max-w-2xl mb-8 font-avenir">
-              {t('ctaSubtitle')}
-            </p>
-            <Link
-              href={`/${locale}/contact`}
-              className="pressable inline-flex items-center px-8 py-3 text-base font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-none transition-colors"
-            >
-              {t('ctaButton')}
-            </Link>
-          </motion.div>
+            {t('ctaButton')}
+          </Link>
         </div>
       </section>
     </>

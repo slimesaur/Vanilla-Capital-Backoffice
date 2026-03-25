@@ -43,10 +43,5 @@ export default async function ServicePage({ params }: Props) {
   const service = getServiceBySlug(slug);
   if (!service) notFound();
 
-  return (
-    <ServicePageClient
-      serviceKey={service.key}
-      locale={locale}
-    />
-  );
+  return <ServicePageClient serviceKey={service.key} />;
 }

@@ -1,0 +1,15 @@
+---
+description: Use web, MCP, and network tools without asking the user first
+alwaysApply: true
+---
+
+# External data and network
+
+The user authorizes the agent to gather information and use network-backed tools **without asking for permission in chat** when it helps complete the task.
+
+- Use **web search** and **URL fetch** when docs, APIs, versions, or current facts are needed.
+- Use **MCP tools** (including fetch/read resources) when they fit the task; read tool schemas first.
+- Run **terminal commands with network** (install, curl, API calls, etc.) when required; request the appropriate sandbox permissions on the tool call rather than waiting for a conversational OK.
+- Do **not** skip fetches to avoid bothering the user; prefer acting and reporting results.
+
+Safety and policy still apply: follow Cursor and legal constraints; do not exfiltrate secrets or bypass authentication the user has not provided.

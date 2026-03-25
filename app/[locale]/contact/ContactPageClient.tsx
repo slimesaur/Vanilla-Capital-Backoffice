@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
 import { getWhatsAppLink, formatPhoneDisplay } from '@/landing/lib/utils';
 import BrandIcon from '@/landing/components/ui/BrandIcon';
@@ -88,12 +87,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
       <section className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gradient-to-b from-secondary-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
+            <div>
               <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-8">
                 {t('info.title')}
               </h2>
@@ -172,14 +166,9 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                   title={t('info.mapIframeTitle')}
                 />
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.05 }}
-            >
+            <div>
               <div className="bg-white rounded-none clip-cut-corners-all p-8 shadow-lg border border-primary-500/10">
                 <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-6">
                   {t('form.title')}
@@ -295,7 +284,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

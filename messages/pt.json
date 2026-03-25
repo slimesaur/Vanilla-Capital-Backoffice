@@ -143,6 +143,28 @@
           "3": { "title": "Gerenciamento de Risco", "description": "O que mais importa para nós é a proteção do cliente: priorizamos gestão de risco em todas as decisões de alocação." },
           "4": { "title": "Mitigação de Conflitos", "description": "Trabalhamos em modelo fee-based, alinhando nossos interesses aos seus. Transparência total em taxas e estrutura. Seu sucesso é nossa métrica." }
         },
+        "onboarding": {
+          "title": "Como é o nosso onboarding",
+          "imageAlt": "Ambiente de assessoria: planejamento patrimonial e relacionamento próximo com o cliente.",
+          "steps": {
+            "1": {
+              "title": "Mapeamento",
+              "description": "Em uma conversa, fazemos o reconhecimento sobre seu histórico, situação financeira, contexto familiar, e objetivos de vida alinhados às melhores práticas dos grandes Multi Family Offices."
+            },
+            "2": {
+              "title": "Planejamento personalizado",
+              "description": "Juntos construímos uma estratégia patrimonial totalmente exclusiva e customizada alinhada aos seus interesses e objetivos. Ampliamos o leque de soluções ao acessar todas as instituições financeiras."
+            },
+            "3": {
+              "title": "Onboarding",
+              "description": "Atuamos em todo o processo burocrático, abrimos sua conta nas instituições financeiras, elaboramos os documentos de compliance e segurança, e conectamos você ao universo de investimentos."
+            },
+            "4": {
+              "title": "Crescimento",
+              "description": "Um sócio da Vanilla Capital manterá contato direto com você, com acompanhamento mensal de redistribuição da carteira, para entender eventuais mudanças e novas necessidades. Apresentamos a consolidação dos resultados do planejamento, garantindo total transparência objetivando a evolução do seu patrimônio."
+            }
+          }
+        },
         "deliverables": {
           "title": "O que vou receber como serviço?",
           "slides": {

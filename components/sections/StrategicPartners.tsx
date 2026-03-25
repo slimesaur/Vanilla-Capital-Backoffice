@@ -1,7 +1,6 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 
 const PARTNERS: { logo: string; url: string; alt: string }[] = [
   { logo: 'BTG.svg', url: 'https://www.btgpactual.com', alt: 'BTG Pactual' },
@@ -40,12 +39,14 @@ export default function StrategicPartners() {
               rel="noopener noreferrer"
               className={`flex items-center justify-center h-16 md:h-20 grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 ${logo === 'GENIAL.svg' ? 'bg-secondary-100' : ''}`}
             >
-              <Image
+              <img
                 src={`/partners/${logo}`}
                 alt={alt}
                 width={160}
                 height={64}
                 className={`h-16 md:h-20 w-auto object-contain ${logo === 'GENIAL.svg' ? 'mix-blend-multiply' : ''}`}
+                loading="lazy"
+                decoding="async"
               />
             </a>
           ))}

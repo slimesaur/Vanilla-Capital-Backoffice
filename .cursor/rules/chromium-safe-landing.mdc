@@ -1,0 +1,24 @@
+---
+description: Avoid Chrome/Arc blank screens on client navigation (landing + locale app)
+globs: "app/[locale]/**/*.tsx,components/**/*.tsx"
+alwaysApply: false
+---
+
+# Chromium-safe landing (Vanilla Capital)
+
+Client-side route changes (next-intl, Link) have produced **full blank main content** in Chromium-based browsers when certain patterns combine.
+
+## Do
+
+- Use **native `<img>`** for static assets under `public/` when the path can contain **spaces** or unusual segments (e.g. `services images/`, `icons/light mode/`). Use **`encodeURI(fullPath)`** when building `src`.
+- Prefer **CSS transitions / `transform`** for carousels and simple reveals instead of **Framer Motion** on marketing pages that mount on every navigation.
+- Keep **`LocaleMainShell` + `ClientRenderErrorBoundary`** wrapping `main` in `app/[locale]/layout.tsx` — do not remove without a replacement recovery UI for client render failures.
+- **`next.config.js`** sets `images.unoptimized: true` as a safety net; if re-enabling optimization, regression-test **Home ↔ Portfolio ↔ About ↔ Contact** in Chrome/Arc with the console open.
+
+## Avoid (unless you have a strong reason and have tested navigation)
+
+- **`next/image` with `fill`** plus fragile layouts on client-heavy pages.
+- **Framer Motion `whileInView` / layout animations** on large client trees that re-mount on every locale route.
+- **Server Component output as a direct child** of a heavy client boundary in ways that confuse hydration (prefer `dynamic(..., { ssr: false })` for optional blocks when needed).
+
+If you add a new shared icon or hero image path with spaces, mirror **`BrandIcon.tsx`** and **`ServiceHero.tsx`**: `<img>` + encoded URL, not `next/image` alone.

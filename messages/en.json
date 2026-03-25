@@ -105,6 +105,28 @@
           "3": { "title": "Risk Management", "description": "What matters most to us is client protection: we prioritize risk management in all allocation decisions." },
           "4": { "title": "Conflict of Interest Mitigation", "description": "We operate on a fee-based model, aligning our interests with yours. Total transparency on fees and structure. Your success is our metric." }
         },
+        "onboarding": {
+          "title": "How our onboarding works",
+          "imageAlt": "Advisory setting: wealth planning and a close relationship with the client.",
+          "steps": {
+            "1": {
+              "title": "Mapping",
+              "description": "In a conversation, we map your history, financial situation, family context, and life goals—aligned with best practices from leading Multi-Family Offices."
+            },
+            "2": {
+              "title": "Personalized planning",
+              "description": "Together we build a fully bespoke wealth strategy tailored to your interests and objectives. We broaden the range of solutions by accessing financial institutions across the market."
+            },
+            "3": {
+              "title": "Onboarding",
+              "description": "We handle the full administrative process, open your accounts at financial institutions, prepare compliance and security documentation, and connect you to the investment universe."
+            },
+            "4": {
+              "title": "Growth",
+              "description": "A Vanilla Capital partner stays in direct contact with you, with monthly follow-up on portfolio rebalancing to understand changes and new needs. We present consolidated results of the plan, with full transparency aimed at growing your wealth."
+            }
+          }
+        },
         "deliverables": {
           "title": "What will I receive as part of the service?",
           "slides": {
