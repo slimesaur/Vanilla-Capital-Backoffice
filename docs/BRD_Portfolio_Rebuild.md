@@ -6,6 +6,12 @@ Replace the current unified Portfolio page with six dedicated service pages. Eac
 
 ---
 
+## Related documents
+
+- [BRD: Service card grid redesign](./BRD_Service_Card_Grid_Redesign.md) — light card treatment, gold accent, typography (no justified body), phased layout options for the portfolio “why invest” grid.
+
+---
+
 ## Design Benchmark: Quartzo Capital Real Estate
 
 **Reference:** [Quartzo Capital - Real Estate](https://www.quartzocapital.com.br/real-estate)

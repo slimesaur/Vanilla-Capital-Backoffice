@@ -1,9 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 import ServiceHero from '@/landing/components/sections/ServiceHero';
 import ServiceCardGrid from '@/landing/components/sections/ServiceCardGrid';
+import PortfolioDeliverablesCarousel from '@/landing/components/sections/PortfolioDeliverablesCarousel';
 import type { ServiceKey } from '@/lib/servicesData';
 import { services } from '@/lib/servicesData';
 import { getWhatsAppLink } from '@/landing/lib/utils';
@@ -40,7 +40,7 @@ export default function ServicePageClient({
       {/* Description section */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-avenir font-bold text-2xl md:text-3xl text-ink mb-6">
+          <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-6">
             {t(`services.${serviceKey}.descriptionTitle`)}
           </h2>
           <div className="space-y-4 text-secondary-600 font-avenir font-thin leading-relaxed text-base md:text-lg">
@@ -65,6 +65,8 @@ export default function ServicePageClient({
         cardGridTitle={t(`services.${serviceKey}.cardGridTitle`)}
         cards={cards}
       />
+
+      {serviceKey === 'assets' ? <PortfolioDeliverablesCarousel /> : null}
     </div>
   );
 }
