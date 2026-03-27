@@ -3,16 +3,23 @@
 import { useTranslations } from 'next-intl';
 import ServiceHero from '@/landing/components/sections/ServiceHero';
 import ServiceCardGrid from '@/landing/components/sections/ServiceCardGrid';
-import PortfolioAssetSections from '@/landing/components/sections/PortfolioAssetSections';
 import type { ServiceKey } from '@/lib/servicesData';
 import { services } from '@/lib/servicesData';
 import { getWhatsAppLink } from '@/landing/lib/utils';
+import {
+  LANDING_SCROLL_MARGIN_CLASS,
+  LANDING_SCROLL_SNAP_CLASS,
+} from '@/lib/landingSections';
 
-interface ServicePageClientProps {
+interface ServiceBlockLandingProps {
   serviceKey: ServiceKey;
+  sectionId: string;
 }
 
-export default function ServicePageClient({ serviceKey }: ServicePageClientProps) {
+export default function ServiceBlockLanding({
+  serviceKey,
+  sectionId,
+}: ServiceBlockLandingProps) {
   const t = useTranslations('Portfolio');
   const tFooter = useTranslations('Footer');
   const service = services.find((s) => s.key === serviceKey);
@@ -30,11 +37,15 @@ export default function ServicePageClient({ serviceKey }: ServicePageClientProps
   }));
 
   return (
-    <div>
+    <div
+      id={sectionId}
+      className={`${LANDING_SCROLL_MARGIN_CLASS} ${LANDING_SCROLL_SNAP_CLASS}`}
+      tabIndex={-1}
+    >
       <ServiceHero title={t(`services.${serviceKey}.title`)} image={service.image} />
 
-      {/* Description section */}
-      <section className="py-12 md:py-16 bg-white">
+      {/* Match ServiceHero md:-mt-20 with padding (not margin): margin leaves a transparent strip that shows main bg — reads as a “blue band” in dark mode */}
+      <section className="relative z-10 bg-white py-12 md:pt-36 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-6">
             {t(`services.${serviceKey}.descriptionTitle`)}
@@ -61,8 +72,6 @@ export default function ServicePageClient({ serviceKey }: ServicePageClientProps
         cardGridTitle={t(`services.${serviceKey}.cardGridTitle`)}
         cards={cards}
       />
-
-      {serviceKey === 'assets' ? <PortfolioAssetSections /> : null}
     </div>
   );
 }

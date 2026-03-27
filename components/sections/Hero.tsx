@@ -38,7 +38,10 @@ export default async function Hero() {
       <div className="absolute top-[35%] left-6 sm:left-8 md:left-0 md:right-0 z-10">
         <div className="relative md:mx-auto md:max-w-7xl md:px-6 lg:px-8">
           <h1 className="sr-only">{t('title')}</h1>
-          <div className="mb-3 font-avenir font-thin text-primary text-2xl sm:text-3xl md:text-4xl uppercase leading-snug tracking-[0.15em]" aria-hidden="true">
+          <div
+            className="mb-3 font-avenir font-thin text-secondary-50 text-2xl sm:text-3xl md:text-4xl uppercase leading-snug tracking-[0.15em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]"
+            aria-hidden="true"
+          >
             <span className="whitespace-nowrap block">{t('tagline1')}</span>
             <span className="whitespace-nowrap block">{t('tagline2')}</span>
           </div>

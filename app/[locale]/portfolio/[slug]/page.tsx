@@ -1,7 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import ServicePageClient from './ServicePageClient';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { getServiceBySlug } from '@/lib/servicesData';
 
 type Props = {
@@ -36,6 +35,7 @@ export function generateStaticParams() {
   );
 }
 
+/** Middleware sends these URLs to `/${locale}#${slug}`. Fallback if a request hits the route. */
 export default async function ServicePage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
@@ -43,5 +43,5 @@ export default async function ServicePage({ params }: Props) {
   const service = getServiceBySlug(slug);
   if (!service) notFound();
 
-  return <ServicePageClient serviceKey={service.key} />;
+  permanentRedirect(`/${locale}#${slug}`);
 }

@@ -9,6 +9,28 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Mobile marketing home: section rhythm (BRD). Class toggled by HomeScrollSnapRoot (avoids html:has + WebKit issues). */
+@media (max-width: 1023px) {
+  html.vanilla-home-scroll-snap {
+    scroll-snap-type: y proximity;
+    scroll-padding-top: 5rem;
+    scroll-behavior: auto;
+  }
+}
+
+@media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
+  html.vanilla-home-scroll-snap {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+}
+
 /* Vanilla Capital fonts - Canela family */
 @font-face {
   font-family: 'Canela';

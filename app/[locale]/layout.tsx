@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n';
 import Header from '@/landing/components/Navigation/Header';
 import FooterLoader from '@/landing/components/Navigation/FooterLoader';
-import LocaleMainShell from '@/landing/components/LocaleMainShell';
 
 // Fresh settings: footer uses `noStore()`; pages that read settings use `dynamic = 'force-dynamic'`.
 
@@ -37,8 +36,11 @@ export default async function LocaleLayout({
           Skip to main content
         </a>
         <Header />
-        <main id="main" className="flex-1 pt-20">
-          <LocaleMainShell>{children}</LocaleMainShell>
+        <main
+          id="main"
+          className="relative z-0 flex-1 w-full min-w-0 pt-20 bg-[var(--bg-primary)]"
+        >
+          {children}
         </main>
         {/* Prisma-backed footer streams separately so Chrome/Arc get main markup without waiting on DB */}
         <FooterLoader />

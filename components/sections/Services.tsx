@@ -2,10 +2,14 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import Link from 'next/link';
 import { services } from '@/lib/servicesData';
 import { publicServiceImagePath } from '@/lib/utils';
 import { cn } from '@/landing/lib/utils';
+import {
+  LANDING_SECTION_IDS,
+  SERVICE_SLUG_TO_SECTION_ID,
+} from '@/lib/landingSections';
+import LandingHashLink from '@/landing/components/landing/LandingHashLink';
 
 const ASPECT_RATIO = 16 / 9;
 
@@ -134,18 +138,20 @@ export default function Services() {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <Link
-                    href={`/${locale}/portfolio/${activeService.slug}`}
+                  <LandingHashLink
+                    locale={locale}
+                    sectionId={SERVICE_SLUG_TO_SECTION_ID[activeService.slug]}
                     className="pressable inline-flex items-center px-5 py-2 text-sm bg-accent-500 hover:bg-accent-400 text-secondary-50 font-avenir font-thin rounded-none transition-colors duration-300"
                   >
                     {t('learnMore')}
-                  </Link>
-                  <Link
-                    href={`/${locale}/contact`}
+                  </LandingHashLink>
+                  <LandingHashLink
+                    locale={locale}
+                    sectionId={LANDING_SECTION_IDS.contact}
                     className="pressable clip-cut-corners inline-flex items-center px-5 py-2 text-sm bg-white/20 hover:bg-white/30 text-secondary-50 font-avenir font-thin rounded-none border border-secondary-50/50 transition-colors duration-300"
                   >
                     {t('contactUs')}
-                  </Link>
+                  </LandingHashLink>
                 </div>
               </div>
             </div>

@@ -4,6 +4,59 @@ import { routing } from './routing'
 
 const intlMiddleware = createIntlMiddleware(routing)
 
+const PORTFOLIO_SLUGS = new Set([
+  'asset-allocation',
+  'retirement-planning',
+  'wealth-protection',
+  'real-estate-auction',
+  'ai-solutions',
+  'business-advisory',
+])
+
+/**
+ * Legacy multi-page routes → long-scroll home with hash (308 permanent).
+ */
+function redirectLegacyMarketingToHomeHash(
+  request: NextRequest
+): NextResponse | null {
+  const { pathname } = request.nextUrl
+
+  const about = pathname.match(/^\/(pt|en)\/about\/?$/)
+  if (about) {
+    const locale = about[1]
+    return NextResponse.redirect(new URL(`/${locale}#about`, request.url), 308)
+  }
+
+  const contact = pathname.match(/^\/(pt|en)\/contact\/?$/)
+  if (contact) {
+    const locale = contact[1]
+    return NextResponse.redirect(new URL(`/${locale}#contact`, request.url), 308)
+  }
+
+  const portfolioSlug = pathname.match(/^\/(pt|en)\/portfolio\/([^/]+)\/?$/)
+  if (portfolioSlug) {
+    const locale = portfolioSlug[1]
+    const slug = portfolioSlug[2]
+    if (PORTFOLIO_SLUGS.has(slug)) {
+      return NextResponse.redirect(
+        new URL(`/${locale}#${slug}`, request.url),
+        308
+      )
+    }
+  }
+
+  const portfolioIndex = pathname.match(/^\/(pt|en)\/portfolio\/?$/)
+  if (portfolioIndex) {
+    const locale = portfolioIndex[1]
+    return NextResponse.redirect(
+      new URL(`/${locale}#asset-allocation`, request.url),
+      308
+    )
+  }
+
+  return null
+}
+
 /** Page routes that do not require auth */
 const PUBLIC_PAGE_PATHS = [
   '/login',
@@ -90,6 +143,9 @@ export function middleware(request: NextRequest) {
   if (isPublicPage(pathname)) {
     return NextResponse.next()
   }
+
+  const legacyHash = redirectLegacyMarketingToHomeHash(request)
+  if (legacyHash) return legacyHash
 
   // Locale routes (/, /pt, /en, /pt/*, /en/*) and invalid locale - use next-intl
   return intlMiddleware(request)

@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import BrandIcon from '@/landing/components/ui/BrandIcon';
 import { useState, useRef, useEffect } from 'react';
 import { locales, type Locale } from '@/i18n';
@@ -14,7 +14,6 @@ const languageNames: Record<Locale, string> = {
 
 export default function LanguageSwitcher() {
   const locale = useLocale() as Locale;
-  const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -34,10 +33,11 @@ export default function LanguageSwitcher() {
   }, []);
 
   const switchLocale = (newLocale: Locale) => {
-    // Robust: strip locale prefix, prepend new locale (handles /pt, /pt/portfolio, edge cases)
-    const pathWithoutLocale = pathname.replace(new RegExp(`^/${locale}(/|$)`), '$1') || ''
+    // Full document navigation avoids App Router + RSC client transitions that have blanked main in Chromium.
+    const pathWithoutLocale =
+      (pathname ?? '').replace(new RegExp(`^/${locale}(/|$)`), '$1') || ''
     const newPath = `/${newLocale}${pathWithoutLocale}`
-    router.push(newPath)
+    window.location.assign(newPath)
     setIsOpen(false)
   }
 

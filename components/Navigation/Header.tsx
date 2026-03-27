@@ -1,8 +1,7 @@
 'use client';
 
 import { useTranslations, useLocale } from 'next-intl';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname } from '@/routing';
 import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import LanguageSwitcher from '@/landing/components/LanguageSwitcher/LanguageSwitcher';
@@ -11,6 +10,13 @@ import LandingLogo from './LandingLogo';
 import SignInDropdown from '@/landing/components/auth/SignInDropdown';
 import SignInForm from '@/landing/components/auth/SignInForm';
 import { services } from '@/lib/servicesData';
+import LandingHashLink from '@/landing/components/landing/LandingHashLink';
+import {
+  LANDING_SECTION_IDS,
+  SERVICE_SLUG_TO_SECTION_ID,
+} from '@/lib/landingSections';
+import { LANDING_HASH_NAV_EVENT } from '@/lib/scrollToSection';
+import { isMarketingHomePath } from '@/lib/marketingHomePath';
 
 const SCROLL_THRESHOLD = 80; // px to scroll before header hides
 
@@ -20,13 +26,66 @@ export default function Header() {
   const locale = useLocale();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
+  /** Desktop and mobile must not share one flag — closing the hamburger was resetting the desktop dropdown. */
+  const [desktopPortfolioOpen, setDesktopPortfolioOpen] = useState(false);
+  const [mobilePortfolioOpen, setMobilePortfolioOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileSignInOpen, setIsMobileSignInOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
   const lastScrollY = useRef(0);
   const portfolioRef = useRef<HTMLDivElement>(null);
   const mobilePortfolioRef = useRef<HTMLDivElement>(null);
+  const [urlHash, setUrlHash] = useState('');
+
+  const syncHashFromLocation = () => {
+    setUrlHash(window.location.hash.replace(/^#/, ''));
+  };
+
+  useEffect(() => {
+    const onCustom = (e: Event) => {
+      const id = (e as CustomEvent<{ id: string }>).detail?.id;
+      if (id) setUrlHash(id);
+    };
+    syncHashFromLocation();
+    window.addEventListener('hashchange', syncHashFromLocation);
+    window.addEventListener('popstate', syncHashFromLocation);
+    window.addEventListener(LANDING_HASH_NAV_EVENT, onCustom);
+    return () => {
+      window.removeEventListener('hashchange', syncHashFromLocation);
+      window.removeEventListener('popstate', syncHashFromLocation);
+      window.removeEventListener(LANDING_HASH_NAV_EVENT, onCustom);
+    };
+  }, []);
+
+  useEffect(() => {
+    setHeaderVisible(true);
+    setUrlHash(
+      typeof window !== 'undefined'
+        ? window.location.hash.replace(/^#/, '')
+        : ''
+    );
+  }, [pathname]);
+
+  const onMarketingHome = isMarketingHomePath(pathname, locale);
+  const handleSamePageSectionNav = (sectionId: string) => {
+    setHeaderVisible(true);
+    setIsMenuOpen(false);
+    setDesktopPortfolioOpen(false);
+    setMobilePortfolioOpen(false);
+  };
+
+  const isHomeNavActive =
+    onMarketingHome &&
+    (!urlHash || urlHash === LANDING_SECTION_IDS.home);
+  const isAboutNavActive =
+    onMarketingHome &&
+    (urlHash === LANDING_SECTION_IDS.about || urlHash.startsWith('about-'));
+  const isContactNavActive =
+    onMarketingHome &&
+    (urlHash === LANDING_SECTION_IDS.contact || urlHash.startsWith('contact-'));
+  const isPortfolioNavActive =
+    onMarketingHome &&
+    services.some((s) => SERVICE_SLUG_TO_SECTION_ID[s.slug] === urlHash);
 
   useEffect(() => {
     if (!headerVisible) {
@@ -36,10 +95,10 @@ export default function Header() {
   }, [headerVisible]);
 
   // Show header when scrolling up, hide when scrolling down (Quartzo-style)
-  // Keep header visible when portfolio dropdown is open so user can click links
+  // Keep header visible when portfolio dropdown or mobile drawer is open
   useEffect(() => {
     const handleScroll = () => {
-      if (isPortfolioOpen) return; // Don't hide while dropdown is open
+      if (desktopPortfolioOpen || isMenuOpen) return;
       const y = window.scrollY;
       if (y < SCROLL_THRESHOLD) {
         setHeaderVisible(true);
@@ -52,7 +111,7 @@ export default function Header() {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isPortfolioOpen]);
+  }, [desktopPortfolioOpen, isMenuOpen]);
 
   useEffect(() => {
     fetch('/api/auth/session')
@@ -64,40 +123,36 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    if (!isPortfolioOpen) return;
+    if (!desktopPortfolioOpen && !mobilePortfolioOpen) return;
 
-    const handler = (e: MouseEvent) => {
+    /** pointerdown (not click) avoids racing React's delegated click + stopPropagation; rAF skips the opening gesture. */
+    const handler = (e: PointerEvent) => {
       const target = e.target as Node;
       const insideDesktop = portfolioRef.current?.contains(target);
       const insideMobile = mobilePortfolioRef.current?.contains(target);
-      if (!insideDesktop && !insideMobile) setIsPortfolioOpen(false);
+      if (!insideDesktop && !insideMobile) {
+        setDesktopPortfolioOpen(false);
+        setMobilePortfolioOpen(false);
+      }
     };
 
-    const tm = setTimeout(() => document.addEventListener('mousedown', handler), 0);
+    let remove: (() => void) | undefined;
+    const rafId = requestAnimationFrame(() => {
+      document.addEventListener('pointerdown', handler);
+      remove = () => document.removeEventListener('pointerdown', handler);
+    });
     return () => {
-      clearTimeout(tm);
-      document.removeEventListener('mousedown', handler);
+      cancelAnimationFrame(rafId);
+      remove?.();
     };
-  }, [isPortfolioOpen]);
+  }, [desktopPortfolioOpen, mobilePortfolioOpen]);
 
-  // Reset portfolio dropdown when mobile menu closes
   useEffect(() => {
-    if (!isMenuOpen) setIsPortfolioOpen(false);
+    if (!isMenuOpen) setMobilePortfolioOpen(false);
   }, [isMenuOpen]);
 
-  const isPortfolioActive = pathname.startsWith(`/${locale}/portfolio`);
-
-  const navigation = [
-    { name: t('home'), href: `/${locale}`, exact: true },
-    { name: t('about'), href: `/${locale}/about` },
-    { name: t('contact'), href: `/${locale}/contact` },
-    { name: t('compliance'), href: `/${locale}/compliance` },
-  ];
-
-  const isActive = (item: { href: string; exact?: boolean }) => {
-    if (item.exact) return pathname === item.href
-    return pathname === item.href || pathname.startsWith(item.href + '/')
-  }
+  const isComplianceActive =
+    pathname === '/compliance' || pathname.startsWith('/compliance/');
 
   const signInLabels = {
     email: t('signInEmail'),
@@ -116,88 +171,117 @@ export default function Header() {
       <nav className="mx-auto flex h-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-full min-h-0 w-full items-center justify-between">
           <div className="flex min-w-0 max-w-[calc(100vw-7.5rem)] flex-1 items-center pr-3 sm:max-w-[calc(100vw-9rem)] lg:max-w-none lg:flex-none lg:pr-7 xl:pr-8">
-            <LandingLogo size="header" />
+            <LandingLogo
+              size="header"
+              onSamePageHomeNavigate={() =>
+                handleSamePageSectionNav(LANDING_SECTION_IDS.home)
+              }
+            />
           </div>
 
           {/* Desktop nav from lg (1024px) — extra pr on logo + space-x keeps links readable without crowding the mark */}
           <div className="hidden lg:flex lg:items-center lg:space-x-5 xl:space-x-7 2xl:space-x-10">
-            {navigation.slice(0, 1).map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  'text-sm font-medium transition-colors hover:text-accent-300',
-                  isActive(item)
-                    ? 'text-secondary-100'
-                    : 'text-secondary-200'
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
+            <LandingHashLink
+              locale={locale}
+              sectionId={LANDING_SECTION_IDS.home}
+              onSamePageNavigate={handleSamePageSectionNav}
+              className={cn(
+                'text-sm font-medium transition-colors hover:text-accent-300',
+                isHomeNavActive ? 'text-secondary-100' : 'text-secondary-200'
+              )}
+            >
+              {t('home')}
+            </LandingHashLink>
             {/* Portfolio Dropdown */}
             <div className="relative" ref={portfolioRef}>
               <button
                 type="button"
-                onClick={() => setIsPortfolioOpen((prev) => !prev)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDesktopPortfolioOpen((prev) => !prev);
+                }}
                 className={cn(
                   'flex items-center gap-1 text-sm font-medium transition-colors hover:text-accent-300',
-                  isPortfolioActive
+                  isPortfolioNavActive
                     ? 'text-secondary-100'
                     : 'text-secondary-200'
                 )}
-                aria-expanded={isPortfolioOpen}
+                aria-expanded={desktopPortfolioOpen}
                 aria-haspopup="true"
               >
                 {t('portfolio')}
-                <ChevronDown className={cn('h-4 w-4 transition-transform', isPortfolioOpen && 'rotate-180')} />
+                <ChevronDown
+                  className={cn(
+                    'h-4 w-4 transition-transform',
+                    desktopPortfolioOpen && 'rotate-180'
+                  )}
+                />
               </button>
               <div
                 className={cn(
-                  'absolute left-0 top-full mt-2 min-w-[220px] rounded-none bg-primary-800 shadow-xl transition-all',
-                  isPortfolioOpen
-                    ? 'opacity-100 visible pointer-events-auto translate-y-0'
-                    : 'invisible opacity-0 pointer-events-none -translate-y-1'
+                  'absolute left-0 top-full z-[100] mt-2 min-w-[220px] rounded-none bg-primary-800 py-1 shadow-xl',
+                  desktopPortfolioOpen ? 'block' : 'hidden'
                 )}
+                role="menu"
+                aria-hidden={!desktopPortfolioOpen}
               >
                 {services.map((service) => (
-                  <Link
+                  <LandingHashLink
                     key={service.key}
-                    href={`/${locale}/portfolio/${service.slug}`}
-                    onClick={() => setIsPortfolioOpen(false)}
+                    locale={locale}
+                    sectionId={SERVICE_SLUG_TO_SECTION_ID[service.slug]}
+                    onClick={() => setDesktopPortfolioOpen(false)}
+                    onSamePageNavigate={handleSamePageSectionNav}
                     className={cn(
                       'block px-4 py-3 text-sm font-medium transition-colors first:pt-3 last:pb-3',
-                      pathname === `/${locale}/portfolio/${service.slug}`
+                      urlHash === SERVICE_SLUG_TO_SECTION_ID[service.slug]
                         ? 'text-accent-300 bg-accent-500/15'
                         : 'text-secondary-200 hover:text-secondary-100 hover:bg-white/5'
                     )}
                   >
                     {tServices(`${service.key}.title`)}
-                  </Link>
+                  </LandingHashLink>
                 ))}
               </div>
             </div>
-            {navigation.slice(1).map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  'text-sm font-medium transition-colors hover:text-accent-300',
-                  isActive(item)
-                    ? 'text-secondary-100'
-                    : 'text-secondary-200'
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
+            <LandingHashLink
+              locale={locale}
+              sectionId={LANDING_SECTION_IDS.about}
+              onSamePageNavigate={handleSamePageSectionNav}
+              className={cn(
+                'text-sm font-medium transition-colors hover:text-accent-300',
+                isAboutNavActive ? 'text-secondary-100' : 'text-secondary-200'
+              )}
+            >
+              {t('about')}
+            </LandingHashLink>
+            <LandingHashLink
+              locale={locale}
+              sectionId={LANDING_SECTION_IDS.contact}
+              onSamePageNavigate={handleSamePageSectionNav}
+              className={cn(
+                'text-sm font-medium transition-colors hover:text-accent-300',
+                isContactNavActive ? 'text-secondary-100' : 'text-secondary-200'
+              )}
+            >
+              {t('contact')}
+            </LandingHashLink>
+            <a
+              href={`/${locale}/compliance`}
+              className={cn(
+                'text-sm font-medium transition-colors hover:text-accent-300',
+                isComplianceActive ? 'text-secondary-100' : 'text-secondary-200'
+              )}
+            >
+              {t('compliance')}
+            </a>
             {isLoggedIn ? (
-              <Link
+              <a
                 href="/backoffice"
                 className="pressable text-sm font-medium px-4 py-2 rounded-none bg-accent-500 text-white hover:bg-accent-400 transition-colors"
               >
                 {t('backoffice')}
-              </Link>
+              </a>
             ) : (
               <SignInDropdown
                 triggerLabel={t('login')}
@@ -209,12 +293,12 @@ export default function Header() {
 
           <div className="flex lg:hidden flex-shrink-0 items-center space-x-4">
             {isLoggedIn && (
-              <Link
+              <a
                 href="/backoffice"
                 className="pressable text-sm font-medium px-3 py-1.5 rounded-none bg-accent-500 text-white hover:bg-accent-400 transition-colors"
               >
                 {t('backoffice')}
-              </Link>
+              </a>
             )}
             <LanguageSwitcher />
             <button
@@ -245,72 +329,113 @@ export default function Header() {
       >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="space-y-1 px-2 pb-3 pt-2 border-t border-white/10">
-              <Link
-                href={`/${locale}`}
+              <LandingHashLink
+                locale={locale}
+                sectionId={LANDING_SECTION_IDS.home}
                 onClick={() => setIsMenuOpen(false)}
+                onSamePageNavigate={handleSamePageSectionNav}
                 className={cn(
                   'block rounded-none px-3 py-2 text-base font-medium',
-                  pathname === `/${locale}`
+                  isHomeNavActive
                     ? 'bg-primary-400/20 text-secondary-100'
                     : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
                 )}
               >
                 {t('home')}
-              </Link>
+              </LandingHashLink>
               <div ref={mobilePortfolioRef}>
                 <button
                   type="button"
-                  onClick={() => setIsPortfolioOpen((prev) => !prev)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMobilePortfolioOpen((prev) => !prev);
+                  }}
                   className={cn(
                     'flex w-full items-center justify-between rounded-none px-3 py-2 text-base font-medium',
-                    isPortfolioActive
+                    isPortfolioNavActive
                       ? 'bg-primary-400/20 text-secondary-100'
                       : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
                   )}
                 >
                   {t('portfolio')}
-                  {isPortfolioOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                  {mobilePortfolioOpen ? (
+                    <ChevronUp size={18} />
+                  ) : (
+                    <ChevronDown size={18} />
+                  )}
                 </button>
-                <div className={cn('overflow-hidden', isPortfolioOpen ? 'max-h-80' : 'max-h-0')}>
+                <div
+                  className={cn(
+                    'overflow-hidden',
+                    mobilePortfolioOpen ? 'max-h-80' : 'max-h-0'
+                  )}
+                >
                   {services.map((service) => (
-                    <Link
+                    <LandingHashLink
                       key={service.key}
-                      href={`/${locale}/portfolio/${service.slug}`}
+                      locale={locale}
+                      sectionId={SERVICE_SLUG_TO_SECTION_ID[service.slug]}
                       onClick={() => {
                         setIsMenuOpen(false);
-                        setIsPortfolioOpen(false);
+                        setMobilePortfolioOpen(false);
                       }}
+                      onSamePageNavigate={handleSamePageSectionNav}
                       className="flex min-h-[44px] touch-manipulation items-center rounded-none px-5 py-3 text-sm font-medium text-secondary-200 hover:bg-white/5 hover:text-secondary-100"
                     >
                       {tServices(`${service.key}.title`)}
-                    </Link>
+                    </LandingHashLink>
                   ))}
                 </div>
               </div>
-              {navigation.slice(1).map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={cn(
-                    'block rounded-none px-3 py-2 text-base font-medium',
-                    isActive(item)
-                      ? 'bg-primary-400/20 text-secondary-100'
-                      : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
-                  )}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              <LandingHashLink
+                locale={locale}
+                sectionId={LANDING_SECTION_IDS.about}
+                onClick={() => setIsMenuOpen(false)}
+                onSamePageNavigate={handleSamePageSectionNav}
+                className={cn(
+                  'block rounded-none px-3 py-2 text-base font-medium',
+                  isAboutNavActive
+                    ? 'bg-primary-400/20 text-secondary-100'
+                    : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
+                )}
+              >
+                {t('about')}
+              </LandingHashLink>
+              <LandingHashLink
+                locale={locale}
+                sectionId={LANDING_SECTION_IDS.contact}
+                onClick={() => setIsMenuOpen(false)}
+                onSamePageNavigate={handleSamePageSectionNav}
+                className={cn(
+                  'block rounded-none px-3 py-2 text-base font-medium',
+                  isContactNavActive
+                    ? 'bg-primary-400/20 text-secondary-100'
+                    : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
+                )}
+              >
+                {t('contact')}
+              </LandingHashLink>
+              <a
+                href={`/${locale}/compliance`}
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  'block rounded-none px-3 py-2 text-base font-medium',
+                  isComplianceActive
+                    ? 'bg-primary-400/20 text-secondary-100'
+                    : 'text-secondary-200 hover:bg-primary-400/10 hover:text-secondary-100'
+                )}
+              >
+                {t('compliance')}
+              </a>
 
               {isLoggedIn ? (
-                <Link
+                <a
                   href="/backoffice"
                   onClick={() => setIsMenuOpen(false)}
                   className="pressable mt-8 block rounded-none bg-accent-500 px-3 py-2 text-center text-base font-medium text-white transition-colors hover:bg-accent-400"
                 >
                   {t('backoffice')}
-                </Link>
+                </a>
               ) : (
                 <div className="mt-8">
                   <button

@@ -8,14 +8,23 @@ import BrandIcon from '@/landing/components/ui/BrandIcon';
 import Button from '@/landing/components/ui/Button';
 import ServiceHero from '@/landing/components/sections/ServiceHero';
 import type { CompanySettingsData } from '@/lib/settings';
+import {
+  LANDING_SCROLL_MARGIN_CLASS,
+  LANDING_SCROLL_SNAP_CLASS,
+  LANDING_SECTION_IDS,
+} from '@/lib/landingSections';
 
 const CONTACT_HERO_IMAGE = 'BUSINESS FINANCIAL ADVISORY.png';
 
 interface ContactPageClientProps {
   settings?: CompanySettingsData;
+  variant?: 'page' | 'home';
 }
 
-export default function ContactPageClient({ settings }: ContactPageClientProps) {
+export default function ContactPageClient({
+  settings,
+  variant = 'page',
+}: ContactPageClientProps) {
   const t = useTranslations('Contact');
   const [formData, setFormData] = useState({
     name: '',
@@ -80,14 +89,35 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
   const fieldClass =
     'w-full px-4 py-3 border border-secondary-300 rounded-none bg-white font-avenir font-thin focus:ring-2 focus:ring-accent-500 focus:border-transparent';
 
+  const isHome = variant === 'home';
+  const fieldId = (base: string) => (isHome ? `${base}-home` : base);
+
+  const heroBlock = (
+    <ServiceHero title={t('title')} image={CONTACT_HERO_IMAGE} />
+  );
+
   return (
     <>
-      <ServiceHero title={t('title')} image={CONTACT_HERO_IMAGE} />
+      {isHome ? (
+        <div
+          id={LANDING_SECTION_IDS.contact}
+          className={`${LANDING_SCROLL_MARGIN_CLASS} ${LANDING_SCROLL_SNAP_CLASS}`}
+          tabIndex={-1}
+        >
+          {heroBlock}
+        </div>
+      ) : (
+        heroBlock
+      )}
 
-      <section className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gradient-to-b from-secondary-50 to-white">
+      <section className="relative z-10 bg-gradient-to-b from-secondary-50 to-white pt-6 pb-12 md:pt-28 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            <div>
+            <div
+              id={isHome ? LANDING_SECTION_IDS.contactInfo : undefined}
+              className={isHome ? LANDING_SCROLL_MARGIN_CLASS : undefined}
+              tabIndex={isHome ? -1 : undefined}
+            >
               <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-8">
                 {t('info.title')}
               </h2>
@@ -168,7 +198,11 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
               </div>
             </div>
 
-            <div>
+            <div
+              id={isHome ? LANDING_SECTION_IDS.contactForm : undefined}
+              className={isHome ? LANDING_SCROLL_MARGIN_CLASS : undefined}
+              tabIndex={isHome ? -1 : undefined}
+            >
               <div className="bg-white rounded-none clip-cut-corners-all p-8 shadow-lg border border-primary-500/10">
                 <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-6">
                   {t('form.title')}
@@ -188,14 +222,14 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label
-                      htmlFor="name"
+                      htmlFor={fieldId('name')}
                       className="block text-sm font-avenir font-bold text-ink mb-2"
                     >
                       {t('form.name')}
                     </label>
                     <input
                       type="text"
-                      id="name"
+                      id={fieldId('name')}
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
@@ -206,14 +240,14 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
 
                   <div>
                     <label
-                      htmlFor="email"
+                      htmlFor={fieldId('email')}
                       className="block text-sm font-avenir font-bold text-ink mb-2"
                     >
                       {t('form.email')}
                     </label>
                     <input
                       type="email"
-                      id="email"
+                      id={fieldId('email')}
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
@@ -224,14 +258,14 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
 
                   <div>
                     <label
-                      htmlFor="phone"
+                      htmlFor={fieldId('phone')}
                       className="block text-sm font-avenir font-bold text-ink mb-2"
                     >
                       {t('form.phone')}
                     </label>
                     <input
                       type="tel"
-                      id="phone"
+                      id={fieldId('phone')}
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
@@ -241,13 +275,13 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
 
                   <div>
                     <label
-                      htmlFor="message"
+                      htmlFor={fieldId('message')}
                       className="block text-sm font-avenir font-bold text-ink mb-2"
                     >
                       {t('form.message')}
                     </label>
                     <textarea
-                      id="message"
+                      id={fieldId('message')}
                       name="message"
                       value={formData.message}
                       onChange={handleChange}

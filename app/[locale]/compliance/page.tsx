@@ -2,6 +2,9 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 import ComplianceClient from './ComplianceClient';
 
+/** Avoid static shell / client flight edge cases with this client-heavy route (Chromium blank main). */
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params,
 }: {

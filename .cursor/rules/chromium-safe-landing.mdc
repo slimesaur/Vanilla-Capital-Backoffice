@@ -12,13 +12,18 @@ Client-side route changes (next-intl, Link) have produced **full blank main cont
 
 - Use **native `<img>`** for static assets under `public/` when the path can contain **spaces** or unusual segments (e.g. `services images/`, `icons/light mode/`). Use **`encodeURI(fullPath)`** when building `src`.
 - Prefer **CSS transitions / `transform`** for carousels and simple reveals instead of **Framer Motion** on marketing pages that mount on every navigation.
-- Keep **`LocaleMainShell` + `ClientRenderErrorBoundary`** wrapping `main` in `app/[locale]/layout.tsx` — do not remove without a replacement recovery UI for client render failures.
+- **Do not** wrap locale `{children}` in a client `ErrorBoundary` / shell — it breaks the App Router RSC slot and can leave **`main` blank after client navigations**. Use **`app/[locale]/error.tsx`** for segment errors. **Do not** add scroll-to-top `useEffect` on `pathname` in `main` — it can race RSC updates in Chromium.
+- For **cross-route** links to the long-scroll home with a **hash** (e.g. compliance → `/pt#home`), use a **native `<a href="/{locale}#…">`**, not next-intl/Next client navigation — hash transitions have left the RSC main slot empty in Chromium; full navigation matches a hard refresh and is stable.
+- For **full-page locale routes** (compliance, backoffice, contact from About CTA): use **native `<a href="…">`** (full document load). **`next/link` client transitions** have still correlated with **blank `main`** in Chromium. Keep **`usePathname` from `@/routing`** (or `next/navigation` where needed) for active states.
+- **Language switcher:** use **`window.location.assign(newPath)`**, not `router.push`, for the same reason.
+- **`LandingHashLink` / `LandingLogo`:** use **only** `<a href="/{locale}#…">` for hash targets (on-home: `preventDefault` + scroll + `pushState`). **Do not** use next-intl `Link` for those — it has been part of the blank-`main` regressions.
 - **`next.config.js`** sets `images.unoptimized: true` as a safety net; if re-enabling optimization, regression-test **Home ↔ Portfolio ↔ About ↔ Contact** in Chrome/Arc with the console open.
+- **Long-scroll home — deliverables carousel:** import **`PortfolioDeliverablesCarousel`** directly from `app/[locale]/page.tsx`. Do **not** wrap it in **`dynamic(..., { ssr: false })`** on the home path: the extra client chunk + client-only mount correlated with **blank `main`** when the chunk or hydration failed.
 
 ## Avoid (unless you have a strong reason and have tested navigation)
 
 - **`next/image` with `fill`** plus fragile layouts on client-heavy pages.
 - **Framer Motion `whileInView` / layout animations** on large client trees that re-mount on every locale route.
-- **Server Component output as a direct child** of a heavy client boundary in ways that confuse hydration (prefer `dynamic(..., { ssr: false })` for optional blocks when needed).
+- **`dynamic(..., { ssr: false })`** on large above-the-fold marketing blocks without proving it fixes a specific bug — it adds a client chunk that can fail to load and white-out the page.
 
 If you add a new shared icon or hero image path with spaces, mirror **`BrandIcon.tsx`** and **`ServiceHero.tsx`**: `<img>` + encoded URL, not `next/image` alone.

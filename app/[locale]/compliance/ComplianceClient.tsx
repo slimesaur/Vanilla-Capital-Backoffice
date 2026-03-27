@@ -64,7 +64,7 @@ export default function ComplianceClient() {
     <>
       <ServiceHero title={t('title')} image={COMPLIANCE_HERO_IMAGE} />
 
-      <section className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gradient-to-b from-secondary-50 to-white">
+      <section className="relative z-10 bg-gradient-to-b from-secondary-50 to-white pt-6 pb-12 md:pt-28 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10 md:mb-12 bg-secondary-50 rounded-none clip-cut-corners-all p-8 lg:p-10 border border-secondary-200">
             <p className="text-sm font-avenir font-thin text-secondary-500 mb-3 tracking-wide uppercase">

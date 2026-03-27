@@ -18,6 +18,8 @@ interface ServiceCardGridProps {
 
 /**
  * Portfolio “why invest” grid — secondary-100 cards (same cream as deliverables section) on navy band.
+ * Extra bottom padding on md+: the next block’s ServiceHero uses md:-mt-20, which would otherwise
+ * pull the hero image up over the bottom of this grid.
  */
 export default function ServiceCardGrid({
   serviceKey,
@@ -27,7 +29,7 @@ export default function ServiceCardGrid({
   const icons = CARD_ICONS[serviceKey] ?? ['08', '08', '08', '08'];
 
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-b from-primary-900 to-primary-800">
+    <section className="bg-gradient-to-b from-primary-900 to-primary-800 pt-16 pb-16 md:pt-20 md:pb-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-400 mb-10 md:mb-14">
           {cardGridTitle}

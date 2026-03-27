@@ -1,13 +1,17 @@
 'use client';
 
 import { useTranslations, useLocale } from 'next-intl';
-import Link from 'next/link';
 
 import { getWhatsAppLink } from '@/landing/lib/utils';
 import BrandIcon from '@/landing/components/ui/BrandIcon';
 import type { CompanySettingsData } from '@/lib/settings';
 import LandingLogo from './LandingLogo';
 import { services } from '@/lib/servicesData';
+import LandingHashLink from '@/landing/components/landing/LandingHashLink';
+import {
+  LANDING_SECTION_IDS,
+  SERVICE_SLUG_TO_SECTION_ID,
+} from '@/lib/landingSections';
 
 function formatPhoneDisplay(phone: string): string {
   if (!phone || typeof phone !== 'string') return '';
@@ -43,7 +47,10 @@ export default function Footer({ settings }: FooterProps) {
   const tServices = useTranslations('Home.services');
 
   return (
-    <footer className="bg-[#1A2433] text-white font-avenir font-thin">
+    <footer
+      id={LANDING_SECTION_IDS.footer}
+      className="scroll-mt-20 bg-[#1A2433] text-white font-avenir font-thin"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 items-start">
           {/* Company Info */}
@@ -68,12 +75,13 @@ export default function Footer({ settings }: FooterProps) {
             <ul className="space-y-2">
               {services.map((service) => (
                 <li key={service.key}>
-                  <Link
-                    href={`/${locale}/portfolio/${service.slug}`}
+                  <LandingHashLink
+                    locale={locale}
+                    sectionId={SERVICE_SLUG_TO_SECTION_ID[service.slug]}
                     className="text-secondary-on-dark hover:text-white transition-colors"
                   >
                     {tServices(`${service.key}.title`)}
-                  </Link>
+                  </LandingHashLink>
                 </li>
               ))}
             </ul>
@@ -84,36 +92,39 @@ export default function Footer({ settings }: FooterProps) {
             <h4 className="text-lg font-semibold mb-4">{t('quickLinks')}</h4>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href={`/${locale}`}
+                <LandingHashLink
+                  locale={locale}
+                  sectionId={LANDING_SECTION_IDS.home}
                   className="text-secondary-on-dark hover:text-white transition-colors"
                 >
                   {t('home')}
-                </Link>
+                </LandingHashLink>
               </li>
               <li>
-                <Link
-                  href={`/${locale}/about`}
+                <LandingHashLink
+                  locale={locale}
+                  sectionId={LANDING_SECTION_IDS.about}
                   className="text-secondary-on-dark hover:text-white transition-colors"
                 >
                   {t('about')}
-                </Link>
+                </LandingHashLink>
               </li>
               <li>
-                <Link
-                  href={`/${locale}/contact`}
+                <LandingHashLink
+                  locale={locale}
+                  sectionId={LANDING_SECTION_IDS.contact}
                   className="text-secondary-on-dark hover:text-white transition-colors"
                 >
                   {t('contact')}
-                </Link>
+                </LandingHashLink>
               </li>
               <li>
-                <Link
+                <a
                   href={`/${locale}/compliance`}
                   className="text-secondary-on-dark hover:text-white transition-colors"
                 >
                   {t('compliance')}
-                </Link>
+                </a>
               </li>
             </ul>
           </div>

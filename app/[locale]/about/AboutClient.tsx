@@ -2,10 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import Link from 'next/link';
+import LandingHashLink from '@/landing/components/landing/LandingHashLink';
 import { User } from 'lucide-react';
 import ServiceHero from '@/landing/components/sections/ServiceHero';
 import type { CompanySettingsData } from '@/lib/settings';
+import {
+  LANDING_SCROLL_MARGIN_CLASS,
+  LANDING_SCROLL_SNAP_CLASS,
+  LANDING_SECTION_IDS,
+} from '@/lib/landingSections';
 
 const ABOUT_HERO_IMAGE = 'WEALTH PROTECTION.jpg';
 
@@ -31,9 +36,14 @@ const DEFAULT_TEAM_MEMBERS = [
 
 interface AboutClientProps {
   settings?: CompanySettingsData;
+  /** `home`: anchor IDs + in-page CTA to #contact for the long-scroll landing. */
+  variant?: 'page' | 'home';
 }
 
-export default function AboutClient({ settings }: AboutClientProps) {
+export default function AboutClient({
+  settings,
+  variant = 'page',
+}: AboutClientProps) {
   const t = useTranslations('About');
   const locale = useLocale();
 
@@ -75,11 +85,31 @@ export default function AboutClient({ settings }: AboutClientProps) {
     return () => mq.removeEventListener('change', update);
   }, []);
 
+  const isHome = variant === 'home';
+
+  const heroBlock = (
+    <ServiceHero title={t('title')} image={ABOUT_HERO_IMAGE} />
+  );
+
   return (
     <>
-      <ServiceHero title={t('title')} image={ABOUT_HERO_IMAGE} />
+      {isHome ? (
+        <div
+          id={LANDING_SECTION_IDS.about}
+          className={`${LANDING_SCROLL_MARGIN_CLASS} ${LANDING_SCROLL_SNAP_CLASS}`}
+          tabIndex={-1}
+        >
+          {heroBlock}
+        </div>
+      ) : (
+        heroBlock
+      )}
 
-      <section className="py-20 bg-secondary-50">
+      <section
+        id={isHome ? LANDING_SECTION_IDS.aboutManifesto : undefined}
+        className={`relative z-10 bg-secondary-50 py-20 md:pt-40 md:pb-20${isHome ? ` ${LANDING_SCROLL_MARGIN_CLASS}` : ''}`}
+        tabIndex={isHome ? -1 : undefined}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-10 lg:gap-12">
             <div className="relative w-full overflow-hidden aspect-[21/9] min-h-[11rem] sm:min-h-[13rem] md:min-h-[15rem]">
@@ -96,7 +126,7 @@ export default function AboutClient({ settings }: AboutClientProps) {
               <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-8">
                 {t('manifesto.label')}
               </h2>
-              <div className="space-y-6 text-secondary-600 font-montserrat font-thin leading-[1.8] text-lg tracking-[0.02em] text-left">
+              <div className="space-y-6 text-primary font-montserrat font-thin leading-[1.8] text-lg tracking-[0.02em] text-left">
                 <p>
                   {t('manifesto.p1')}
                   <br />
@@ -145,7 +175,11 @@ export default function AboutClient({ settings }: AboutClientProps) {
         </div>
       </section>
 
-      <section className="py-12 md:py-16 bg-gradient-to-b from-secondary-50 to-white">
+      <section
+        id={isHome ? LANDING_SECTION_IDS.aboutTeam : undefined}
+        className={`py-12 md:py-16 bg-gradient-to-b from-secondary-50 to-white${isHome ? ` ${LANDING_SCROLL_MARGIN_CLASS}` : ''}`}
+        tabIndex={isHome ? -1 : undefined}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8 md:mb-12">
             <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500">
@@ -241,7 +275,15 @@ export default function AboutClient({ settings }: AboutClientProps) {
         </div>
       </section>
 
-      <section className="py-20 bg-gradient-to-b from-white to-secondary-50">
+      <section
+        id={isHome ? LANDING_SECTION_IDS.aboutCta : undefined}
+        className={`bg-gradient-to-b from-white to-secondary-50 ${
+          isHome
+            ? `pt-20 pb-32 md:pb-40 lg:pb-48 ${LANDING_SCROLL_MARGIN_CLASS}`
+            : 'py-20'
+        }`}
+        tabIndex={isHome ? -1 : undefined}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-avenir font-bold text-2xl md:text-3xl text-accent-500 mb-4">
             {t('ctaTitle')}
@@ -249,12 +291,22 @@ export default function AboutClient({ settings }: AboutClientProps) {
           <p className="text-lg text-secondary-600 max-w-2xl mb-8 font-avenir">
             {t('ctaSubtitle')}
           </p>
-          <Link
-            href={`/${locale}/contact`}
-            className="pressable inline-flex items-center px-8 py-3 text-base font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-none transition-colors"
-          >
-            {t('ctaButton')}
-          </Link>
+          {isHome ? (
+            <LandingHashLink
+              locale={locale}
+              sectionId={LANDING_SECTION_IDS.contact}
+              className="pressable inline-flex items-center px-8 py-3 text-base font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-none transition-colors"
+            >
+              {t('ctaButton')}
+            </LandingHashLink>
+          ) : (
+            <a
+              href={`/${locale}/contact`}
+              className="pressable inline-flex items-center px-8 py-3 text-base font-medium bg-accent-500 hover:bg-accent-400 text-white rounded-none transition-colors"
+            >
+              {t('ctaButton')}
+            </a>
+          )}
         </div>
       </section>
     </>

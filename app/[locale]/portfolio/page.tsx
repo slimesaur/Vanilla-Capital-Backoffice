@@ -6,5 +6,5 @@ export default async function PortfolioIndexPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  redirect(`/${locale}/portfolio/asset-allocation`);
+  redirect(`/${locale}#asset-allocation`);
 }

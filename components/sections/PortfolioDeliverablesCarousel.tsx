@@ -186,7 +186,7 @@ export default function PortfolioDeliverablesCarousel() {
 
   return (
     <section
-      className="relative w-full py-12 md:py-16 bg-secondary-100"
+      className="relative w-full bg-secondary-100 pt-12 pb-24 md:pt-16 md:pb-40 lg:pb-48"
       aria-label={t('title')}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}

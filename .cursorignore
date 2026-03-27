@@ -1,0 +1,13 @@
+# Dependencies - ~633MB, no need to index
+node_modules/
+
+# Build output - ~206MB, regenerated on build
+.next/
+out/
+
+# Prisma
+prisma/*.db
+
+# Logs and temp files
+*.log
+.env*.local
