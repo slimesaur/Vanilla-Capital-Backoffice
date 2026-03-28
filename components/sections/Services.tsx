@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { useCarouselSwipe } from '@/lib/useCarouselSwipe';
 import { useTranslations, useLocale } from 'next-intl';
 import { services } from '@/lib/servicesData';
 import { publicServiceImagePath } from '@/lib/utils';
@@ -23,12 +24,18 @@ export default function Services() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
+  const swipeRef = useRef<HTMLDivElement>(null);
 
   const activeService = services[activeIndex];
 
   const goToSlide = useCallback((index: number) => {
     setActiveIndex((index + services.length) % services.length);
   }, []);
+
+  const swipeHandlers = useCarouselSwipe(swipeRef, {
+    onSwipeLeft: () => goToSlide(activeIndex + 1),
+    onSwipeRight: () => goToSlide(activeIndex - 1),
+  });
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -63,62 +70,68 @@ export default function Services() {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {services.map((service, index) => {
-              const visible = index === activeIndex;
-              const showImg = !failedImages.has(service.image);
-              return (
-                <div
-                  key={service.key}
-                  className={cn(
-                    'absolute inset-0 transition-opacity duration-500 ease-out',
-                    visible
-                      ? 'z-[1] opacity-100'
-                      : 'z-0 opacity-0 pointer-events-none'
-                  )}
-                  aria-hidden={!visible}
-                >
-                  {showImg ? (
-                    <img
-                      src={publicServiceImagePath(service.image)}
-                      alt=""
-                      className="absolute inset-0 h-full w-full object-cover object-center"
-                      loading={index === 0 ? 'eager' : 'lazy'}
-                      fetchPriority={index === 0 ? 'high' : undefined}
-                      decoding="async"
-                      onError={() =>
-                        setFailedImages((prev) =>
-                          new Set(prev).add(service.image)
-                        )
-                      }
-                    />
-                  ) : (
-                    <div
-                      className="absolute inset-0 bg-gradient-to-br from-primary-700 to-primary-900"
-                      aria-hidden
-                    />
-                  )}
-                </div>
-              );
-            })}
-
             <div
-              className="absolute inset-0 z-10 pointer-events-none"
-              style={{
-                background:
-                  'linear-gradient(to top, rgba(26, 36, 51, 0.75), rgba(26, 36, 51, 0.2))',
-              }}
-              aria-hidden
-            />
-            <div
-              className={cn(
-                'absolute inset-0 z-10 bg-primary-900 pointer-events-none transition-opacity duration-300 ease-out',
-                isHovered ? 'opacity-80' : 'opacity-0'
-              )}
-              aria-hidden
-            />
+              ref={swipeRef}
+              className="absolute inset-0 z-[5] cursor-grab touch-pan-y active:cursor-grabbing"
+              {...swipeHandlers}
+            >
+              {services.map((service, index) => {
+                const visible = index === activeIndex;
+                const showImg = !failedImages.has(service.image);
+                return (
+                  <div
+                    key={service.key}
+                    className={cn(
+                      'absolute inset-0 transition-opacity duration-500 ease-out',
+                      visible
+                        ? 'z-[1] opacity-100'
+                        : 'z-0 opacity-0 pointer-events-none'
+                    )}
+                    aria-hidden={!visible}
+                  >
+                    {showImg ? (
+                      <img
+                        src={publicServiceImagePath(service.image)}
+                        alt=""
+                        className="absolute inset-0 h-full w-full object-cover object-center"
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        fetchPriority={index === 0 ? 'high' : undefined}
+                        decoding="async"
+                        onError={() =>
+                          setFailedImages((prev) =>
+                            new Set(prev).add(service.image)
+                          )
+                        }
+                      />
+                    ) : (
+                      <div
+                        className="absolute inset-0 bg-gradient-to-br from-primary-700 to-primary-900"
+                        aria-hidden
+                      />
+                    )}
+                  </div>
+                );
+              })}
 
-            <div className="absolute inset-0 z-20 flex items-center">
-              <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 w-full">
+              <div
+                className="absolute inset-0 z-10 pointer-events-none"
+                style={{
+                  background:
+                    'linear-gradient(to top, rgba(26, 36, 51, 0.75), rgba(26, 36, 51, 0.2))',
+                }}
+                aria-hidden
+              />
+              <div
+                className={cn(
+                  'absolute inset-0 z-10 bg-primary-900 pointer-events-none transition-opacity duration-300 ease-out',
+                  isHovered ? 'opacity-80' : 'opacity-0'
+                )}
+                aria-hidden
+              />
+            </div>
+
+            <div className="absolute inset-0 z-20 flex items-center pointer-events-none">
+              <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 w-full pointer-events-none">
                 <h3 className="font-avenir font-bold text-2xl md:text-3xl lg:text-4xl text-accent-400 mb-6 drop-shadow-lg">
                   {t(`${activeService.key}.title`)}
                 </h3>
@@ -137,7 +150,7 @@ export default function Services() {
                     {t(`${activeService.key}.subDescription`)}
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 pointer-events-auto">
                   <LandingHashLink
                     locale={locale}
                     sectionId={SERVICE_SLUG_TO_SECTION_ID[activeService.slug]}

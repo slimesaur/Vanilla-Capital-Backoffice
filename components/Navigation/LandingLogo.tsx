@@ -29,7 +29,9 @@ export default function LandingLogo({
   const onMarketingHome = isMarketingHomePath(pathname, locale);
 
   const isFooter = size === 'footer';
-  const sizeClasses = isFooter ? 'h-auto w-full max-w-2xl' : 'h-20 w-auto max-w-full object-contain';
+  const sizeClasses = isFooter
+    ? 'h-auto w-full max-w-2xl'
+    : 'h-14 w-auto max-w-full object-contain sm:h-16 md:h-20';
 
   const linkClasses = isFooter
     ? `flex-shrink-0 flex items-start ${className}`

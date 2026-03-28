@@ -14,6 +14,7 @@ import {
   deliverableImageCandidates,
   type DeliverableSlideId,
 } from '@/lib/assetAllocationDeliverables';
+import { useCarouselSwipe } from '@/lib/useCarouselSwipe';
 
 /** Space between tiles — tighter reads more “editorial” (benchmark-style). */
 const GAP_PX = 10;
@@ -129,6 +130,11 @@ export default function PortfolioDeliverablesCarousel() {
     setActiveIndex((index + slideCount) % slideCount);
   }, [slideCount]);
 
+  const swipeHandlers = useCarouselSwipe(containerRef, {
+    onSwipeLeft: () => goToSlide(activeIndex + 1),
+    onSwipeRight: () => goToSlide(activeIndex - 1),
+  });
+
   useLayoutEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -205,10 +211,11 @@ export default function PortfolioDeliverablesCarousel() {
         <div className="w-full" aria-roledescription="carousel">
           <div
             ref={containerRef}
-            className="relative w-full overflow-hidden"
+            className="relative w-full cursor-grab touch-pan-y overflow-hidden active:cursor-grabbing"
             style={{ height: tileSize }}
             aria-live="polite"
             aria-atomic="true"
+            {...swipeHandlers}
           >
             <div
               className="flex h-full transition-transform duration-[750ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] motion-reduce:transition-none motion-reduce:duration-0 will-change-transform"

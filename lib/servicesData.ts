@@ -18,7 +18,7 @@ export const SLUG_TO_KEY: Record<ServiceSlug, string> = {
 /** Card icon IDs from public/icons - map BRD descriptions to icon numbers */
 export const CARD_ICONS = {
   assets: ['02', '08', '10', '09'] as const, // Bulb, Bars, Scope, Handshake
-  retirement: ['09', '12', '12', '12'] as const, // Handshake, Map, Map, Map
+  retirement: ['08', '09', '13', '07'] as const, // Bars: income scenarios; Handshake: succession; Shield: protection; Document: bureaucracy
   patrimonial: ['02', '07', '13', '19'] as const, // Bulb, Document, Shield, Globe
   auction: ['11', '07', '08', '22'] as const, // Eye chart, Document, Bars, Hammer
   aiSolution: ['07', '11', '19', '09'] as const, // Link, Eye, Globe, Handshake
