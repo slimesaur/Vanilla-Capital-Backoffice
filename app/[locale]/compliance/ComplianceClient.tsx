@@ -62,7 +62,11 @@ export default function ComplianceClient() {
 
   return (
     <>
-      <ServiceHero title={t('title')} image={COMPLIANCE_HERO_IMAGE} />
+      <ServiceHero
+        title={t('title')}
+        image={COMPLIANCE_HERO_IMAGE}
+        disableScrollFade
+      />
 
       <section className="relative z-10 bg-gradient-to-b from-secondary-50 to-white pt-6 pb-12 md:pt-28 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

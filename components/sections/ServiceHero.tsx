@@ -20,6 +20,8 @@ const HEADER_SHIFT_MAX_PX = 16;
 interface ServiceHeroProps {
   title: string;
   image: string;
+  /** No scroll-driven overlay ramp or hero fade (e.g. Compliance & Documents page). */
+  disableScrollFade?: boolean;
 }
 
 type HeroScrollVisual = {
@@ -32,7 +34,11 @@ type HeroScrollVisual = {
  * Native <img> instead of next/image: next/image + fill has caused full blank hydration failures
  * in Chrome/Arc on service pages (LCP/optimizer edge cases with spaces in public path).
  */
-export default function ServiceHero({ title, image }: ServiceHeroProps) {
+export default function ServiceHero({
+  title,
+  image,
+  disableScrollFade = false,
+}: ServiceHeroProps) {
   const [visual, setVisual] = useState<HeroScrollVisual>({
     overlayOpacity: OPACITY_MIN,
     headerOpacity: 1,
@@ -43,6 +49,15 @@ export default function ServiceHero({ title, image }: ServiceHeroProps) {
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
+    if (disableScrollFade) {
+      setVisual({
+        overlayOpacity: OPACITY_MIN,
+        headerOpacity: 1,
+        headerTranslateY: 0,
+      });
+      return;
+    }
+
     const update = () => {
       if (!sectionRef.current) return;
 
@@ -107,7 +122,7 @@ export default function ServiceHero({ title, image }: ServiceHeroProps) {
       window.removeEventListener('resize', scheduleUpdate);
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
+  }, [disableScrollFade]);
 
   return (
     <section

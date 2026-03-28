@@ -14,7 +14,7 @@ import {
   LANDING_SECTION_IDS,
 } from '@/lib/landingSections';
 
-const CONTACT_HERO_IMAGE = 'BUSINESS FINANCIAL ADVISORY.png';
+const CONTACT_HERO_IMAGE = 'CONTACT.jpg';
 
 interface ContactPageClientProps {
   settings?: CompanySettingsData;
