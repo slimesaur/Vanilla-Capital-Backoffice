@@ -579,13 +579,39 @@ function ClientProfileOnePager({ client, t, onRefresh }: { client: Client; t: (k
         )}
         <section>
           <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.compliance')}</h2>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-4">
             <StatusCircle status={client.status} clientId={client.id} onStatusChange={onRefresh} onDelete={onRefresh} />
             <span className="text-sm text-[var(--text-accent)]">
-              {t(client.status === 'pending_suitability' ? 'clients.statusPendingSuitability' : client.status === 'pending_contract' ? 'clients.statusPendingContract' : 'clients.statusApproved')}
+              {t(
+                client.status === 'pending_suitability'
+                  ? 'clients.statusPendingSuitability'
+                  : client.status === 'pending_contract'
+                    ? 'clients.statusPendingContract'
+                    : 'clients.statusApproved'
+              )}
             </span>
           </div>
+          <AttrRow
+            label={t('clients.suitabilityProfile')}
+            value={getDisplayValue(client, 'suitabilityProfile', t)}
+          />
         </section>
+
+        {(client.suitabilityAnswers || client.totalSuitabilityWeight != null) && (
+          <section>
+            <h2 className="font-arpona uppercase text-[var(--text-accent)] mb-3">{t('clients.suitabilityAnswers')}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {client.suitabilityAnswers &&
+                Object.entries(client.suitabilityAnswers).map(([qId, weight], idx) => (
+                  <AttrRow key={qId} label={`${t('clients.questionWeight')} ${idx + 1}`} value={String(weight)} />
+                ))}
+              <AttrRow
+                label={t('clients.totalSuitabilityWeight')}
+                value={client.totalSuitabilityWeight != null ? String(client.totalSuitabilityWeight) : '-'}
+              />
+            </div>
+          </section>
+        )}
       </div>
     )
   }
