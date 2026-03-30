@@ -12,7 +12,9 @@
     "signInSubmit": "Sign in",
     "signInSubtitle": "Sign in to your account",
     "signInSubmitting": "Signing in...",
-    "signInNetworkError": "Network error"
+    "signInNetworkError": "Network error",
+    "signInShowPassword": "Show password",
+    "signInHidePassword": "Hide password"
   },
   "Footer": {
     "description": "Wealth Management and Consultancy specialized in solutions for personal protection and business advisory.",

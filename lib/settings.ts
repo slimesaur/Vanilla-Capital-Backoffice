@@ -6,6 +6,15 @@ export interface CompanySettingsData {
   address: string | null
   whatsapp: string | null
   mission: string | null
+  companySnapshot: string | null
+  companyValues: string | null
+  oneYearGoal: string | null
+  longTermGoals: string | null
+  currentMainProject: string | null
+  toneAndLanguage: string | null
+  glossary: string | null
+  brandAndDeckHabits: string | null
+  idealClientProfile: string | null
   teamMembers: {
     id: string
     photo: string | null
@@ -20,6 +29,15 @@ const DEFAULTS: CompanySettingsData = {
   address: 'Rua Paulo Setuval, 5081 - 81750-190 Curitiba, PR',
   whatsapp: '+5541988195090',
   mission: null,
+  companySnapshot: null,
+  companyValues: null,
+  oneYearGoal: null,
+  longTermGoals: null,
+  currentMainProject: null,
+  toneAndLanguage: null,
+  glossary: null,
+  brandAndDeckHabits: null,
+  idealClientProfile: null,
   teamMembers: [],
 }
 
@@ -57,7 +75,16 @@ export async function getCompanySettings(): Promise<CompanySettingsData> {
       email: settings.email || DEFAULTS.email,
       address: settings.address || DEFAULTS.address,
       whatsapp: settings.whatsapp || DEFAULTS.whatsapp,
-      mission: settings.mission || DEFAULTS.mission,
+      mission: settings.mission ?? DEFAULTS.mission,
+      companySnapshot: settings.companySnapshot ?? DEFAULTS.companySnapshot,
+      companyValues: settings.companyValues ?? DEFAULTS.companyValues,
+      oneYearGoal: settings.oneYearGoal ?? DEFAULTS.oneYearGoal,
+      longTermGoals: settings.longTermGoals ?? DEFAULTS.longTermGoals,
+      currentMainProject: settings.currentMainProject ?? DEFAULTS.currentMainProject,
+      toneAndLanguage: settings.toneAndLanguage ?? DEFAULTS.toneAndLanguage,
+      glossary: settings.glossary ?? DEFAULTS.glossary,
+      brandAndDeckHabits: settings.brandAndDeckHabits ?? DEFAULTS.brandAndDeckHabits,
+      idealClientProfile: settings.idealClientProfile ?? DEFAULTS.idealClientProfile,
       teamMembers: settings.teamMembers.map((m) => ({
         id: m.id,
         photo: m.photo,

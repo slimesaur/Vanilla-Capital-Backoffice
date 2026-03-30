@@ -13,6 +13,8 @@ interface SignInFormProps {
     submit: string
     submitting: string
     networkError: string
+    showPassword: string
+    hidePassword: string
   }
   onSuccess?: () => void
 }
@@ -99,7 +101,7 @@ export default function SignInForm({ variant = 'page', labels, onSuccess }: Sign
         >
           {labels.password}
         </label>
-        <div className="relative">
+        <div className="relative isolate">
           <input
             id={`signin-password-${variant}`}
             type={showPassword ? 'text' : 'password'}
@@ -108,25 +110,26 @@ export default function SignInForm({ variant = 'page', labels, onSuccess }: Sign
             required
             autoComplete="current-password"
             className={cn(
-              'w-full pr-10 rounded-none border outline-none transition',
+              'w-full rounded-none border outline-none transition',
               isDropdown
-                ? 'px-3 py-2 text-sm bg-white/5 border-white/10 text-secondary-100 placeholder:text-secondary-300 focus:ring-2 focus:ring-accent-400/50 focus:border-accent-400'
-                : 'px-4 py-2.5 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] font-interTight focus:ring-2 focus:ring-vanilla-secondary/50 focus:border-vanilla-secondary'
+                ? 'px-3 py-2 pr-12 text-sm bg-white/5 border-white/10 text-secondary-100 placeholder:text-secondary-300 focus:ring-2 focus:ring-accent-400/50 focus:border-accent-400'
+                : 'px-4 py-2.5 pr-12 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] font-interTight focus:ring-2 focus:ring-vanilla-secondary/50 focus:border-vanilla-secondary'
             )}
             placeholder="••••••••"
           />
           <button
             type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            tabIndex={-1}
+            onClick={() => setShowPassword((v) => !v)}
+            aria-label={showPassword ? labels.hidePassword : labels.showPassword}
+            aria-pressed={showPassword}
             className={cn(
-              'absolute right-3 top-1/2 -translate-y-1/2 transition-colors',
+              'absolute right-1 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 touch-manipulation items-center justify-center rounded-none transition-colors sm:h-10 sm:w-10',
               isDropdown
                 ? 'text-secondary-300 hover:text-secondary-100'
                 : 'text-[var(--text-accent)] hover:text-[var(--text-primary)]'
             )}
           >
-            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+            {showPassword ? <EyeOff size={18} className="shrink-0" /> : <Eye size={18} className="shrink-0" />}
           </button>
         </div>
       </div>

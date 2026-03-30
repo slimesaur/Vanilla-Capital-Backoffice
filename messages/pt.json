@@ -12,7 +12,9 @@
     "signInSubmit": "Entrar",
     "signInSubtitle": "Entre na sua conta",
     "signInSubmitting": "Entrando...",
-    "signInNetworkError": "Erro de conexão"
+    "signInNetworkError": "Erro de conexão",
+    "signInShowPassword": "Mostrar senha",
+    "signInHidePassword": "Ocultar senha"
   },
   "Footer": {
     "description": "Gestão e Consultoria Patrimonial especializada em soluções para proteção pessoal e assessoria empresarial.",

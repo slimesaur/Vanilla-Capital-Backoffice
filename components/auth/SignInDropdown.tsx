@@ -15,6 +15,8 @@ interface SignInDropdownProps {
     submit: string
     submitting: string
     networkError: string
+    showPassword: string
+    hidePassword: string
   }
 }
 

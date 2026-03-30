@@ -45,6 +45,15 @@ export async function PUT(request: NextRequest) {
       address: toNullableString(raw.address),
       whatsapp: toNullableString(raw.whatsapp),
       mission: toNullableString(raw.mission),
+      companySnapshot: toNullableString(raw.companySnapshot),
+      companyValues: toNullableString(raw.companyValues),
+      oneYearGoal: toNullableString(raw.oneYearGoal),
+      longTermGoals: toNullableString(raw.longTermGoals),
+      currentMainProject: toNullableString(raw.currentMainProject),
+      toneAndLanguage: toNullableString(raw.toneAndLanguage),
+      glossary: toNullableString(raw.glossary),
+      brandAndDeckHabits: toNullableString(raw.brandAndDeckHabits),
+      idealClientProfile: toNullableString(raw.idealClientProfile),
     }
 
     const existing = await prisma.companySettings.findFirst()

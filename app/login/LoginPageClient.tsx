@@ -14,6 +14,8 @@ export default function LoginPageClient() {
     submit: t('signInSubmit'),
     submitting: t('signInSubmitting'),
     networkError: t('signInNetworkError'),
+    showPassword: t('signInShowPassword'),
+    hidePassword: t('signInHidePassword'),
   }
 
   return (

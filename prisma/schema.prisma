@@ -84,6 +84,17 @@ model CompanySettings {
   address   String?
   whatsapp  String?
   mission   String?
+
+  companySnapshot      String? @map("company_snapshot")
+  companyValues        String? @map("company_values")
+  oneYearGoal          String? @map("one_year_goal")
+  longTermGoals        String? @map("long_term_goals")
+  currentMainProject   String? @map("current_main_project")
+  toneAndLanguage      String? @map("tone_and_language")
+  glossary             String?
+  brandAndDeckHabits   String? @map("brand_and_deck_habits")
+  idealClientProfile   String? @map("ideal_client_profile")
+
   updatedAt DateTime @updatedAt @map("updated_at")
 
   teamMembers TeamMember[]

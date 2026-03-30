@@ -160,6 +160,8 @@ export default function Header() {
     submit: t('signInSubmit'),
     submitting: t('signInSubmitting'),
     networkError: t('signInNetworkError'),
+    showPassword: t('signInShowPassword'),
+    hidePassword: t('signInHidePassword'),
   }
 
   return (
@@ -449,8 +451,10 @@ export default function Header() {
 
                   <div
                     className={cn(
-                      'overflow-hidden transition-all duration-200 ease-in-out',
-                      isMobileSignInOpen ? 'mt-3 max-h-80 opacity-100' : 'max-h-0 opacity-0'
+                      'overflow-hidden transition-[max-height,opacity,margin] duration-200 ease-in-out',
+                      isMobileSignInOpen
+                        ? 'mt-3 max-h-[min(32rem,calc(100dvh-8rem))] opacity-100'
+                        : 'max-h-0 opacity-0'
                     )}
                   >
                     <div className="rounded-none border border-white/10 bg-white/5 p-4">
