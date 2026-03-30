@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useToast } from '../contexts/ToastContext'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, Trash2 } from 'lucide-react'
 
 interface User {
   id: string
@@ -18,6 +18,7 @@ export default function UsersPage() {
 
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -26,17 +27,34 @@ export default function UsersPage() {
   const [creating, setCreating] = useState(false)
   const [formError, setFormError] = useState('')
 
+  const [userToDelete, setUserToDelete] = useState<User | null>(null)
+  const [deleting, setDeleting] = useState(false)
+
   const fetchUsers = useCallback(async () => {
     try {
       const res = await fetch('/api/users')
       if (res.ok) {
         setUsers(await res.json())
       }
-    } catch { /* ignore */ }
-    finally { setLoading(false) }
+    } catch {
+      /* ignore */
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
-  useEffect(() => { fetchUsers() }, [fetchUsers])
+  useEffect(() => {
+    fetchUsers()
+  }, [fetchUsers])
+
+  useEffect(() => {
+    fetch('/api/auth/session')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.user?.id) setCurrentUserId(data.user.id)
+      })
+      .catch(() => {})
+  }, [])
 
   const validate = (): string | null => {
     if (!name.trim()) return t('users.nameRequired')
@@ -51,7 +69,10 @@ export default function UsersPage() {
     setFormError('')
 
     const err = validate()
-    if (err) { setFormError(err); return }
+    if (err) {
+      setFormError(err)
+      return
+    }
 
     setCreating(true)
     try {
@@ -80,6 +101,38 @@ export default function UsersPage() {
       setFormError(t('users.createFailed'))
     } finally {
       setCreating(false)
+    }
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!userToDelete) return
+    if (userToDelete.id === currentUserId) {
+      showToast(t('users.cannotDeleteSelf'))
+      setUserToDelete(null)
+      return
+    }
+
+    setDeleting(true)
+    try {
+      const res = await fetch(`/api/users/${userToDelete.id}`, { method: 'DELETE' })
+      if (res.status === 204) {
+        showToast(t('users.deleted'))
+        setUserToDelete(null)
+        await fetchUsers()
+        return
+      }
+      let msg = t('users.deleteFailed')
+      try {
+        const data = await res.json()
+        if (data?.error) msg = data.error
+      } catch {
+        /* ignore */
+      }
+      showToast(msg)
+    } catch {
+      showToast(t('users.deleteFailed'))
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -184,6 +237,9 @@ export default function UsersPage() {
                 <th className="text-left px-4 py-3 text-[var(--text-accent)]/70 text-xs font-arpona uppercase">
                   {t('users.createdAt')}
                 </th>
+                <th className="text-right px-4 py-3 text-[var(--text-accent)]/70 text-xs font-arpona uppercase w-28">
+                  {t('users.actions')}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -197,11 +253,23 @@ export default function UsersPage() {
                   <td className="px-4 py-3 text-[var(--text-accent)]/70">
                     {new Date(user.createdAt).toLocaleDateString()}
                   </td>
+                  <td className="px-4 py-3 text-right">
+                    {user.id !== currentUserId && (
+                      <button
+                        type="button"
+                        onClick={() => setUserToDelete(user)}
+                        className="inline-flex items-center justify-center rounded-lg border border-red-500/40 p-2 text-red-600 hover:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/15 transition-colors"
+                        aria-label={t('users.deleteUser')}
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))}
               {users.length === 0 && (
                 <tr>
-                  <td colSpan={3} className="px-4 py-8 text-center text-[var(--text-accent)]/70">
+                  <td colSpan={4} className="px-4 py-8 text-center text-[var(--text-accent)]/70">
                     {t('users.noUsers')}
                   </td>
                 </tr>
@@ -210,6 +278,54 @@ export default function UsersPage() {
           </table>
         </div>
       </section>
+
+      {userToDelete && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4"
+          role="presentation"
+          onClick={() => !deleting && setUserToDelete(null)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-user-title"
+            className="w-full max-w-md rounded-lg border border-[var(--border-color)] bg-[var(--bg-secondary)] p-6 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3
+              id="delete-user-title"
+              className="font-arpona text-lg uppercase text-[var(--text-accent)] mb-2"
+            >
+              {t('users.confirmDeleteTitle')}
+            </h3>
+            <p className="text-sm text-[var(--text-primary)] font-interTight mb-1">
+              <span className="font-medium">{userToDelete.name}</span>
+              <span className="text-[var(--text-accent)]"> ({userToDelete.email})</span>
+            </p>
+            <p className="text-sm text-[var(--text-accent)]/80 font-interTight mb-6">
+              {t('users.confirmDeleteDescription')}
+            </p>
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
+              <button
+                type="button"
+                disabled={deleting}
+                onClick={() => setUserToDelete(null)}
+                className="px-4 py-2 rounded-lg border border-[var(--border-color)] font-interTight text-sm hover:bg-[var(--bg-primary)] transition-colors disabled:opacity-50"
+              >
+                {t('users.cancel')}
+              </button>
+              <button
+                type="button"
+                disabled={deleting}
+                onClick={handleConfirmDelete}
+                className="px-4 py-2 rounded-lg bg-red-600 text-white font-interTight text-sm hover:bg-red-700 transition-colors disabled:opacity-50"
+              >
+                {deleting ? t('users.deleting') : t('users.confirmDelete')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
