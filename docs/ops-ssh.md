@@ -5,7 +5,7 @@ Short reference for humans (and agents). **Do not commit private keys, `.pem` fi
 ## Lightsail server
 
 - **User:** `ubuntu`
-- **Host:** set in your DNS / use the instance public IPv4 (see `SETUP-LIGHTSAIL.md` for the full bootstrap checklist).
+- **Host (current):** `44.223.144.73` — confirm in the Lightsail console; the public IP changes if you recreate the instance (then update DNS, `DEPLOY_HOST`, and `~/.ssh/config`).
 - **App path (typical):** `/home/ubuntu/vanilla-backoffice`
 
 ## One-time setup on your Mac
@@ -16,9 +16,10 @@ Short reference for humans (and agents). **Do not commit private keys, `.pem` fi
 
 ```text
 Host vanilla-lightsail
-  HostName YOUR_LIGHTSAIL_PUBLIC_IP
+  HostName 44.223.144.73
   User ubuntu
   IdentityFile ~/.ssh/lightsail-vanilla.pem
+  IdentitiesOnly yes
 ```
 
 Then connect with:
@@ -27,7 +28,7 @@ Then connect with:
 ssh vanilla-lightsail
 ```
 
-Replace `YOUR_LIGHTSAIL_PUBLIC_IP` with the real address from the AWS Lightsail console (it can change if you recreate the instance; update DNS and this config if it does).
+Nginx and Let’s Encrypt on the server are set for both `vanillacapital.com.br` and `www.vanillacapital.com.br` (expand the cert again if you add more hostnames).
 
 ## HTTPS and `www`
 
