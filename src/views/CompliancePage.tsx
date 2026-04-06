@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { ONBOARDING_STEPS, COMPLIANCE_GROUPS } from '../data/complianceDocuments'
 import SuitabilityFormBuilder from '../components/SuitabilityFormBuilder'
@@ -8,6 +8,10 @@ import RegistrationFormBuilder from '../components/compliance/RegistrationFormBu
 import clsx from 'clsx'
 
 type DocItem = { id: string; type: 'pdf' | 'suitability' | 'form' }
+
+function isPdfFile(file: File): boolean {
+  return file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')
+}
 
 const DOC_ID_TO_TRANSLATION_KEY: Record<string, string> = {
   'suitability-form': 'compliance.suitabilityForm',
@@ -32,6 +36,9 @@ export default function CompliancePage() {
   const [expandedSteps, setExpandedSteps] = useState<Set<number>>(new Set([]))
   const [asideOpen, setAsideOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [dragOverPdfPreview, setDragOverPdfPreview] = useState(false)
+  const [dragOverEmptyZone, setDragOverEmptyZone] = useState(false)
+  const pdfDropZoneRef = useRef<HTMLDivElement>(null)
   const { t } = useLanguage()
 
   const closeAside = useCallback(() => setAsideOpen(false), [])
@@ -77,9 +84,8 @@ export default function CompliancePage() {
     })
   }
 
-  const handleFileUpload = async (docId: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file || file.type !== 'application/pdf') return
+  const uploadPdfForDoc = useCallback(async (docId: string, file: File) => {
+    if (!isPdfFile(file)) return
     setUploading(true)
     try {
       const fd = new FormData()
@@ -95,10 +101,45 @@ export default function CompliancePage() {
     } finally {
       setUploading(false)
     }
+  }, [])
+
+  const handleFileInputChange = (docId: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (file) void uploadPdfForDoc(docId, file)
   }
 
   const allCorporateItems = COMPLIANCE_GROUPS.corporate
   const selectedDocId = selectedDoc?.id
+  const selectedPdfUrl = selectedDocId && selectedDoc?.type === 'pdf' ? docPdfs[selectedDocId] : undefined
+
+  useEffect(() => {
+    if (!selectedPdfUrl || !selectedDocId) {
+      setDragOverPdfPreview(false)
+      return
+    }
+    const onWindowDragOver = (e: DragEvent) => {
+      if (!e.dataTransfer?.types?.includes('Files')) return
+      const zone = pdfDropZoneRef.current
+      if (!zone) return
+      const rect = zone.getBoundingClientRect()
+      const inside =
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      setDragOverPdfPreview(inside)
+    }
+    const clearDrag = () => setDragOverPdfPreview(false)
+    window.addEventListener('dragover', onWindowDragOver)
+    window.addEventListener('drop', clearDrag)
+    window.addEventListener('dragend', clearDrag)
+    return () => {
+      window.removeEventListener('dragover', onWindowDragOver)
+      window.removeEventListener('drop', clearDrag)
+      window.removeEventListener('dragend', clearDrag)
+    }
+  }, [selectedPdfUrl, selectedDocId])
 
   const asideContent = (
     <>
@@ -247,37 +288,111 @@ export default function CompliancePage() {
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <h2 className="font-canela text-xl text-[var(--text-primary)]">{getDocName(selectedDoc.id)}</h2>
-              <label className="px-4 py-2 bg-vanilla-secondary text-vanilla-main rounded-lg font-interTight text-sm cursor-pointer hover:opacity-90">
+              <label
+                className={clsx(
+                  'px-4 py-2 bg-vanilla-secondary text-vanilla-main rounded-lg font-interTight text-sm cursor-pointer hover:opacity-90',
+                  uploading && 'pointer-events-none opacity-60'
+                )}
+              >
                 {docPdfs[selectedDoc.id] ? t('compliance.changePdf') : t('compliance.uploadPdf')}
                 <input
                   type="file"
-                  accept="application/pdf"
+                  accept="application/pdf,.pdf"
                   className="hidden"
-                  onChange={(e) => handleFileUpload(selectedDoc.id, e)}
+                  disabled={uploading}
+                  onChange={(e) => handleFileInputChange(selectedDoc.id, e)}
                 />
               </label>
             </div>
             {docPdfs[selectedDoc.id] ? (
-              <div className="bg-gray-200 dark:bg-gray-700 rounded-lg p-4 sm:p-8 text-center text-[var(--text-accent)] min-h-[400px]">
-                <p className="font-interTight">{t('compliance.pdfLoadedPlaceholder')}</p>
-                <a
-                  href={docPdfs[selectedDoc.id]}
-                  download={`${getDocName(selectedDoc.id)}.pdf`}
-                  className="mt-4 inline-block px-4 py-2 bg-vanilla-secondary text-vanilla-main rounded-lg font-interTight text-sm hover:opacity-90"
-                >
-                  {t('clients.download')}
-                </a>
+              <div
+                ref={pdfDropZoneRef}
+                className={clsx(
+                  'relative flex flex-col min-h-[400px] rounded-lg overflow-hidden border-2 transition-colors bg-gray-200/90 dark:bg-gray-800/90',
+                  dragOverPdfPreview ? 'border-vanilla-secondary ring-2 ring-vanilla-secondary/40' : 'border-transparent'
+                )}
+                onDragOver={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                }}
+                onDrop={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setDragOverPdfPreview(false)
+                  const file = e.dataTransfer.files?.[0]
+                  if (file) void uploadPdfForDoc(selectedDoc.id, file)
+                }}
+              >
+                {uploading && (
+                  <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/25 backdrop-blur-[1px]">
+                    <span className="rounded-lg bg-[var(--bg-secondary)] px-4 py-2 text-sm font-interTight text-[var(--text-primary)] shadow">
+                      {t('compliance.uploadingPdf')}
+                    </span>
+                  </div>
+                )}
+                {dragOverPdfPreview && (
+                  <div
+                    className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center rounded-lg border-2 border-dashed border-vanilla-secondary bg-vanilla-secondary/15"
+                    aria-hidden
+                  >
+                    <span className="font-interTight text-base text-[var(--text-primary)]">{t('compliance.dropPdfHint')}</span>
+                  </div>
+                )}
+                <iframe
+                  key={docPdfs[selectedDoc.id]}
+                  src={docPdfs[selectedDoc.id]}
+                  title={getDocName(selectedDoc.id)}
+                  className={clsx(
+                    'h-[min(70vh,720px)] w-full min-h-[400px] flex-1 border-0 bg-white dark:bg-gray-900',
+                    dragOverPdfPreview && 'pointer-events-none'
+                  )}
+                />
+                <div className="flex shrink-0 justify-center border-t border-[var(--border-color)] bg-[var(--bg-secondary)]/60 p-3">
+                  <a
+                    href={docPdfs[selectedDoc.id]}
+                    download={`${getDocName(selectedDoc.id)}.pdf`}
+                    className="inline-block rounded-lg bg-vanilla-secondary px-4 py-2 font-interTight text-sm text-vanilla-main hover:opacity-90"
+                  >
+                    {t('clients.download')}
+                  </a>
+                </div>
               </div>
             ) : (
-              <div className="border-2 border-dashed border-[var(--border-color)] rounded-lg p-6 sm:p-12 text-center text-[var(--text-accent)]/70 font-interTight">
-                <p className="mb-4">{t('compliance.noDocumentLoaded')}</p>
-                <label className="px-4 py-2 bg-vanilla-secondary/30 text-[var(--text-accent)] rounded-lg cursor-pointer hover:bg-vanilla-secondary/40 inline-block">
+              <div
+                ref={pdfDropZoneRef}
+                className={clsx(
+                  'rounded-lg border-2 border-dashed p-6 text-center font-interTight transition-colors sm:p-12',
+                  dragOverEmptyZone
+                    ? 'border-vanilla-secondary bg-vanilla-secondary/10 text-[var(--text-primary)]'
+                    : 'border-[var(--border-color)] text-[var(--text-accent)]/70',
+                  uploading && 'pointer-events-none opacity-60'
+                )}
+                onDragOver={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setDragOverEmptyZone(true)
+                }}
+                onDragLeave={(e) => {
+                  if (!e.currentTarget.contains(e.relatedTarget as Node)) setDragOverEmptyZone(false)
+                }}
+                onDrop={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setDragOverEmptyZone(false)
+                  const file = e.dataTransfer.files?.[0]
+                  if (file) void uploadPdfForDoc(selectedDoc.id, file)
+                }}
+              >
+                <p className="mb-2">{t('compliance.noDocumentLoaded')}</p>
+                <p className="mb-4 text-sm text-[var(--text-accent)]/80">{t('compliance.dropPdfZoneHint')}</p>
+                <label className="inline-block cursor-pointer rounded-lg bg-vanilla-secondary/30 px-4 py-2 text-[var(--text-accent)] hover:bg-vanilla-secondary/40">
                   {t('compliance.uploadPdf')}
                   <input
                     type="file"
-                    accept="application/pdf"
+                    accept="application/pdf,.pdf"
                     className="hidden"
-                    onChange={(e) => handleFileUpload(selectedDoc.id, e)}
+                    disabled={uploading}
+                    onChange={(e) => handleFileInputChange(selectedDoc.id, e)}
                   />
                 </label>
               </div>
