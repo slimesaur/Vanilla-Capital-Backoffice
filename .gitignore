@@ -32,3 +32,6 @@ prisma/*.db
 
 # Test artifacts
 test-results/
+
+# Brew Pedizap Figma export (local token)
+scripts/brew-pedizap/.env
